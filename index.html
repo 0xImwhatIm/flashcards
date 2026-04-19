@@ -108,6 +108,7 @@ body {
 #p2-input.correct{border-color:#4ecdc4;background:#f4fffd}
 #p2-input.wrong{border-color:#ff6b6b;background:#fff5f5;animation:shake .3s ease}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#p2-score { font-size:0.95rem;color:#7b5ea7;font-weight:900;background:white;padding:6px 12px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08); }
 #p2-check-btn {
   font-family:'Fredoka One',cursive; font-size:1rem; border:none;
   border-radius:14px; padding:10px 16px; cursor:pointer;
@@ -150,7 +151,15 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 #done-overlay.show{display:flex}
 #done-overlay h2{font-size:2.6rem;color:#ff6b6b;text-shadow:3px 3px 0 #ffd166}
 #done-overlay p{font-size:1.1rem;color:#888;font-family:'Nunito',sans-serif}
-#btn-restart{font-family:'Fredoka One',cursive;font-size:1.1rem;border:none;border-radius:50px;padding:0.7rem 2rem;cursor:pointer;background:#ff6b6b;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+#done-detail { width:min(90vw,560px);max-height:36vh;overflow:auto;background:white;border-radius:8px;padding:12px 14px;box-shadow:0 6px 20px rgba(0,0,0,.1);font-family:'Nunito',sans-serif;text-align:left;color:#666;line-height:1.45; }
+#done-detail:empty{display:none}
+.result-section{margin-bottom:10px}
+.result-section:last-child{margin-bottom:0}
+.result-title{font-weight:900;color:#7b5ea7;margin-bottom:4px}
+.result-list{font-size:0.95rem}
+#btn-restart,#btn-review-wrong{font-family:'Fredoka One',cursive;font-size:1.1rem;border:none;border-radius:50px;padding:0.7rem 2rem;cursor:pointer;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+#btn-restart{background:#ff6b6b}
+#btn-review-wrong{display:none;background:#7b5ea7}
 </style>
 </head>
 <body>
@@ -158,6 +167,8 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 <div id="done-overlay">
   <h2>🎉 Well done!</h2>
   <p id="done-msg">All 30 words completed!</p>
+  <div id="done-detail"></div>
+  <button id="btn-review-wrong" onclick="reviewWrongWords()">Review Wrong Words 🔁</button>
   <button id="btn-restart" onclick="restart()">Play Again 🔄</button>
 </div>
 
@@ -190,6 +201,7 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 <div id="p2-panel">
   <div id="p2-illus-wrap"></div>
   <button id="p2-listen-btn" onclick="speakCurrent()">🔊 Listen again</button>
+  <div id="p2-score">Correct: 0 · Wrong: 0</div>
   <div id="p2-hint"></div>
   <div id="p2-input-wrap">
     <input id="p2-input" type="text" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false"/>
@@ -822,7 +834,8 @@ const WORDS = [
 ];
 
 // ── State ──────────────────────────────────────────────────────────────────
-let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false;
+let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false,p2Reviewing=false;
+let p2Results={correct:[],wrong:[]};
 const speeds={1:4000,2:2500,3:1500,4:900,5:500};
 const speedLabels={1:"Slow",2:"Easy",3:"Medium",4:"Fast",5:"⚡ Flash"};
 
@@ -882,16 +895,19 @@ function setPhase(p){
   const stage=document.getElementById('stage');
   const p2panel=document.getElementById('p2-panel');
   const btnAuto=document.getElementById('btn-auto');
+  const btnNext=document.getElementById('btn-next');
   const bottomRow=document.getElementById('bottom-row');
   stopAuto();
   deck=shuffle([...WORDS]);idx=0;updateCounter();
   if(p===1){
+    p2Reviewing=false;
     stage.style.display='';p2panel.style.display='none';
-    btnAuto.style.display='';bottomRow.style.display='';
+    btnAuto.style.display='';btnNext.style.display='';bottomRow.style.display='';
     showCard(true);
   } else {
     stage.style.display='none';p2panel.style.display='flex';
-    btnAuto.style.display='none';bottomRow.style.display='none';
+    btnAuto.style.display='none';btnNext.style.display='none';bottomRow.style.display='none';
+    p2Reviewing=false;resetP2Results();
     loadP2Card(true);
   }
 }
@@ -924,17 +940,20 @@ function applyCard(item){
 function nextCard(){if(idx>=deck.length-1){showDone();return;}idx++;showCard(false);}
 function showDone(){
   stopAuto();
-  document.getElementById('done-msg').textContent=phase===2?'All 30 words spelled!':'All 30 words completed!';
+  document.getElementById('done-detail').replaceChildren();
+  document.getElementById('btn-review-wrong').style.display='none';
+  if(phase===2)showP2Results();
+  else document.getElementById('done-msg').textContent='All 30 words completed!';
   document.getElementById('done-overlay').classList.add('show');
 }
 function restart(){
   document.getElementById('done-overlay').classList.remove('show');
-  if(phase===1)init();else{deck=shuffle([...WORDS]);idx=0;loadP2Card(true);}
+  if(phase===1)init();else{p2Reviewing=false;deck=shuffle([...WORDS]);idx=0;resetP2Results();loadP2Card(true);}
 }
 function shuffleAndRestart(){
   stopAuto();document.getElementById('done-overlay').classList.remove('show');
   deck=shuffle([...WORDS]);idx=0;
-  if(phase===1)showCard(true);else loadP2Card(true);
+  if(phase===1)showCard(true);else{p2Reviewing=false;resetP2Results();loadP2Card(true);}
 }
 function toggleAuto(){if(isAuto)stopAuto();else startAuto();}
 function startAuto(){
@@ -945,8 +964,56 @@ function startAuto(){
 function stopAuto(){isAuto=false;clearInterval(autoTimer);const b=document.getElementById('btn-auto');if(b)b.textContent='▶️ Auto';}
 
 // ── Phase 2 ────────────────────────────────────────────────────────────────
+function resetP2Results(){
+  p2Results={correct:[],wrong:[]};
+  updateP2Score();
+}
+function updateP2Score(){
+  const el=document.getElementById('p2-score');
+  if(!el)return;
+  const label=p2Reviewing?'Review':'Score';
+  el.textContent=`${label}: ${p2Results.correct.length} correct · ${p2Results.wrong.length} wrong`;
+}
+function recordP2Answer(item,typed,ok){
+  const entry={item,typed};
+  if(ok)p2Results.correct.push(entry);else p2Results.wrong.push(entry);
+  updateP2Score();
+}
+function addResultSection(detail,title,entries,showTyped){
+  const section=document.createElement('div');
+  section.className='result-section';
+  const sectionTitle=document.createElement('div');
+  sectionTitle.className='result-title';
+  sectionTitle.textContent=title;
+  const list=document.createElement('div');
+  list.className='result-list';
+  list.textContent=entries.length
+    ? entries.map(({item,typed})=>showTyped&&typed?`${item.word} (you typed: ${typed})`:item.word).join(', ')
+    : 'None';
+  section.append(sectionTitle,list);
+  detail.append(section);
+}
+function showP2Results(){
+  const total=p2Results.correct.length+p2Results.wrong.length;
+  const score=`Score: ${p2Results.correct.length} / ${total}`;
+  document.getElementById('done-msg').textContent=p2Reviewing
+    ? `Wrong-word review complete. ${score}`
+    : `Spell practice complete. ${score}`;
+  const detail=document.getElementById('done-detail');
+  addResultSection(detail,`Correct (${p2Results.correct.length})`,p2Results.correct,false);
+  addResultSection(detail,`Wrong (${p2Results.wrong.length})`,p2Results.wrong,true);
+  const reviewBtn=document.getElementById('btn-review-wrong');
+  reviewBtn.style.display=p2Results.wrong.length&&!p2Reviewing?'inline-block':'none';
+}
+function reviewWrongWords(){
+  if(!p2Results.wrong.length)return;
+  const wrongItems=p2Results.wrong.map(({item})=>item);
+  document.getElementById('done-overlay').classList.remove('show');
+  p2Reviewing=true;deck=shuffle([...wrongItems]);idx=0;resetP2Results();loadP2Card(true);
+}
 function loadP2Card(instant){
   const item=deck[idx];updateCounter();p2Revealed=false;
+  updateP2Score();
   const input=document.getElementById('p2-input');
   const reveal=document.getElementById('p2-reveal');
   input.value='';input.className='';input.disabled=false;
@@ -966,6 +1033,7 @@ function checkSpelling(){
   const input=document.getElementById('p2-input');
   const typed=input.value.trim();
   const ok=typed.toLowerCase()===item.word.toLowerCase();
+  recordP2Answer(item,typed,ok);
   input.className=ok?'correct':'wrong';
   if(!ok){input.style.animation='none';input.offsetHeight;input.style.animation='';}
   const reveal=document.getElementById('p2-reveal');
@@ -976,7 +1044,7 @@ function checkSpelling(){
   fb.className='reveal-feedback '+(ok?'fb-correct':'fb-wrong');
   reveal.style.display='flex';
   input.disabled=true;p2Revealed=true;
-  document.getElementById('p2-check-btn').textContent='Next ➡️';
+  document.getElementById('p2-check-btn').textContent=idx>=deck.length-1?'Show Score 🏁':'Next ➡️';
   speak(item.word);
 }
 function nextP2(){
