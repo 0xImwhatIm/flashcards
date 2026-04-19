@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flash Cards ⚡</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #fff9f0;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-start;
+  padding: 14px 12px 30px;
+  overflow-x: hidden; position: relative;
+}
+.bubble {
+  position: fixed; border-radius: 50%; opacity: 0.10;
+  animation: floatUp linear infinite; pointer-events: none;
+}
+@keyframes floatUp {
+  0%   { transform: translateY(110vh) rotate(0deg); }
+  100% { transform: translateY(-20vh) rotate(360deg); }
+}
+/* Phase selector */
+#phase-selector { display:flex; gap:10px; margin:12px 0 8px; z-index:10; position:relative; }
+.phase-btn {
+  font-family:'Fredoka One',cursive; font-size:0.95rem;
+  border:3px solid transparent; border-radius:50px;
+  padding:0.5rem 1.4rem; cursor:pointer;
+  transition:all 0.2s; box-shadow:0 4px 0 rgba(0,0,0,.15);
+}
+.phase-btn.p1 { background:#ff6b6b; color:#fff; }
+.phase-btn.p2 { background:#fff; color:#7b5ea7; border-color:#7b5ea7; }
+.phase-btn.active.p1 { box-shadow:0 0 0 3px #ffd166; }
+.phase-btn.active.p2 { background:#7b5ea7; color:#fff; box-shadow:0 0 0 3px #c8b0e8; }
+/* Title */
+#main-title {
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.3rem,4vw,2rem); color:#ff6b6b;
+  text-align:center; text-shadow:3px 3px 0 #ffd166;
+  z-index:10; position:relative; margin-bottom:4px;
+}
+/* Progress */
+#progress-track {
+  width:min(92vw,460px); height:9px; background:#e0d5c5;
+  border-radius:10px; overflow:hidden; z-index:10; position:relative; margin-bottom:5px;
+}
+#progress-bar { height:100%; background:linear-gradient(90deg,#ff6b6b,#ffd166); border-radius:10px; transition:width 0.4s ease; }
+#counter { font-family:'Fredoka One',cursive; font-size:0.95rem; color:#aaa; margin-bottom:8px; z-index:10; position:relative; }
+/* Card */
+#stage { perspective:1200px; z-index:10; position:relative; width:min(92vw,460px); margin-bottom:10px; }
+#card { width:100%; position:relative; border-radius:28px; transition:transform 0.32s cubic-bezier(.4,0,.2,1); cursor:pointer; }
+#card.flipping { transform:rotateY(90deg) scale(0.95); }
+.card-face {
+  border-radius:28px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  box-shadow:0 12px 36px rgba(0,0,0,.14);
+  padding:14px 14px 12px; gap:5px; position:relative;
+  min-height:min(52vw,270px); user-select:none;
+}
+.card-illus { line-height:0; }
+.card-illus svg { border-radius:14px; display:block; }
+.card-word { font-family:'Fredoka One',cursive; font-size:clamp(1.7rem,5.5vw,2.8rem); text-align:center; line-height:1.1; color:#fff; text-shadow:2px 3px 0 rgba(0,0,0,.18); }
+.card-phonetic { font-size:clamp(0.8rem,2.3vw,1rem); color:rgba(255,255,255,.9); font-weight:700; font-style:italic; }
+.card-category { font-size:0.78rem; font-weight:700; color:rgba(255,255,255,.75); background:rgba(0,0,0,.12); padding:2px 12px; border-radius:20px; letter-spacing:1px; text-transform:uppercase; }
+.sound-wave { position:absolute; bottom:10px; right:12px; display:flex; gap:3px; align-items:flex-end; height:18px; opacity:0; transition:opacity .3s; }
+.sound-wave.active { opacity:1; }
+.sound-wave span { display:block; width:3px; border-radius:2px; background:rgba(255,255,255,.85); animation:waveBar .6s ease infinite alternate; }
+.sound-wave span:nth-child(1){height:7px;animation-delay:0s}
+.sound-wave span:nth-child(2){height:14px;animation-delay:.1s}
+.sound-wave span:nth-child(3){height:10px;animation-delay:.2s}
+.sound-wave span:nth-child(4){height:18px;animation-delay:.05s}
+.sound-wave span:nth-child(5){height:9px;animation-delay:.15s}
+@keyframes waveBar { from{transform:scaleY(0.3)} to{transform:scaleY(1)} }
+.theme-face      { background:linear-gradient(135deg,#ff9a9e,#fad0c4); }
+.theme-hair      { background:linear-gradient(135deg,#a18cd1,#fbc2eb); }
+.theme-accessor  { background:linear-gradient(135deg,#ffecd2,#fcb69f); }
+.theme-landmark  { background:linear-gradient(135deg,#84fab0,#8fd3f4); }
+.theme-transport { background:linear-gradient(135deg,#a1c4fd,#c2e9fb); }
+.theme-time      { background:linear-gradient(135deg,#fccb90,#d57eeb); }
+/* Phase 2 */
+#p2-panel { display:none; flex-direction:column; align-items:center; gap:10px; width:min(92vw,460px); z-index:10; position:relative; }
+#p2-illus-wrap { border-radius:20px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12); }
+#p2-illus-wrap svg { display:block; border-radius:16px; }
+#p2-listen-btn {
+  font-family:'Fredoka One',cursive; font-size:1.05rem;
+  border:none; border-radius:50px; padding:0.65rem 1.8rem;
+  cursor:pointer; background:#7b5ea7; color:#fff;
+  box-shadow:0 5px 0 #4a3570; transition:transform .15s;
+  animation:pulseGlow 2s ease infinite;
+}
+@keyframes pulseGlow {
+  0%,100%{box-shadow:0 5px 0 #4a3570,0 0 0 0 rgba(123,94,167,.4)}
+  50%{box-shadow:0 5px 0 #4a3570,0 0 0 8px rgba(123,94,167,0)}
+}
+#p2-listen-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #4a3570}
+#p2-hint { font-size:1rem; color:#bbb; font-weight:900; letter-spacing:4px; margin-top:-4px; }
+#p2-input-wrap { display:flex; gap:8px; align-items:center; width:100%; }
+#p2-input {
+  flex:1; font-family:'Nunito',sans-serif; font-size:1.15rem; font-weight:900;
+  border:3px solid #c8b0e8; border-radius:16px; padding:10px 14px;
+  outline:none; background:white; letter-spacing:2px; transition:border-color .2s;
+}
+#p2-input:focus{border-color:#7b5ea7}
+#p2-input.correct{border-color:#4ecdc4;background:#f4fffd}
+#p2-input.wrong{border-color:#ff6b6b;background:#fff5f5;animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+#p2-check-btn {
+  font-family:'Fredoka One',cursive; font-size:1rem; border:none;
+  border-radius:14px; padding:10px 16px; cursor:pointer;
+  background:#4ecdc4; color:#fff; box-shadow:0 4px 0 #2bab9e; transition:transform .15s;
+}
+#p2-check-btn:active{transform:translateY(2px)}
+#p2-reveal {
+  display:none; flex-direction:column; align-items:center; gap:5px;
+  padding:12px 18px; border-radius:18px;
+  background:white; box-shadow:0 6px 20px rgba(0,0,0,.1);
+  width:100%; text-align:center;
+}
+.reveal-word { font-family:'Fredoka One',cursive; font-size:clamp(1.5rem,5vw,2.2rem); color:#7b5ea7; }
+.reveal-phonetic { font-size:0.95rem; color:#999; font-style:italic; font-weight:700; }
+.reveal-feedback { font-size:0.95rem; font-weight:900; }
+.fb-correct{color:#4ecdc4} .fb-wrong{color:#ff6b6b}
+/* Controls */
+#controls { display:flex; gap:8px; align-items:center; z-index:10; position:relative; flex-wrap:wrap; justify-content:center; margin-top:4px; }
+button.ctrl {
+  font-family:'Fredoka One',cursive; font-size:0.92rem; border:none;
+  border-radius:50px; padding:0.58rem 1.2rem; cursor:pointer;
+  transition:transform .15s,box-shadow .15s; box-shadow:0 4px 0 rgba(0,0,0,.15);
+}
+button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
+.btn-shuffle{background:#ffd166;color:#333}
+.btn-listen{background:#fff;color:#ff6b6b;border:3px solid #ff6b6b !important}
+.btn-listen.speaking{background:#ff6b6b;color:#fff}
+.btn-next{background:#ff6b6b;color:#fff}
+.btn-auto{background:#4ecdc4;color:#fff}
+#bottom-row { display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; z-index:10; position:relative; margin-top:6px; }
+#speed-wrap { display:flex; align-items:center; gap:6px; font-weight:700; font-size:0.82rem; color:#888; }
+#speed-wrap input[type=range]{accent-color:#ff6b6b;cursor:pointer}
+#tts-wrap { display:flex; align-items:center; gap:6px; font-weight:700; font-size:0.82rem; color:#888; }
+#tts-toggle { width:40px;height:22px;background:#ccc;border-radius:11px;position:relative;cursor:pointer;transition:background .3s;border:none;padding:0;box-shadow:none; }
+#tts-toggle::after { content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left .3s; }
+#tts-toggle.on{background:#4ecdc4}
+#tts-toggle.on::after{left:20px}
+/* Done overlay */
+#done-overlay { display:none;position:fixed;inset:0;background:rgba(255,249,240,.95);z-index:100;flex-direction:column;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;text-align:center;gap:12px; }
+#done-overlay.show{display:flex}
+#done-overlay h2{font-size:2.6rem;color:#ff6b6b;text-shadow:3px 3px 0 #ffd166}
+#done-overlay p{font-size:1.1rem;color:#888;font-family:'Nunito',sans-serif}
+#btn-restart{font-family:'Fredoka One',cursive;font-size:1.1rem;border:none;border-radius:50px;padding:0.7rem 2rem;cursor:pointer;background:#ff6b6b;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+</style>
+</head>
+<body>
+
+<div id="done-overlay">
+  <h2>🎉 Well done!</h2>
+  <p id="done-msg">All 30 words completed!</p>
+  <button id="btn-restart" onclick="restart()">Play Again 🔄</button>
+</div>
+
+<div id="main-title">⚡ Flash Cards</div>
+
+<div id="phase-selector">
+  <button class="phase-btn p1 active" onclick="setPhase(1)">① Learn</button>
+  <button class="phase-btn p2"        onclick="setPhase(2)">② Spell</button>
+</div>
+
+<div id="progress-track"><div id="progress-bar"></div></div>
+<div id="counter">1 / 30</div>
+
+<!-- Phase 1 card -->
+<div id="stage">
+  <div id="card">
+    <div class="card-face" id="card-face">
+      <div class="card-illus"    id="card-illus"></div>
+      <div class="card-word"     id="card-word"></div>
+      <div class="card-phonetic" id="card-phonetic"></div>
+      <div class="card-category" id="card-cat"></div>
+      <div class="sound-wave" id="sound-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 2 spell panel -->
+<div id="p2-panel">
+  <div id="p2-illus-wrap"></div>
+  <button id="p2-listen-btn" onclick="speakCurrent()">🔊 Listen again</button>
+  <div id="p2-hint"></div>
+  <div id="p2-input-wrap">
+    <input id="p2-input" type="text" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false"/>
+    <button id="p2-check-btn" onclick="checkSpelling()">✓ Check</button>
+  </div>
+  <div id="p2-reveal">
+    <div class="reveal-word"     id="reveal-word"></div>
+    <div class="reveal-phonetic" id="reveal-phonetic"></div>
+    <div class="reveal-feedback" id="reveal-feedback"></div>
+  </div>
+</div>
+
+<!-- Controls -->
+<div id="controls">
+  <button class="ctrl btn-shuffle" onclick="shuffleAndRestart()">🔀 Shuffle</button>
+  <button class="ctrl btn-listen"  id="btn-speak" onclick="speakCurrent()">🔊 Listen</button>
+  <button class="ctrl btn-next"    id="btn-next"  onclick="nextCard()">Next ➡️</button>
+  <button class="ctrl btn-auto"    id="btn-auto"  onclick="toggleAuto()">▶️ Auto</button>
+</div>
+
+<div id="bottom-row">
+  <div id="tts-wrap">
+    🔕 <button id="tts-toggle" class="on" onclick="toggleTTS()"></button> 🔊 Auto Read
+  </div>
+  <div id="speed-wrap">
+    🐢 <input type="range" id="speed-slider" min="1" max="5" value="3"> 🚀
+    <span id="speed-label">Medium</span>
+  </div>
+</div>
+
+<script>
+// ── SVG illustrations ──────────────────────────────────────────────────────
+const W=140, H=130;
+
+function face(o={}){
+  const {
+    skin='#f8d5a8', skinD='#f4c49a',
+    hair='#5c3317', hair2='#6b3c1e',
+    eye='#3a2010', bg='#fff8f0',
+    hY=72, hRx=34, hRy=36,
+    hairSVG='', extras=''
+  }=o;
+  return `
+<rect width="${W}" height="${H}" rx="14" fill="${bg}"/>
+<rect x="58" y="${hY+hRy-4}" width="24" height="18" rx="6" fill="${skinD}"/>
+<ellipse cx="70" cy="${hY}" rx="${hRx}" ry="${hRy}" fill="${skin}"/>
+<ellipse cx="${70-hRx-4}" cy="${hY+4}" rx="7" ry="10" fill="${skinD}"/>
+<ellipse cx="${70+hRx+4}" cy="${hY+4}" rx="7" ry="10" fill="${skinD}"/>
+${hairSVG}
+<ellipse cx="56" cy="${hY+2}" rx="5" ry="6" fill="white"/>
+<circle cx="57" cy="${hY+3}" r="3.5" fill="${eye}"/>
+<circle cx="58" cy="${hY+1.5}" r="1" fill="white"/>
+<ellipse cx="84" cy="${hY+2}" rx="5" ry="6" fill="white"/>
+<circle cx="85" cy="${hY+3}" r="3.5" fill="${eye}"/>
+<circle cx="86" cy="${hY+1.5}" r="1" fill="white"/>
+<path d="M50 ${hY-7} Q56 ${hY-11} 62 ${hY-7}" stroke="${hair}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<path d="M78 ${hY-7} Q84 ${hY-11} 90 ${hY-7}" stroke="${hair}" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<ellipse cx="70" cy="${hY+14}" rx="4" ry="3" fill="${skinD}"/>
+<path d="M59 ${hY+22} Q70 ${hY+32} 81 ${hY+22}" stroke="#d4785a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+${extras}`;
+}
+
+function shortHair(h,h2,hY,hRx){
+  return `<ellipse cx="70" cy="${hY-20}" rx="${hRx}" ry="20" fill="${h}"/>
+<ellipse cx="70" cy="${hY-28}" rx="${hRx-6}" ry="14" fill="${h2}"/>`;
+}
+
+const IL = {
+"Freckles":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hairSVG:shortHair('#5c3317','#6b3c1e',72,34),
+  extras:`<circle cx="52" cy="75" r="2" fill="#d4785a" opacity=".55"/>
+<circle cx="59" cy="79" r="1.8" fill="#d4785a" opacity=".55"/>
+<circle cx="46" cy="78" r="1.5" fill="#d4785a" opacity=".55"/>
+<circle cx="88" cy="75" r="2" fill="#d4785a" opacity=".55"/>
+<circle cx="81" cy="79" r="1.8" fill="#d4785a" opacity=".55"/>
+<circle cx="94" cy="78" r="1.5" fill="#d4785a" opacity=".55"/>`
+})}</svg>`,
+
+"Dimples":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  skin:'#fad5b0', skinD:'#f0c098',
+  hairSVG:shortHair('#5c3317','#6b3c1e',72,34),
+  extras:`
+<path d="M59 94 Q70 105 81 94" stroke="#d4785a" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+<circle cx="56" cy="91" r="3.5" fill="#e89a80" opacity=".65"/>
+<circle cx="84" cy="91" r="3.5" fill="#e89a80" opacity=".65"/>
+<path d="M53 89 Q56 93 59 89" stroke="#c87860" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+<path d="M81 89 Q84 93 87 89" stroke="#c87860" stroke-width="1.4" fill="none" stroke-linecap="round"/>`
+})}</svg>`,
+
+"Bangs":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hair:'#8b4513', hair2:'#6b3410',
+  hairSVG:`<ellipse cx="70" cy="52" rx="34" ry="22" fill="#8b4513"/>
+<rect x="38" y="38" width="64" height="26" rx="4" fill="#8b4513"/>
+<ellipse cx="70" cy="38" rx="32" ry="10" fill="#6b3410"/>`
+})}</svg>`,
+
+"Ponytail":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  skin:'#fce4d0', skinD:'#f8c9a8',
+  hairSVG:`${shortHair('#5c3317','#4a2810',72,34)}
+<ellipse cx="107" cy="62" rx="8" ry="20" fill="#5c3317" transform="rotate(20 107 62)"/>
+<circle cx="107" cy="46" r="6" fill="#ff6b9d"/>`
+})}</svg>`,
+
+"Beard":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hair:'#3a2010', hair2:'#2c1808',
+  hairSVG:shortHair('#3a2010','#2c1808',72,34),
+  extras:`<path d="M48 100 Q55 118 70 122 Q85 118 92 100 Q82 108 70 110 Q58 108 48 100Z" fill="#3a2010"/>
+<path d="M52 94 Q55 104 60 100" stroke="#3a2010" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M88 94 Q85 104 80 100" stroke="#3a2010" stroke-width="6" fill="none" stroke-linecap="round"/>
+<path d="M56 91 Q70 97 84 91" stroke="#3a2010" stroke-width="5" fill="none" stroke-linecap="round"/>`
+})}</svg>`,
+
+"Glasses":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hairSVG:shortHair('#5c3317','#6b3c1e',72,34),
+  extras:`<rect x="43" y="65" width="22" height="16" rx="7" fill="none" stroke="#3a6fd4" stroke-width="2.5"/>
+<rect x="75" y="65" width="22" height="16" rx="7" fill="none" stroke="#3a6fd4" stroke-width="2.5"/>
+<line x1="65" y1="73" x2="75" y2="73" stroke="#3a6fd4" stroke-width="2"/>
+<line x1="36" y1="70" x2="43" y2="71" stroke="#3a6fd4" stroke-width="2" stroke-linecap="round"/>
+<line x1="97" y1="70" x2="104" y2="71" stroke="#3a6fd4" stroke-width="2" stroke-linecap="round"/>`
+})}</svg>`,
+
+"Curly Red":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  skin:'#fce4d0', skinD:'#f8c9a8',
+  hairSVG:`<circle cx="70" cy="48" r="20" fill="#c0392b"/>
+<circle cx="48" cy="58" r="16" fill="#c0392b"/>
+<circle cx="92" cy="58" r="16" fill="#c0392b"/>
+<circle cx="40" cy="74" r="12" fill="#c0392b"/>
+<circle cx="100" cy="74" r="12" fill="#c0392b"/>
+<circle cx="54" cy="44" r="13" fill="#e74c3c"/>
+<circle cx="86" cy="44" r="13" fill="#e74c3c"/>
+<circle cx="50" cy="62" r="5" fill="#ff8c78" opacity=".5"/>
+<circle cx="64" cy="40" r="4" fill="#ff8c78" opacity=".5"/>`,
+  extras:`<circle cx="52" cy="77" r="1.8" fill="#d4785a" opacity=".5"/>
+<circle cx="59" cy="81" r="1.6" fill="#d4785a" opacity=".5"/>
+<circle cx="88" cy="77" r="1.8" fill="#d4785a" opacity=".5"/>
+<circle cx="81" cy="81" r="1.6" fill="#d4785a" opacity=".5"/>`
+})}</svg>`,
+
+"Short Gray":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  skin:'#f0d4b0', skinD:'#e0c098',
+  hair:'#9e9e9e', hair2:'#bdbdbd',
+  hairSVG:shortHair('#9e9e9e','#bdbdbd',72,34),
+  extras:`<path d="M52 80 Q56 76 60 80" stroke="#ccc" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+<path d="M80 80 Q84 76 88 80" stroke="#ccc" stroke-width="1.5" fill="none" stroke-linecap="round"/>`
+})}</svg>`,
+
+"Wavy Black":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hairSVG:`<ellipse cx="70" cy="50" rx="36" ry="24" fill="#222"/>
+<path d="M36,86 Q44,78 52,86 Q60,94 68,86" stroke="#222" stroke-width="12" fill="none" stroke-linecap="round"/>
+<path d="M72,86 Q80,78 88,86 Q96,94 104,86" stroke="#222" stroke-width="12" fill="none" stroke-linecap="round"/>`
+})}</svg>`,
+
+"Straight Brown":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  skin:'#f8c8a0', skinD:'#e8b080', hair:'#7b4f2e', hair2:'#8b5e3c',
+  hairSVG:`<rect x="36" y="34" width="68" height="58" rx="8" fill="#7b4f2e"/>
+<ellipse cx="70" cy="38" rx="34" ry="16" fill="#8b5e3c"/>`
+})}</svg>`,
+
+"Long Blond":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  skin:'#fce4d0', skinD:'#f8c9a8',
+  hairSVG:`<ellipse cx="70" cy="50" rx="36" ry="24" fill="#f5d060"/>
+<rect x="36" y="62" width="12" height="52" rx="6" fill="#f5d060"/>
+<rect x="92" y="62" width="12" height="52" rx="6" fill="#f5d060"/>
+<ellipse cx="70" cy="42" rx="28" ry="12" fill="#ffe083"/>`
+})}</svg>`,
+
+"Golden Necklace":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hairSVG:shortHair('#5c3317','#6b3c1e',72,34),
+  extras:`<path d="M50 113 Q70 124 90 113" stroke="#f0b800" stroke-width="3" fill="none" stroke-linecap="round"/>
+<circle cx="70" cy="124" r="5" fill="#f0b800"/>
+<circle cx="70" cy="124" r="3" fill="#ffe566"/>
+<circle cx="50" cy="113" r="3" fill="#f0b800"/>
+<circle cx="90" cy="113" r="3" fill="#f0b800"/>`
+})}</svg>`,
+
+"Navy Tie":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hair:'#2c2c2c', hair2:'#1a1a1a',
+  hairSVG:shortHair('#2c2c2c','#1a1a1a',72,34),
+  extras:`<rect x="56" y="110" width="28" height="7" rx="3" fill="#eee"/>
+<polygon points="70,117 64,148 70,154 76,148" fill="#1a2f6e"/>
+<polygon points="64,117 76,117 73,128 67,128" fill="#1a2f6e"/>
+<rect x="67" y="128" width="6" height="20" rx="2" fill="#1a2f6e"/>
+<line x1="65" y1="132" x2="75" y2="132" stroke="#2a4fa0" stroke-width="1"/>
+<line x1="64" y1="138" x2="76" y2="138" stroke="#2a4fa0" stroke-width="1"/>`
+})}</svg>`,
+
+"Purple Hat":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hY:84, hairSVG:'',
+  extras:`<ellipse cx="70" cy="56" rx="46" ry="9" fill="#6a1db5"/>
+<rect x="34" y="16" width="72" height="44" rx="10" fill="#7b2fa8"/>
+<rect x="34" y="50" width="72" height="9" fill="#5a1890"/>
+<ellipse cx="70" cy="18" rx="28" ry="5" fill="#9b4fd4" opacity=".35"/>
+<rect x="44" y="22" width="16" height="7" rx="4" fill="#9b4fd4" opacity=".4"/>`
+})}</svg>`,
+
+"Green Scarf":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+  hairSVG:shortHair('#5c3317','#6b3c1e',72,34),
+  extras:`<path d="M42 112 Q70 124 98 112" stroke="#2e9e4f" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M42 112 Q36 122 44 130 Q50 138 46 130" stroke="#2e9e4f" stroke-width="10" fill="none" stroke-linecap="round"/>
+<path d="M44 112 Q70 126 96 112" stroke="#3dbf60" stroke-width="4" fill="none" stroke-linecap="round" opacity=".5"/>`
+})}</svg>`,
+
+"Silver Sneakers":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f4f4f8"/>
+<ellipse cx="40" cy="94" rx="26" ry="11" fill="#c0c0c0"/>
+<rect x="18" y="72" width="46" height="24" rx="10" fill="#d8d8d8"/>
+<rect x="18" y="72" width="46" height="12" rx="8" fill="#e8e8e8"/>
+<line x1="26" y1="81" x2="58" y2="77" stroke="white" stroke-width="2" stroke-linecap="round"/>
+<line x1="26" y1="87" x2="58" y2="83" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+<ellipse cx="40" cy="95" rx="24" ry="6" fill="#aaa"/>
+<ellipse cx="100" cy="94" rx="26" ry="11" fill="#c0c0c0"/>
+<rect x="76" y="72" width="46" height="24" rx="10" fill="#d8d8d8"/>
+<rect x="76" y="72" width="46" height="12" rx="8" fill="#e8e8e8"/>
+<line x1="84" y1="81" x2="116" y2="77" stroke="white" stroke-width="2" stroke-linecap="round"/>
+<line x1="84" y1="87" x2="116" y2="83" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".7"/>
+<ellipse cx="100" cy="95" rx="24" ry="6" fill="#aaa"/>
+<text x="70" y="42" font-size="18" text-anchor="middle">✨</text>
+<text x="30" y="54" font-size="11" text-anchor="middle" opacity=".6">✦</text>
+<text x="110" y="54" font-size="11" text-anchor="middle" opacity=".6">✦</text>
+</svg>`,
+
+"Star Tower":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#e8f4ff"/>
+<circle cx="18" cy="18" r="3.5" fill="#ffd166" opacity=".8"/>
+<circle cx="112" cy="14" r="2.5" fill="#ffd166" opacity=".6"/>
+<circle cx="130" cy="28" r="2" fill="#ffd166" opacity=".5"/>
+<rect x="28" y="112" width="84" height="8" rx="3" fill="#8b7355"/>
+<line x1="50" y1="112" x2="60" y2="38" stroke="#8b6914" stroke-width="5" stroke-linecap="round"/>
+<line x1="90" y1="112" x2="80" y2="38" stroke="#8b6914" stroke-width="5" stroke-linecap="round"/>
+<line x1="44" y1="92" x2="96" y2="92" stroke="#8b6914" stroke-width="4" stroke-linecap="round"/>
+<line x1="47" y1="72" x2="93" y2="72" stroke="#8b6914" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="52" y1="56" x2="88" y2="56" stroke="#8b6914" stroke-width="3" stroke-linecap="round"/>
+<line x1="50" y1="112" x2="93" y2="92" stroke="#a07820" stroke-width="2"/>
+<line x1="90" y1="112" x2="47" y2="92" stroke="#a07820" stroke-width="2"/>
+<line x1="52" y1="92" x2="90" y2="72" stroke="#a07820" stroke-width="1.5"/>
+<line x1="88" y1="92" x2="50" y2="72" stroke="#a07820" stroke-width="1.5"/>
+<line x1="70" y1="38" x2="70" y2="14" stroke="#8b6914" stroke-width="4" stroke-linecap="round"/>
+<text x="70" y="18" font-size="12" text-anchor="middle">⭐</text>
+</svg>`,
+
+"Star River":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#1a2a4a"/>
+<circle cx="20" cy="18" r="2.5" fill="#fff" opacity=".9"/>
+<circle cx="55" cy="10" r="2" fill="#fff" opacity=".8"/>
+<circle cx="90" cy="16" r="1.8" fill="#fff" opacity=".7"/>
+<circle cx="118" cy="8" r="2.2" fill="#fff" opacity=".9"/>
+<circle cx="35" cy="28" r="1.5" fill="#fff" opacity=".6"/>
+<circle cx="75" cy="24" r="1.2" fill="#fff" opacity=".6"/>
+<circle cx="105" cy="30" r="1.8" fill="#fff" opacity=".7"/>
+<ellipse cx="70" cy="42" rx="65" ry="18" fill="#4a6fa5" opacity=".4"/>
+<ellipse cx="70" cy="42" rx="50" ry="10" fill="#6a8fc5" opacity=".3"/>
+<circle cx="30" cy="36" r="1" fill="#ffd166"/>
+<circle cx="50" cy="32" r="1.5" fill="#ffd166"/>
+<circle cx="70" cy="38" r="1.2" fill="#fff"/>
+<circle cx="88" cy="34" r="1" fill="#ffd166"/>
+<circle cx="108" cy="40" r="1.5" fill="#ffd166"/>
+<circle cx="42" cy="48" r="1.2" fill="#ffd166" opacity=".8"/>
+<circle cx="96" cy="46" r="1" fill="#ffd166" opacity=".8"/>
+<path d="M0,78 Q35,68 70,78 Q105,88 140,78 L140,130 L0,130Z" fill="#1e3a6a"/>
+<path d="M0,83 Q35,76 70,83 Q105,90 140,83" stroke="#4a6fa5" stroke-width="2" fill="none" opacity=".6"/>
+<path d="M10,94 Q40,88 70,94 Q100,100 130,94" stroke="#4a6fa5" stroke-width="1.5" fill="none" opacity=".4"/>
+<circle cx="30" cy="100" r="1.5" fill="#ffd166" opacity=".6"/>
+<circle cx="70" cy="108" r="2" fill="#ffd166" opacity=".5"/>
+<circle cx="110" cy="102" r="1.5" fill="#ffd166" opacity=".6"/>
+</svg>`,
+
+"Star Bridge":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#ddeeff"/>
+<circle cx="18" cy="16" r="2" fill="#ffd166"/>
+<circle cx="70" cy="10" r="2.5" fill="#ffd166"/>
+<circle cx="122" cy="16" r="2" fill="#ffd166"/>
+<circle cx="44" cy="24" r="1.5" fill="#ffd166" opacity=".7"/>
+<circle cx="96" cy="22" r="1.5" fill="#ffd166" opacity=".7"/>
+<rect x="0" y="105" width="140" height="25" fill="#a8d4f0"/>
+<path d="M0,108 Q35,104 70,108 Q105,112 140,108" stroke="#78b4e0" stroke-width="1.5" fill="none"/>
+<rect x="5" y="88" width="130" height="10" rx="4" fill="#8b7355"/>
+<path d="M10,98 Q35,65 60,98 L60,88 Q35,58 10,88Z" fill="#7b6545" opacity=".7"/>
+<path d="M50,98 Q70,60 90,98 L90,88 Q70,52 50,88Z" fill="#7b6545" opacity=".7"/>
+<path d="M80,98 Q105,65 130,98 L130,88 Q105,58 80,88Z" fill="#7b6545" opacity=".7"/>
+<line x1="35" y1="40" x2="35" y2="88" stroke="#999" stroke-width="1.5"/>
+<line x1="70" y1="34" x2="70" y2="88" stroke="#999" stroke-width="1.5"/>
+<line x1="105" y1="40" x2="105" y2="88" stroke="#999" stroke-width="1.5"/>
+<rect x="30" y="28" width="10" height="60" rx="2" fill="#888"/>
+<rect x="65" y="22" width="10" height="66" rx="2" fill="#888"/>
+<rect x="100" y="28" width="10" height="60" rx="2" fill="#888"/>
+<text x="35" y="26" font-size="11" text-anchor="middle">⭐</text>
+<text x="70" y="20" font-size="12" text-anchor="middle">⭐</text>
+<text x="105" y="26" font-size="11" text-anchor="middle">⭐</text>
+</svg>`,
+
+"Star Building":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#1a1a2e"/>
+<circle cx="15" cy="12" r="1.5" fill="#ffd166"/>
+<circle cx="50" cy="8" r="1.2" fill="#fff" opacity=".8"/>
+<circle cx="125" cy="10" r="1.5" fill="#ffd166"/>
+<circle cx="108" cy="20" r="1" fill="#fff" opacity=".7"/>
+<circle cx="115" cy="22" r="10" fill="#ffeaa0"/>
+<circle cx="120" cy="18" r="8" fill="#1a1a2e"/>
+<rect x="0" y="118" width="140" height="12" fill="#2a2a4a"/>
+<rect x="45" y="22" width="50" height="96" rx="4" fill="#2c3e6e"/>
+<rect x="52" y="30" width="10" height="8" rx="2" fill="#ffd166" opacity=".9"/>
+<rect x="68" y="30" width="10" height="8" rx="2" fill="#ffd166" opacity=".9"/>
+<rect x="78" y="30" width="10" height="8" rx="2" fill="#4a90d9" opacity=".8"/>
+<rect x="52" y="44" width="10" height="8" rx="2" fill="#4a90d9" opacity=".8"/>
+<rect x="68" y="44" width="10" height="8" rx="2" fill="#ffd166" opacity=".9"/>
+<rect x="78" y="44" width="10" height="8" rx="2" fill="#ffd166" opacity=".9"/>
+<rect x="52" y="58" width="10" height="8" rx="2" fill="#ffd166" opacity=".9"/>
+<rect x="68" y="58" width="10" height="8" rx="2" fill="#4a90d9" opacity=".8"/>
+<rect x="78" y="58" width="10" height="8" rx="2" fill="#ffd166" opacity=".9"/>
+<rect x="52" y="72" width="10" height="8" rx="2" fill="#ffd166" opacity=".7"/>
+<rect x="68" y="72" width="10" height="8" rx="2" fill="#ffd166" opacity=".7"/>
+<rect x="78" y="72" width="10" height="8" rx="2" fill="#4a90d9" opacity=".7"/>
+<rect x="8" y="55" width="36" height="63" rx="3" fill="#1e2d5e"/>
+<rect x="14" y="62" width="8" height="7" rx="1" fill="#ffd166" opacity=".8"/>
+<rect x="26" y="62" width="8" height="7" rx="1" fill="#4a90d9" opacity=".8"/>
+<rect x="14" y="75" width="8" height="7" rx="1" fill="#4a90d9" opacity=".8"/>
+<rect x="26" y="75" width="8" height="7" rx="1" fill="#ffd166" opacity=".8"/>
+<rect x="96" y="65" width="36" height="53" rx="3" fill="#1e2d5e"/>
+<rect x="102" y="72" width="8" height="6" rx="1" fill="#ffd166" opacity=".8"/>
+<rect x="114" y="72" width="8" height="6" rx="1" fill="#4a90d9" opacity=".8"/>
+<rect x="102" y="84" width="8" height="6" rx="1" fill="#ffd166" opacity=".7"/>
+<rect x="114" y="84" width="8" height="6" rx="1" fill="#ffd166" opacity=".7"/>
+<line x1="70" y1="22" x2="70" y2="10" stroke="#888" stroke-width="2"/>
+<text x="70" y="9" font-size="10" text-anchor="middle">⭐</text>
+</svg>`,
+
+"By Bus":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f0f8ff"/>
+<rect x="0" y="108" width="140" height="16" fill="#ccc"/>
+<rect x="15" y="113" width="18" height="4" rx="2" fill="white"/>
+<rect x="61" y="113" width="18" height="4" rx="2" fill="white"/>
+<rect x="107" y="113" width="18" height="4" rx="2" fill="white"/>
+<rect x="8" y="56" width="124" height="56" rx="10" fill="#ffd166"/>
+<rect x="8" y="50" width="40" height="20" rx="8" fill="#f0b800"/>
+<rect x="18" y="64" width="20" height="16" rx="4" fill="#a8d8ff"/>
+<rect x="46" y="64" width="20" height="16" rx="4" fill="#a8d8ff"/>
+<rect x="74" y="64" width="20" height="16" rx="4" fill="#a8d8ff"/>
+<rect x="102" y="64" width="18" height="16" rx="4" fill="#a8d8ff"/>
+<rect x="102" y="84" width="24" height="26" rx="5" fill="#e8a800"/>
+<circle cx="107" cy="97" r="2" fill="#888"/>
+<ellipse cx="14" cy="94" rx="7" ry="5" fill="#fffde0"/>
+<rect x="18" y="53" width="28" height="12" rx="3" fill="#e03020"/>
+<text x="32" y="62" font-family="sans-serif" font-size="8" font-weight="bold" fill="white" text-anchor="middle">BUS</text>
+<circle cx="34" cy="116" r="12" fill="#444"/>
+<circle cx="34" cy="116" r="7" fill="#777"/>
+<circle cx="34" cy="116" r="2.5" fill="#ccc"/>
+<circle cx="106" cy="116" r="12" fill="#444"/>
+<circle cx="106" cy="116" r="7" fill="#777"/>
+<circle cx="106" cy="116" r="2.5" fill="#ccc"/>
+<circle cx="28" cy="68" r="4" fill="#f8c49a"/>
+<circle cx="56" cy="68" r="4" fill="#f8c49a"/>
+</svg>`,
+
+"By Car":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f8fff0"/>
+<rect x="0" y="108" width="140" height="16" fill="#ccc"/>
+<rect x="10" y="113" width="16" height="4" rx="2" fill="white"/>
+<rect x="62" y="113" width="16" height="4" rx="2" fill="white"/>
+<rect x="114" y="113" width="16" height="4" rx="2" fill="white"/>
+<rect x="10" y="78" width="120" height="36" rx="12" fill="#ff6b6b"/>
+<path d="M38,78 Q50,52 90,52 Q110,52 118,78Z" fill="#e05050"/>
+<rect x="48" y="56" width="32" height="22" rx="5" fill="#a8d8ff" opacity=".9"/>
+<rect x="86" y="56" width="24" height="22" rx="5" fill="#a8d8ff" opacity=".9"/>
+<line x1="82" y1="56" x2="82" y2="78" stroke="#e05050" stroke-width="3"/>
+<ellipse cx="18" cy="90" rx="8" ry="6" fill="#fffde0"/>
+<ellipse cx="122" cy="90" rx="6" ry="5" fill="#ff9a9a"/>
+<circle cx="36" cy="114" r="13" fill="#333"/>
+<circle cx="36" cy="114" r="8" fill="#666"/>
+<circle cx="36" cy="114" r="3" fill="#bbb"/>
+<circle cx="104" cy="114" r="13" fill="#333"/>
+<circle cx="104" cy="114" r="8" fill="#666"/>
+<circle cx="104" cy="114" r="3" fill="#bbb"/>
+<path d="M68,78 L68,114" stroke="#e05050" stroke-width="2" fill="none"/>
+<rect x="72" y="90" width="12" height="4" rx="2" fill="#c04040"/>
+</svg>`,
+
+"By Subway":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f0f0ff"/>
+<rect x="0" y="110" width="140" height="20" fill="#555"/>
+<rect x="0" y="98" width="140" height="14" fill="#888"/>
+<line x1="0" y1="112" x2="140" y2="112" stroke="#ccc" stroke-width="2"/>
+<line x1="0" y1="118" x2="140" y2="118" stroke="#ccc" stroke-width="2"/>
+<rect x="8"  y="110" width="6" height="10" rx="1" fill="#777"/>
+<rect x="30" y="110" width="6" height="10" rx="1" fill="#777"/>
+<rect x="52" y="110" width="6" height="10" rx="1" fill="#777"/>
+<rect x="74" y="110" width="6" height="10" rx="1" fill="#777"/>
+<rect x="96" y="110" width="6" height="10" rx="1" fill="#777"/>
+<rect x="118" y="110" width="6" height="10" rx="1" fill="#777"/>
+<rect x="6" y="54" width="128" height="52" rx="12" fill="#3a6fd4"/>
+<ellipse cx="14" cy="80" rx="8" ry="6" fill="#c8e0ff" opacity=".7"/>
+<rect x="26" y="62" width="22" height="16" rx="4" fill="#a8d4ff"/>
+<rect x="56" y="62" width="22" height="16" rx="4" fill="#a8d4ff"/>
+<rect x="86" y="62" width="22" height="16" rx="4" fill="#a8d4ff"/>
+<rect x="112" y="62" width="16" height="16" rx="4" fill="#a8d4ff"/>
+<rect x="60" y="80" width="20" height="26" rx="4" fill="#2a5fc0"/>
+<line x1="70" y1="82" x2="70" y2="104" stroke="#4a7fe0" stroke-width="1.5"/>
+<rect x="6" y="86" width="128" height="6" fill="#1a4fa0"/>
+<rect x="24" y="56" width="36" height="10" rx="3" fill="#ffd166"/>
+<text x="42" y="64" font-family="sans-serif" font-size="7" font-weight="bold" fill="#333" text-anchor="middle">SUBWAY</text>
+<circle cx="37" cy="66" r="3.5" fill="#f8c49a"/>
+<circle cx="97" cy="66" r="3.5" fill="#f8c49a"/>
+</svg>`,
+
+"By Bike":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f8fff4"/>
+<rect x="0" y="112" width="140" height="14" fill="#ddd"/>
+<circle cx="38" cy="100" r="26" fill="none" stroke="#555" stroke-width="4"/>
+<circle cx="38" cy="100" r="6" fill="#555"/>
+<circle cx="102" cy="100" r="26" fill="none" stroke="#555" stroke-width="4"/>
+<circle cx="102" cy="100" r="6" fill="#555"/>
+<line x1="38" y1="74" x2="38" y2="126" stroke="#888" stroke-width="1.5"/>
+<line x1="12" y1="100" x2="64" y2="100" stroke="#888" stroke-width="1.5"/>
+<line x1="19" y1="81" x2="57" y2="119" stroke="#888" stroke-width="1.5"/>
+<line x1="57" y1="81" x2="19" y2="119" stroke="#888" stroke-width="1.5"/>
+<line x1="102" y1="74" x2="102" y2="126" stroke="#888" stroke-width="1.5"/>
+<line x1="76" y1="100" x2="128" y2="100" stroke="#888" stroke-width="1.5"/>
+<line x1="83" y1="81" x2="121" y2="119" stroke="#888" stroke-width="1.5"/>
+<line x1="121" y1="81" x2="83" y2="119" stroke="#888" stroke-width="1.5"/>
+<line x1="38" y1="100" x2="70" y2="68" stroke="#4ecdc4" stroke-width="4" stroke-linecap="round"/>
+<line x1="70" y1="68" x2="102" y2="100" stroke="#4ecdc4" stroke-width="4" stroke-linecap="round"/>
+<line x1="70" y1="68" x2="76" y2="100" stroke="#4ecdc4" stroke-width="3" stroke-linecap="round"/>
+<line x1="38" y1="100" x2="76" y2="100" stroke="#4ecdc4" stroke-width="3" stroke-linecap="round"/>
+<line x1="70" y1="68" x2="62" y2="52" stroke="#555" stroke-width="3" stroke-linecap="round"/>
+<rect x="50" y="48" width="24" height="7" rx="3" fill="#555"/>
+<line x1="102" y1="100" x2="108" y2="68" stroke="#555" stroke-width="3" stroke-linecap="round"/>
+<line x1="100" y1="68" x2="116" y2="65" stroke="#555" stroke-width="3" stroke-linecap="round"/>
+<circle cx="76" cy="100" r="5" fill="#888"/>
+<circle cx="96" cy="44" r="10" fill="#f8d5a8"/>
+<path d="M96 54 Q96 70 108 68" stroke="#4ecdc4" stroke-width="5" fill="none" stroke-linecap="round"/>
+<ellipse cx="96" cy="38" rx="12" ry="9" fill="#ff6b6b"/>
+<rect x="84" y="42" width="24" height="5" rx="2" fill="#e05050"/>
+</svg>`,
+
+"By Train":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#fff8f0"/>
+<line x1="0" y1="112" x2="140" y2="112" stroke="#888" stroke-width="3"/>
+<line x1="0" y1="118" x2="140" y2="118" stroke="#888" stroke-width="3"/>
+<rect x="8"  y="110" width="5" height="10" rx="1" fill="#aaa"/>
+<rect x="28" y="110" width="5" height="10" rx="1" fill="#aaa"/>
+<rect x="48" y="110" width="5" height="10" rx="1" fill="#aaa"/>
+<rect x="68" y="110" width="5" height="10" rx="1" fill="#aaa"/>
+<rect x="88" y="110" width="5" height="10" rx="1" fill="#aaa"/>
+<rect x="108" y="110" width="5" height="10" rx="1" fill="#aaa"/>
+<rect x="128" y="110" width="5" height="10" rx="1" fill="#aaa"/>
+<rect x="5" y="50" width="130" height="62" rx="10" fill="#e8503a"/>
+<rect x="8" y="58" width="38" height="28" rx="6" fill="#a8d8ff"/>
+<rect x="54" y="62" width="18" height="14" rx="4" fill="#c8e8ff"/>
+<rect x="78" y="62" width="18" height="14" rx="4" fill="#c8e8ff"/>
+<rect x="102" y="62" width="18" height="14" rx="4" fill="#c8e8ff"/>
+<rect x="5" y="82" width="130" height="8" fill="#fff" opacity=".3"/>
+<rect x="54" y="84" width="32" height="28" rx="4" fill="#c04030"/>
+<line x1="70" y1="86" x2="70" y2="110" stroke="#e05040" stroke-width="1.5"/>
+<circle cx="62" cy="97" r="2" fill="#ddd"/>
+<circle cx="78" cy="97" r="2" fill="#ddd"/>
+<ellipse cx="14" cy="78" rx="6" ry="5" fill="#fffde0"/>
+<circle cx="30" cy="114" r="10" fill="#333"/>
+<circle cx="30" cy="114" r="5" fill="#666"/>
+<circle cx="110" cy="114" r="10" fill="#333"/>
+<circle cx="110" cy="114" r="5" fill="#666"/>
+<circle cx="8" cy="42" r="7" fill="white" opacity=".7"/>
+<circle cx="18" cy="36" r="5" fill="white" opacity=".5"/>
+<circle cx="26" cy="30" r="4" fill="white" opacity=".3"/>
+<rect x="5" y="44" width="6" height="8" rx="2" fill="#c04030"/>
+</svg>`,
+
+"On Foot":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f8fff4"/>
+<ellipse cx="70" cy="118" rx="58" ry="8" fill="#e0d8c8"/>
+<ellipse cx="70" cy="112" rx="18" ry="5" fill="#ccc" opacity=".4"/>
+<line x1="70" y1="82" x2="56" y2="110" stroke="#5c3317" stroke-width="5" stroke-linecap="round"/>
+<line x1="70" y1="82" x2="82" y2="106" stroke="#5c3317" stroke-width="5" stroke-linecap="round"/>
+<ellipse cx="54" cy="112" rx="10" ry="5" fill="#333" transform="rotate(-10 54 112)"/>
+<ellipse cx="84" cy="108" rx="10" ry="5" fill="#333" transform="rotate(10 84 108)"/>
+<line x1="70" y1="50" x2="70" y2="84" stroke="#4ecdc4" stroke-width="8" stroke-linecap="round"/>
+<line x1="70" y1="58" x2="52" y2="74" stroke="#4ecdc4" stroke-width="5" stroke-linecap="round"/>
+<line x1="70" y1="58" x2="88" y2="68" stroke="#4ecdc4" stroke-width="5" stroke-linecap="round"/>
+<circle cx="70" cy="38" r="14" fill="#f8d5a8"/>
+<ellipse cx="70" cy="30" rx="14" ry="10" fill="#5c3317"/>
+<circle cx="65" cy="38" r="2" fill="#3a2010"/>
+<circle cx="75" cy="38" r="2" fill="#3a2010"/>
+<path d="M64 44 Q70 50 76 44" stroke="#d4785a" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+<line x1="16" y1="60" x2="28" y2="60" stroke="#4ecdc4" stroke-width="2" opacity=".5" stroke-linecap="round"/>
+<line x1="12" y1="70" x2="24" y2="70" stroke="#4ecdc4" stroke-width="1.5" opacity=".4" stroke-linecap="round"/>
+<line x1="16" y1="80" x2="26" y2="80" stroke="#4ecdc4" stroke-width="1.5" opacity=".3" stroke-linecap="round"/>
+</svg>`,
+
+"Seconds":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#fff4fb"/>
+<circle cx="70" cy="72" r="54" fill="white" stroke="#e0d0f0" stroke-width="3"/>
+<circle cx="70" cy="72" r="47" fill="#fdf8ff" stroke="#c8b0e8" stroke-width="1.5"/>
+<line x1="70" y1="22" x2="70" y2="30" stroke="#9b6fca" stroke-width="3" stroke-linecap="round"/>
+<line x1="70" y1="114" x2="70" y2="122" stroke="#9b6fca" stroke-width="3" stroke-linecap="round"/>
+<line x1="18" y1="72" x2="26" y2="72" stroke="#9b6fca" stroke-width="3" stroke-linecap="round"/>
+<line x1="114" y1="72" x2="122" y2="72" stroke="#9b6fca" stroke-width="3" stroke-linecap="round"/>
+<line x1="43" y1="29" x2="47" y2="36" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="97" y1="29" x2="93" y2="36" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="27" y1="45" x2="34" y2="49" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="113" y1="45" x2="106" y2="49" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="27" y1="99" x2="34" y2="95" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="113" y1="99" x2="106" y2="95" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="43" y1="115" x2="47" y2="108" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="97" y1="115" x2="93" y2="108" stroke="#c8b0e8" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="70" y2="28" stroke="#e03030" stroke-width="1.8" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="70" y2="86" stroke="#e03030" stroke-width="1.8" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="50" y2="46" stroke="#5c3db5" stroke-width="3.5" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="88" y2="60" stroke="#2c1880" stroke-width="5" stroke-linecap="round"/>
+<circle cx="70" cy="72" r="5" fill="#5c3db5"/>
+<circle cx="70" cy="72" r="2.5" fill="white"/>
+<rect x="64" y="16" width="12" height="7" rx="3" fill="#c8b0e8"/>
+<rect x="60" y="12" width="7" height="6" rx="2" fill="#c8b0e8" transform="rotate(-25 64 15)"/>
+<text x="70" y="100" font-family="sans-serif" font-size="10" font-weight="bold" fill="#9b6fca" text-anchor="middle">SEC</text>
+</svg>`,
+
+"Minutes":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f0fff8"/>
+<circle cx="70" cy="72" r="54" fill="white" stroke="#a0d8b0" stroke-width="3"/>
+<circle cx="70" cy="72" r="47" fill="#f8fffc" stroke="#70c890" stroke-width="1.5"/>
+<line x1="70" y1="22" x2="70" y2="30" stroke="#4ab870" stroke-width="3" stroke-linecap="round"/>
+<line x1="70" y1="114" x2="70" y2="122" stroke="#4ab870" stroke-width="3" stroke-linecap="round"/>
+<line x1="18" y1="72" x2="26" y2="72" stroke="#4ab870" stroke-width="3" stroke-linecap="round"/>
+<line x1="114" y1="72" x2="122" y2="72" stroke="#4ab870" stroke-width="3" stroke-linecap="round"/>
+<line x1="43" y1="29" x2="47" y2="36" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="97" y1="29" x2="93" y2="36" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="27" y1="45" x2="34" y2="49" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="113" y1="45" x2="106" y2="49" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="27" y1="99" x2="34" y2="95" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="113" y1="99" x2="106" y2="95" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="43" y1="115" x2="47" y2="108" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="97" y1="115" x2="93" y2="108" stroke="#a0d8b0" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="72" y2="26" stroke="#2a8050" stroke-width="4" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="96" y2="56" stroke="#1a5030" stroke-width="6" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="56" y2="28" stroke="#e03030" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="70" cy="72" r="5" fill="#2a8050"/>
+<circle cx="70" cy="72" r="2.5" fill="white"/>
+<rect x="64" y="16" width="12" height="7" rx="3" fill="#a0d8b0"/>
+<text x="70" y="100" font-family="sans-serif" font-size="10" font-weight="bold" fill="#4ab870" text-anchor="middle">MIN</text>
+</svg>`,
+
+"Hours":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#fff8f0"/>
+<circle cx="70" cy="72" r="54" fill="white" stroke="#f0b880" stroke-width="3"/>
+<circle cx="70" cy="72" r="47" fill="#fffcf8" stroke="#e09050" stroke-width="1.5"/>
+<line x1="70" y1="22" x2="70" y2="30" stroke="#d07030" stroke-width="3" stroke-linecap="round"/>
+<line x1="70" y1="114" x2="70" y2="122" stroke="#d07030" stroke-width="3" stroke-linecap="round"/>
+<line x1="18" y1="72" x2="26" y2="72" stroke="#d07030" stroke-width="3" stroke-linecap="round"/>
+<line x1="114" y1="72" x2="122" y2="72" stroke="#d07030" stroke-width="3" stroke-linecap="round"/>
+<text x="70" y="33" font-family="sans-serif" font-size="9" font-weight="bold" fill="#d07030" text-anchor="middle">12</text>
+<text x="70" y="118" font-family="sans-serif" font-size="9" font-weight="bold" fill="#d07030" text-anchor="middle">6</text>
+<text x="24" y="76" font-family="sans-serif" font-size="9" font-weight="bold" fill="#d07030" text-anchor="middle">9</text>
+<text x="116" y="76" font-family="sans-serif" font-size="9" font-weight="bold" fill="#d07030" text-anchor="middle">3</text>
+<line x1="70" y1="72" x2="108" y2="72" stroke="#8b4010" stroke-width="7" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="70" y2="28" stroke="#d07030" stroke-width="4" stroke-linecap="round"/>
+<line x1="70" y1="72" x2="92" y2="30" stroke="#e03030" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="70" cy="72" r="5" fill="#d07030"/>
+<circle cx="70" cy="72" r="2.5" fill="white"/>
+<rect x="64" y="16" width="12" height="7" rx="3" fill="#f0b880"/>
+<text x="70" y="100" font-family="sans-serif" font-size="10" font-weight="bold" fill="#d07030" text-anchor="middle">HR</text>
+</svg>`,
+
+"Days":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#f8f0ff"/>
+<rect x="14" y="28" width="112" height="92" rx="10" fill="white" stroke="#d0b0f0" stroke-width="2"/>
+<rect x="14" y="28" width="112" height="28" rx="10" fill="#7b5ea7"/>
+<rect x="14" y="44" width="112" height="12" fill="#7b5ea7"/>
+<rect x="38" y="20" width="8" height="18" rx="4" fill="#5a3d86"/>
+<rect x="94" y="20" width="8" height="18" rx="4" fill="#5a3d86"/>
+<text x="70" y="48" font-family="sans-serif" font-size="10" font-weight="bold" fill="white" text-anchor="middle">DAYS</text>
+<text x="24" y="68" font-family="sans-serif" font-size="8" fill="#bbb" text-anchor="middle">S</text>
+<text x="40" y="68" font-family="sans-serif" font-size="8" fill="#bbb" text-anchor="middle">M</text>
+<text x="56" y="68" font-family="sans-serif" font-size="8" fill="#bbb" text-anchor="middle">T</text>
+<text x="70" y="68" font-family="sans-serif" font-size="8" fill="#bbb" text-anchor="middle">W</text>
+<text x="84" y="68" font-family="sans-serif" font-size="8" fill="#bbb" text-anchor="middle">T</text>
+<text x="98" y="68" font-family="sans-serif" font-size="8" fill="#bbb" text-anchor="middle">F</text>
+<text x="114" y="68" font-family="sans-serif" font-size="8" fill="#e05050" text-anchor="middle">S</text>
+<text x="40" y="83" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">1</text>
+<text x="56" y="83" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">2</text>
+<text x="70" y="83" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">3</text>
+<text x="84" y="83" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">4</text>
+<text x="98" y="83" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">5</text>
+<text x="114" y="83" font-family="sans-serif" font-size="9" fill="#e05050" text-anchor="middle">6</text>
+<text x="24" y="97" font-family="sans-serif" font-size="9" fill="#e05050" text-anchor="middle">7</text>
+<text x="40" y="97" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">8</text>
+<text x="56" y="97" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">9</text>
+<text x="70" y="97" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">10</text>
+<text x="84" y="97" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">11</text>
+<text x="98" y="97" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">12</text>
+<text x="114" y="97" font-family="sans-serif" font-size="9" fill="#e05050" text-anchor="middle">13</text>
+<circle cx="70" cy="109" r="9" fill="#7b5ea7"/>
+<text x="70" y="113" font-family="sans-serif" font-size="9" font-weight="bold" fill="white" text-anchor="middle">17</text>
+<text x="24" y="113" font-family="sans-serif" font-size="9" fill="#e05050" text-anchor="middle">14</text>
+<text x="40" y="113" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">15</text>
+<text x="56" y="113" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">16</text>
+<text x="84" y="113" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">18</text>
+<text x="98" y="113" font-family="sans-serif" font-size="9" fill="#555" text-anchor="middle">19</text>
+</svg>`,
+};
+
+// ── Word data ──────────────────────────────────────────────────────────────
+const WORDS = [
+  {word:"Freckles",       phonetic:"/ˈfrɛk.əlz/",            cat:"Face",      theme:"theme-face"},
+  {word:"Dimples",        phonetic:"/ˈdɪm.pəlz/",            cat:"Face",      theme:"theme-face"},
+  {word:"Bangs",          phonetic:"/bæŋz/",                 cat:"Hair",      theme:"theme-hair"},
+  {word:"Ponytail",       phonetic:"/ˈpoʊ.ni.teɪl/",         cat:"Hair",      theme:"theme-hair"},
+  {word:"Beard",          phonetic:"/bɪrd/",                 cat:"Face",      theme:"theme-face"},
+  {word:"Glasses",        phonetic:"/ˈɡlæs.ɪz/",            cat:"Face",      theme:"theme-face"},
+  {word:"Curly Red",      phonetic:"/ˈkɜr.li rɛd/",          cat:"Hair",      theme:"theme-hair"},
+  {word:"Short Gray",     phonetic:"/ʃɔrt ɡreɪ/",           cat:"Hair",      theme:"theme-hair"},
+  {word:"Wavy Black",     phonetic:"/ˈweɪ.vi blæk/",         cat:"Hair",      theme:"theme-hair"},
+  {word:"Straight Brown", phonetic:"/streɪt braʊn/",         cat:"Hair",      theme:"theme-hair"},
+  {word:"Long Blond",     phonetic:"/lɔŋ blɑnd/",            cat:"Hair",      theme:"theme-hair"},
+  {word:"Golden Necklace",phonetic:"/ˈɡoʊl.dən ˈnɛk.ləs/",  cat:"Accessory", theme:"theme-accessor"},
+  {word:"Navy Tie",       phonetic:"/ˈneɪ.vi taɪ/",          cat:"Accessory", theme:"theme-accessor"},
+  {word:"Purple Hat",     phonetic:"/ˈpɜr.pəl hæt/",         cat:"Accessory", theme:"theme-accessor"},
+  {word:"Green Scarf",    phonetic:"/ɡriːn skɑrf/",          cat:"Accessory", theme:"theme-accessor"},
+  {word:"Silver Sneakers",phonetic:"/ˈsɪl.vər ˈsniː.kərz/", cat:"Accessory", theme:"theme-accessor"},
+  {word:"Star Tower",     phonetic:"/stɑr ˈtaʊ.ər/",         cat:"Landmark",  theme:"theme-landmark"},
+  {word:"Star River",     phonetic:"/stɑr ˈrɪv.ər/",         cat:"Landmark",  theme:"theme-landmark"},
+  {word:"Star Bridge",    phonetic:"/stɑr brɪdʒ/",           cat:"Landmark",  theme:"theme-landmark"},
+  {word:"Star Building",  phonetic:"/stɑr ˈbɪl.dɪŋ/",       cat:"Landmark",  theme:"theme-landmark"},
+  {word:"By Bus",         phonetic:"/baɪ bʌs/",              cat:"Transport", theme:"theme-transport"},
+  {word:"By Car",         phonetic:"/baɪ kɑr/",              cat:"Transport", theme:"theme-transport"},
+  {word:"By Subway",      phonetic:"/baɪ ˈsʌb.weɪ/",        cat:"Transport", theme:"theme-transport"},
+  {word:"By Bike",        phonetic:"/baɪ baɪk/",             cat:"Transport", theme:"theme-transport"},
+  {word:"By Train",       phonetic:"/baɪ treɪn/",            cat:"Transport", theme:"theme-transport"},
+  {word:"On Foot",        phonetic:"/ɒn fʊt/",               cat:"Transport", theme:"theme-transport"},
+  {word:"Seconds",        phonetic:"/ˈsɛk.əndz/",           cat:"Time",      theme:"theme-time"},
+  {word:"Minutes",        phonetic:"/ˈmɪn.ɪts/",            cat:"Time",      theme:"theme-time"},
+  {word:"Hours",          phonetic:"/ˈaʊərz/",               cat:"Time",      theme:"theme-time"},
+  {word:"Days",           phonetic:"/deɪz/",                 cat:"Time",      theme:"theme-time"},
+];
+
+// ── State ──────────────────────────────────────────────────────────────────
+let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false;
+const speeds={1:4000,2:2500,3:1500,4:900,5:500};
+const speedLabels={1:"Slow",2:"Easy",3:"Medium",4:"Fast",5:"⚡ Flash"};
+
+// ── TTS ────────────────────────────────────────────────────────────────────
+function loadVoices(){
+  const vs=speechSynthesis.getVoices();
+  ttsVoice=vs.find(v=>v.lang==='en-US'&&v.localService)||vs.find(v=>v.lang.startsWith('en')&&v.localService)||vs.find(v=>v.lang==='en-US')||vs.find(v=>v.lang.startsWith('en'))||vs[0]||null;
+}
+speechSynthesis.onvoiceschanged=loadVoices; loadVoices();
+
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  speechSynthesis.cancel();
+  const utt=new SpeechSynthesisUtterance(text);
+  utt.lang='en-US';utt.rate=0.85;utt.pitch=1.1;
+  if(ttsVoice)utt.voice=ttsVoice;
+  const wave=document.getElementById('sound-wave');
+  const btn=document.getElementById('btn-speak');
+  const p2b=document.getElementById('p2-listen-btn');
+  wave&&wave.classList.add('active');
+  btn&&btn.classList.add('speaking');
+  p2b&&p2b.classList.add('speaking');
+  utt.onend=utt.onerror=()=>{
+    wave&&wave.classList.remove('active');
+    btn&&btn.classList.remove('speaking');
+    p2b&&p2b.classList.remove('speaking');
+  };
+  speechSynthesis.speak(utt);
+}
+function speakCurrent(){const item=deck[idx];if(item)speak(item.word);}
+function toggleTTS(){autoRead=!autoRead;document.getElementById('tts-toggle').classList.toggle('on',autoRead);}
+
+// ── Phase ──────────────────────────────────────────────────────────────────
+function setPhase(p){
+  phase=p;
+  document.querySelectorAll('.phase-btn').forEach((b,i)=>b.classList.toggle('active',i===p-1));
+  const stage=document.getElementById('stage');
+  const p2panel=document.getElementById('p2-panel');
+  const btnAuto=document.getElementById('btn-auto');
+  const bottomRow=document.getElementById('bottom-row');
+  stopAuto();
+  deck=shuffle([...WORDS]);idx=0;updateCounter();
+  if(p===1){
+    stage.style.display='';p2panel.style.display='none';
+    btnAuto.style.display='';bottomRow.style.display='';
+    showCard(true);
+  } else {
+    stage.style.display='none';p2panel.style.display='flex';
+    btnAuto.style.display='none';bottomRow.style.display='none';
+    loadP2Card(true);
+  }
+}
+
+// ── Phase 1 ────────────────────────────────────────────────────────────────
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
+  return arr;
+}
+function init(){deck=shuffle([...WORDS]);idx=0;showCard(true);}
+function updateCounter(){
+  document.getElementById('counter').textContent=`${idx+1} / ${deck.length}`;
+  document.getElementById('progress-bar').style.width=((idx+1)/deck.length*100).toFixed(1)+'%';
+}
+function showCard(instant){
+  const item=deck[idx];updateCounter();
+  if(instant){applyCard(item);if(autoRead)setTimeout(()=>speak(item.word),300);return;}
+  const card=document.getElementById('card');
+  card.classList.add('flipping');
+  setTimeout(()=>{applyCard(item);card.classList.remove('flipping');if(autoRead)setTimeout(()=>speak(item.word),180);},300);
+}
+function applyCard(item){
+  document.getElementById('card-face').className='card-face '+item.theme;
+  const fn=IL[item.word];
+  document.getElementById('card-illus').innerHTML=fn?fn():'';
+  document.getElementById('card-word').textContent=item.word;
+  document.getElementById('card-phonetic').textContent=item.phonetic;
+  document.getElementById('card-cat').textContent=item.cat;
+}
+function nextCard(){if(idx>=deck.length-1){showDone();return;}idx++;showCard(false);}
+function showDone(){
+  stopAuto();
+  document.getElementById('done-msg').textContent=phase===2?'All 30 words spelled!':'All 30 words completed!';
+  document.getElementById('done-overlay').classList.add('show');
+}
+function restart(){
+  document.getElementById('done-overlay').classList.remove('show');
+  if(phase===1)init();else{deck=shuffle([...WORDS]);idx=0;loadP2Card(true);}
+}
+function shuffleAndRestart(){
+  stopAuto();document.getElementById('done-overlay').classList.remove('show');
+  deck=shuffle([...WORDS]);idx=0;
+  if(phase===1)showCard(true);else loadP2Card(true);
+}
+function toggleAuto(){if(isAuto)stopAuto();else startAuto();}
+function startAuto(){
+  isAuto=true;document.getElementById('btn-auto').textContent='⏹ Stop';
+  const ms=speeds[document.getElementById('speed-slider').value];
+  autoTimer=setInterval(()=>{if(idx>=deck.length-1){stopAuto();showDone();return;}idx++;showCard(false);},ms);
+}
+function stopAuto(){isAuto=false;clearInterval(autoTimer);const b=document.getElementById('btn-auto');if(b)b.textContent='▶️ Auto';}
+
+// ── Phase 2 ────────────────────────────────────────────────────────────────
+function loadP2Card(instant){
+  const item=deck[idx];updateCounter();p2Revealed=false;
+  const input=document.getElementById('p2-input');
+  const reveal=document.getElementById('p2-reveal');
+  input.value='';input.className='';input.disabled=false;
+  reveal.style.display='none';
+  document.getElementById('p2-check-btn').textContent='✓ Check';
+  // show illustration in phase 2 too
+  const fn=IL[item.word];
+  document.getElementById('p2-illus-wrap').innerHTML=fn?fn():'';
+  // hint: underscores per word part
+  document.getElementById('p2-hint').textContent=item.word.split(' ').map(p=>'_'.repeat(p.length)).join('  ');
+  if(autoRead||instant)setTimeout(()=>speak(item.word),instant?500:100);
+  setTimeout(()=>input.focus(),100);
+}
+function checkSpelling(){
+  if(p2Revealed){nextP2();return;}
+  const item=deck[idx];
+  const input=document.getElementById('p2-input');
+  const typed=input.value.trim();
+  const ok=typed.toLowerCase()===item.word.toLowerCase();
+  input.className=ok?'correct':'wrong';
+  if(!ok){input.style.animation='none';input.offsetHeight;input.style.animation='';}
+  const reveal=document.getElementById('p2-reveal');
+  document.getElementById('reveal-word').textContent=item.word;
+  document.getElementById('reveal-phonetic').textContent=item.phonetic;
+  const fb=document.getElementById('reveal-feedback');
+  fb.textContent=ok?'✓ Correct!':'✗  The answer is above';
+  fb.className='reveal-feedback '+(ok?'fb-correct':'fb-wrong');
+  reveal.style.display='flex';
+  input.disabled=true;p2Revealed=true;
+  document.getElementById('p2-check-btn').textContent='Next ➡️';
+  speak(item.word);
+}
+function nextP2(){
+  if(idx>=deck.length-1){showDone();return;}
+  idx++;document.getElementById('p2-check-btn').textContent='✓ Check';
+  loadP2Card(false);
+}
+
+// ── Events ─────────────────────────────────────────────────────────────────
+document.getElementById('speed-slider').addEventListener('input',function(){
+  document.getElementById('speed-label').textContent=speedLabels[this.value];
+  if(isAuto){stopAuto();startAuto();}
+});
+document.getElementById('card').addEventListener('click',()=>{if(phase===1)nextCard();});
+document.getElementById('p2-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkSpelling();});
+document.addEventListener('keydown',e=>{
+  if(phase===1){
+    if(e.key==='ArrowRight'||e.key===' ')nextCard();
+    if(e.key==='ArrowLeft'&&idx>0){idx--;showCard(false);}
+  }
+});
+
+// bubbles
+const bC=['#ff6b6b','#ffd166','#4ecdc4','#a18cd1','#84fab0'];
+for(let i=0;i<16;i++){
+  const b=document.createElement('div');b.className='bubble';
+  const s=40+Math.random()*100;
+  b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}vw;background:${bC[i%5]};animation-duration:${8+Math.random()*14}s;animation-delay:${-Math.random()*20}s;`;
+  document.body.appendChild(b);
+}
+
+init();
+</script>
+</body>
+</html>
