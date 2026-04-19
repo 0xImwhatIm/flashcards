@@ -356,7 +356,7 @@ const IL = {
 <ellipse cx="70" cy="42" rx="28" ry="12" fill="#ffe083"/>`
 })}</svg>`,
 
-"Golden Necklace":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
+"Gold Necklace":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
   hairSVG:shortHair('#5c3317','#6b3c1e',72,34),
   extras:`<path d="M50 113 Q70 124 90 113" stroke="#f0b800" stroke-width="3" fill="none" stroke-linecap="round"/>
 <circle cx="70" cy="124" r="5" fill="#f0b800"/>
@@ -800,7 +800,7 @@ const WORDS = [
   {word:"Wavy Black",     phonetic:"/ˈweɪ.vi blæk/",         cat:"Hair",      theme:"theme-hair"},
   {word:"Straight Brown", phonetic:"/streɪt braʊn/",         cat:"Hair",      theme:"theme-hair"},
   {word:"Long Blond",     phonetic:"/lɔŋ blɑnd/",            cat:"Hair",      theme:"theme-hair"},
-  {word:"Golden Necklace",phonetic:"/ˈɡoʊl.dən ˈnɛk.ləs/",  cat:"Accessory", theme:"theme-accessor"},
+  {word:"Gold Necklace",  phonetic:"/ɡoʊld ˈnɛk.ləs/",      cat:"Accessory", theme:"theme-accessor"},
   {word:"Navy Tie",       phonetic:"/ˈneɪ.vi taɪ/",          cat:"Accessory", theme:"theme-accessor"},
   {word:"Purple Hat",     phonetic:"/ˈpɜr.pəl hæt/",         cat:"Accessory", theme:"theme-accessor"},
   {word:"Green Scarf",    phonetic:"/ɡriːn skɑrf/",          cat:"Accessory", theme:"theme-accessor"},
@@ -829,7 +829,27 @@ const speedLabels={1:"Slow",2:"Easy",3:"Medium",4:"Fast",5:"⚡ Flash"};
 // ── TTS ────────────────────────────────────────────────────────────────────
 function loadVoices(){
   const vs=speechSynthesis.getVoices();
-  ttsVoice=vs.find(v=>v.lang==='en-US'&&v.localService)||vs.find(v=>v.lang.startsWith('en')&&v.localService)||vs.find(v=>v.lang==='en-US')||vs.find(v=>v.lang.startsWith('en'))||vs[0]||null;
+  const preferredNames=[
+    'Google US English',
+    'Microsoft Aria Online',
+    'Microsoft Jenny Online',
+    'Samantha',
+    'Alex',
+    'Daniel'
+  ];
+  const noveltyNames=[
+    'Albert','Bad News','Bahh','Bells','Boing','Bubbles','Cellos','Deranged',
+    'Good News','Hysterical','Jester','Organ','Ralph','Trinoids','Whisper','Zarvox'
+  ];
+  const isStandardVoice=v=>!noveltyNames.some(name=>v.name.toLowerCase().includes(name.toLowerCase()));
+  ttsVoice=preferredNames.map(name=>vs.find(v=>v.lang.startsWith('en')&&v.name.includes(name))).find(Boolean)
+    ||vs.find(v=>v.lang==='en-US'&&isStandardVoice(v)&&v.localService)
+    ||vs.find(v=>v.lang.startsWith('en')&&isStandardVoice(v)&&v.localService)
+    ||vs.find(v=>v.lang==='en-US'&&isStandardVoice(v))
+    ||vs.find(v=>v.lang.startsWith('en')&&isStandardVoice(v))
+    ||vs.find(v=>v.lang.startsWith('en'))
+    ||vs[0]
+    ||null;
 }
 speechSynthesis.onvoiceschanged=loadVoices; loadVoices();
 
@@ -837,7 +857,7 @@ function speak(text){
   if(!('speechSynthesis' in window))return;
   speechSynthesis.cancel();
   const utt=new SpeechSynthesisUtterance(text);
-  utt.lang='en-US';utt.rate=0.85;utt.pitch=1.1;
+  utt.lang='en-US';utt.rate=0.92;utt.pitch=1;
   if(ttsVoice)utt.voice=ttsVoice;
   const wave=document.getElementById('sound-wave');
   const btn=document.getElementById('btn-speak');
