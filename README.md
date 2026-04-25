@@ -14,6 +14,7 @@ https://0ximwhatim.github.io/flashcards/
 - Spell 模式：聽發音後輸入單字，練習拼字。
 - Spell 分數統計：完成練習後顯示答對、答錯題目。
 - 錯題複習：Spell 練習完成後，可針對答錯的題目再複習。
+- SVG 圖卡優化：持續調整插圖辨識度，保留童趣但避免明顯誤導。
 - Auto Read：切換是否自動朗讀。
 - Auto 模式：自動播放下一張字卡。
 - Shuffle：重新洗牌字卡順序。
@@ -31,6 +32,8 @@ https://0ximwhatim.github.io/flashcards/
 - 將相關音標修正為 `/ɡoʊld ˈnɛk.ləs/`。
 - 在 Spell 模式加入 30 題完成後的答對/答錯統計。
 - 在 Spell 模式加入錯題複習功能。
+- 第一輪插圖辨識優化：調整 `Straight Brown`、`Navy Tie`、`By Train`。
+- 第二輪插圖辨識優化：調整 `By Subway`、`Star Bridge`。
 
 ## 工作紀錄
 
@@ -51,6 +54,8 @@ https://0ximwhatim.github.io/flashcards/
 12. 依照使用需求，評估 Spell 分數統計功能；實作難度不高，因為原本已有正誤判定，只需補上結果紀錄、完成畫面與錯題 deck。
 13. 在 Spell 模式完成後顯示答對清單、答錯清單與總分。
 14. 新增 `Review Wrong Words`，可將答錯題目重新組成一輪 Spell 複習。
+15. 針對圖卡辨識性進行第一輪 review 與修正，優化 `Straight Brown`、`Navy Tie`、`By Train`，讓髮型、領帶與火車輪廓更容易第一眼辨識。
+16. 進行第二輪圖卡辨識優化，調整 `By Subway` 與 `Star Bridge`，讓地鐵與火車的差異更清楚，並讓橋的主體辨識度高於名稱裝飾。
 
 ## 未來可擴充方向
 
@@ -62,6 +67,7 @@ https://0ximwhatim.github.io/flashcards/
 4. 增加單字分類篩選或指定範圍練習。
 5. 加入錯題紀錄與再次複習機制。
 6. 儲存歷史成績，方便追蹤多次練習的進步狀況。
+7. 建立整體圖卡辨識性巡檢流程，持續修正容易混淆的插圖。
 
 ## 檔案說明
 
