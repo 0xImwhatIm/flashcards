@@ -356,8 +356,12 @@ const IL = {
 
 "Straight Brown":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
   skin:'#f8c8a0', skinD:'#e8b080', hair:'#7b4f2e', hair2:'#8b5e3c',
-  hairSVG:`<rect x="36" y="34" width="68" height="58" rx="8" fill="#7b4f2e"/>
-<ellipse cx="70" cy="38" rx="34" ry="16" fill="#8b5e3c"/>`
+  hairSVG:`<path d="M34 48 Q40 28 70 26 Q100 28 106 48 L104 92 Q96 104 88 112 L84 78 Q78 90 70 94 Q62 90 56 78 L52 112 Q44 104 36 92 Z" fill="#7b4f2e"/>
+<path d="M40 48 Q48 34 70 32 Q92 34 100 48" fill="none" stroke="#8b5e3c" stroke-width="8" stroke-linecap="round"/>
+<line x1="50" y1="42" x2="50" y2="108" stroke="#9a6a43" stroke-width="2" stroke-linecap="round" opacity=".55"/>
+<line x1="62" y1="38" x2="60" y2="104" stroke="#9a6a43" stroke-width="1.8" stroke-linecap="round" opacity=".45"/>
+<line x1="78" y1="38" x2="80" y2="104" stroke="#9a6a43" stroke-width="1.8" stroke-linecap="round" opacity=".45"/>
+<line x1="90" y1="42" x2="90" y2="108" stroke="#9a6a43" stroke-width="2" stroke-linecap="round" opacity=".55"/>`
 })}</svg>`,
 
 "Long Blond":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
@@ -380,12 +384,13 @@ const IL = {
 "Navy Tie":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
   hair:'#2c2c2c', hair2:'#1a1a1a',
   hairSVG:shortHair('#2c2c2c','#1a1a1a',72,34),
-  extras:`<rect x="56" y="110" width="28" height="7" rx="3" fill="#eee"/>
-<polygon points="70,117 64,148 70,154 76,148" fill="#1a2f6e"/>
-<polygon points="64,117 76,117 73,128 67,128" fill="#1a2f6e"/>
-<rect x="67" y="128" width="6" height="20" rx="2" fill="#1a2f6e"/>
-<line x1="65" y1="132" x2="75" y2="132" stroke="#2a4fa0" stroke-width="1"/>
-<line x1="64" y1="138" x2="76" y2="138" stroke="#2a4fa0" stroke-width="1"/>`
+  extras:`<path d="M48 108 L62 96 L70 108 L58 116 Z" fill="#f7f7f7"/>
+<path d="M92 108 L78 96 L70 108 L82 116 Z" fill="#f7f7f7"/>
+<polygon points="70,104 62,112 70,120 78,112" fill="#1a2f6e"/>
+<polygon points="70,120 62,148 70,156 78,148" fill="#1a2f6e"/>
+<path d="M64 127 L70 120 L76 127 L73 151 L67 151 Z" fill="#29479a" opacity=".35"/>
+<line x1="66" y1="132" x2="74" y2="132" stroke="#2a4fa0" stroke-width="1"/>
+<line x1="65" y1="139" x2="75" y2="139" stroke="#2a4fa0" stroke-width="1"/>`
 })}</svg>`,
 
 "Purple Hat":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${face({
@@ -637,34 +642,37 @@ const IL = {
 
 "By Train":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
 <rect width="${W}" height="${H}" rx="14" fill="#fff8f0"/>
-<line x1="0" y1="112" x2="140" y2="112" stroke="#888" stroke-width="3"/>
-<line x1="0" y1="118" x2="140" y2="118" stroke="#888" stroke-width="3"/>
-<rect x="8"  y="110" width="5" height="10" rx="1" fill="#aaa"/>
-<rect x="28" y="110" width="5" height="10" rx="1" fill="#aaa"/>
-<rect x="48" y="110" width="5" height="10" rx="1" fill="#aaa"/>
-<rect x="68" y="110" width="5" height="10" rx="1" fill="#aaa"/>
-<rect x="88" y="110" width="5" height="10" rx="1" fill="#aaa"/>
-<rect x="108" y="110" width="5" height="10" rx="1" fill="#aaa"/>
-<rect x="128" y="110" width="5" height="10" rx="1" fill="#aaa"/>
-<rect x="5" y="50" width="130" height="62" rx="10" fill="#e8503a"/>
-<rect x="8" y="58" width="38" height="28" rx="6" fill="#a8d8ff"/>
-<rect x="54" y="62" width="18" height="14" rx="4" fill="#c8e8ff"/>
-<rect x="78" y="62" width="18" height="14" rx="4" fill="#c8e8ff"/>
-<rect x="102" y="62" width="18" height="14" rx="4" fill="#c8e8ff"/>
-<rect x="5" y="82" width="130" height="8" fill="#fff" opacity=".3"/>
-<rect x="54" y="84" width="32" height="28" rx="4" fill="#c04030"/>
-<line x1="70" y1="86" x2="70" y2="110" stroke="#e05040" stroke-width="1.5"/>
-<circle cx="62" cy="97" r="2" fill="#ddd"/>
-<circle cx="78" cy="97" r="2" fill="#ddd"/>
-<ellipse cx="14" cy="78" rx="6" ry="5" fill="#fffde0"/>
-<circle cx="30" cy="114" r="10" fill="#333"/>
-<circle cx="30" cy="114" r="5" fill="#666"/>
-<circle cx="110" cy="114" r="10" fill="#333"/>
-<circle cx="110" cy="114" r="5" fill="#666"/>
-<circle cx="8" cy="42" r="7" fill="white" opacity=".7"/>
-<circle cx="18" cy="36" r="5" fill="white" opacity=".5"/>
-<circle cx="26" cy="30" r="4" fill="white" opacity=".3"/>
-<rect x="5" y="44" width="6" height="8" rx="2" fill="#c04030"/>
+<line x1="0" y1="110" x2="140" y2="110" stroke="#7d7d7d" stroke-width="3"/>
+<line x1="0" y1="120" x2="140" y2="120" stroke="#7d7d7d" stroke-width="3"/>
+<rect x="10" y="111" width="6" height="8" rx="1" fill="#aaa"/>
+<rect x="32" y="111" width="6" height="8" rx="1" fill="#aaa"/>
+<rect x="54" y="111" width="6" height="8" rx="1" fill="#aaa"/>
+<rect x="76" y="111" width="6" height="8" rx="1" fill="#aaa"/>
+<rect x="98" y="111" width="6" height="8" rx="1" fill="#aaa"/>
+<rect x="120" y="111" width="6" height="8" rx="1" fill="#aaa"/>
+<rect x="12" y="58" width="46" height="42" rx="8" fill="#f05a45"/>
+<rect x="62" y="58" width="34" height="42" rx="6" fill="#e8503a"/>
+<rect x="100" y="58" width="28" height="42" rx="6" fill="#d94836"/>
+<path d="M12 100 Q20 108 34 108 L114 108 Q126 108 128 100" fill="#c93c2d"/>
+<rect x="18" y="64" width="34" height="20" rx="5" fill="#bfe4ff"/>
+<line x1="35" y1="64" x2="35" y2="84" stroke="#f05a45" stroke-width="2"/>
+<rect x="68" y="66" width="9" height="12" rx="3" fill="#cfeaff"/>
+<rect x="80" y="66" width="9" height="12" rx="3" fill="#cfeaff"/>
+<rect x="106" y="66" width="7" height="12" rx="3" fill="#cfeaff"/>
+<rect x="116" y="66" width="7" height="12" rx="3" fill="#cfeaff"/>
+<rect x="12" y="84" width="116" height="5" fill="white" opacity=".28"/>
+<line x1="58" y1="80" x2="62" y2="80" stroke="#b03a2e" stroke-width="2.5" stroke-linecap="round"/>
+<line x1="96" y1="80" x2="100" y2="80" stroke="#b03a2e" stroke-width="2.5" stroke-linecap="round"/>
+<circle cx="17" cy="84" r="5" fill="#fff6c7"/>
+<circle cx="122" cy="84" r="4" fill="#ffb0a3"/>
+<circle cx="24" cy="108" r="6" fill="#333"/>
+<circle cx="46" cy="108" r="6" fill="#333"/>
+<circle cx="74" cy="108" r="6" fill="#333"/>
+<circle cx="112" cy="108" r="6" fill="#333"/>
+<text x="76" y="54" font-family="sans-serif" font-size="8" font-weight="bold" fill="#7b3f00" text-anchor="middle">TRAIN</text>
+<circle cx="18" cy="40" r="7" fill="white" opacity=".65"/>
+<circle cx="28" cy="34" r="5" fill="white" opacity=".45"/>
+<circle cx="36" cy="28" r="4" fill="white" opacity=".28"/>
 </svg>`,
 
 "On Foot":()=>`<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
