@@ -24,8 +24,16 @@ body {
   0%   { transform: translateY(110vh) rotate(0deg); }
   100% { transform: translateY(-20vh) rotate(360deg); }
 }
-/* Phase selector */
-#phase-selector { display:flex; gap:10px; margin:12px 0 8px; z-index:10; position:relative; }
+/* Session and phase selectors */
+#session-selector { display:flex; gap:8px; margin:10px 0 2px; z-index:10; position:relative; flex-wrap:wrap; justify-content:center; }
+.session-btn {
+  font-family:'Fredoka One',cursive; font-size:0.88rem;
+  border:3px solid #4ecdc4; border-radius:50px;
+  padding:0.45rem 1rem; cursor:pointer; background:#fff; color:#2b8e86;
+  transition:all 0.2s; box-shadow:0 4px 0 rgba(0,0,0,.12);
+}
+.session-btn.active { background:#4ecdc4; color:#fff; box-shadow:0 0 0 3px #baf0eb; }
+#phase-selector { display:flex; gap:10px; margin:8px 0 8px; z-index:10; position:relative; }
 .phase-btn {
   font-family:'Fredoka One',cursive; font-size:0.95rem;
   border:3px solid transparent; border-radius:50px;
@@ -81,6 +89,10 @@ body {
 .theme-landmark  { background:linear-gradient(135deg,#84fab0,#8fd3f4); }
 .theme-transport { background:linear-gradient(135deg,#a1c4fd,#c2e9fb); }
 .theme-time      { background:linear-gradient(135deg,#fccb90,#d57eeb); }
+.theme-activity  { background:linear-gradient(135deg,#4ecdc4,#6fb1ff); }
+.theme-past      { background:linear-gradient(135deg,#8e7cc3,#ffd166); }
+.theme-outdoor   { background:linear-gradient(135deg,#2ec4b6,#b7e778); }
+.theme-camp      { background:linear-gradient(135deg,#ff9f1c,#ff6b6b); }
 /* Phase 2 */
 #p2-panel { display:none; flex-direction:column; align-items:center; gap:10px; width:min(92vw,460px); z-index:10; position:relative; }
 #p2-illus-wrap { border-radius:20px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12); }
@@ -166,13 +178,19 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 
 <div id="done-overlay">
   <h2>🎉 Well done!</h2>
-  <p id="done-msg">All 30 words completed!</p>
+  <p id="done-msg">Session completed!</p>
   <div id="done-detail"></div>
   <button id="btn-review-wrong" onclick="reviewWrongWords()">Review Wrong Words 🔁</button>
   <button id="btn-restart" onclick="restart()">Play Again 🔄</button>
 </div>
 
 <div id="main-title">⚡ Flash Cards</div>
+
+<div id="session-selector">
+  <button class="session-btn active" data-session="midterm" onclick="setSession('midterm')">期中考</button>
+  <button class="session-btn" data-session="final" onclick="setSession('final')">期末考</button>
+  <button class="session-btn" data-session="mixed" onclick="setSession('mixed')">綜合複習</button>
+</div>
 
 <div id="phase-selector">
   <button class="phase-btn p1 active" onclick="setPhase(1)">① Learn</button>
@@ -807,8 +825,34 @@ const IL = {
 </svg>`,
 };
 
+function genericIllustration(item){
+  const emojiMap={
+    "Watch TV":"📺","Listen to Music":"🎧","Talk on the Phone":"📱","Practice the Piano":"🎹",
+    "Clean the Room":"🧹","Study English":"📖","Last Sunday":"☀️","Last Night":"🌙",
+    "Last Weekend":"🗓️","Yesterday":"↩️","Go Snorkeling":"🤿","Go Camping":"⛺",
+    "Go Fishing":"🎣","Go Swimming":"🏊","Go Hiking":"🥾","Go Rafting":"🚣",
+    "Build a Campfire":"🔥","Have a Barbeque":"🍖","Sing Songs":"🎤","Take Pictures":"📷",
+    "Set Up a Tent":"⛺","Observe Nature":"🔎"
+  };
+  const emoji=emojiMap[item.word]||'⭐';
+  const title=item.word.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
+<rect width="${W}" height="${H}" rx="14" fill="#ffffff" opacity=".94"/>
+<circle cx="28" cy="26" r="14" fill="#ffd166" opacity=".28"/>
+<circle cx="112" cy="28" r="18" fill="#4ecdc4" opacity=".20"/>
+<circle cx="116" cy="102" r="13" fill="#ff6b6b" opacity=".18"/>
+<text x="70" y="71" font-family="Apple Color Emoji,Segoe UI Emoji,sans-serif" font-size="44" text-anchor="middle">${emoji}</text>
+<text x="70" y="104" font-family="Nunito,Arial,sans-serif" font-size="10" font-weight="900" fill="#666" text-anchor="middle">${title}</text>
+</svg>`;
+}
+
+function illustrationFor(item){
+  const fn=IL[item.word];
+  return fn?fn():genericIllustration(item);
+}
+
 // ── Word data ──────────────────────────────────────────────────────────────
-const WORDS = [
+const MIDTERM_WORDS = [
   {word:"Freckles",       phonetic:"/ˈfrɛk.əlz/",            cat:"Face",      theme:"theme-face"},
   {word:"Dimples",        phonetic:"/ˈdɪm.pəlz/",            cat:"Face",      theme:"theme-face"},
   {word:"Bangs",          phonetic:"/bæŋz/",                 cat:"Hair",      theme:"theme-hair"},
@@ -841,8 +885,49 @@ const WORDS = [
   {word:"Days",           phonetic:"/deɪz/",                 cat:"Time",      theme:"theme-time"},
 ];
 
+const FINAL_WORDS = [
+  {word:"Watch TV",           phonetic:"/wɑtʃ ˌtiː ˈviː/",          cat:"After school",  theme:"theme-activity"},
+  {word:"Listen to Music",    phonetic:"/ˈlɪs.ən tu ˈmjuː.zɪk/",    cat:"After school",  theme:"theme-activity"},
+  {word:"Talk on the Phone",  phonetic:"/tɔk ɑn ðə foʊn/",          cat:"After school",  theme:"theme-activity"},
+  {word:"Practice the Piano", phonetic:"/ˈpræk.tɪs ðə piˈæn.oʊ/",   cat:"After school",  theme:"theme-activity"},
+  {word:"Clean the Room",     phonetic:"/kliːn ðə ruːm/",           cat:"After school",  theme:"theme-activity"},
+  {word:"Study English",      phonetic:"/ˈstʌd.i ˈɪŋ.ɡlɪʃ/",       cat:"After school",  theme:"theme-activity"},
+  {word:"Last Sunday",        phonetic:"/læst ˈsʌn.deɪ/",           cat:"Past time",     theme:"theme-past"},
+  {word:"Last Night",         phonetic:"/læst naɪt/",               cat:"Past time",     theme:"theme-past"},
+  {word:"Last Weekend",       phonetic:"/læst ˈwiːk.end/",          cat:"Past time",     theme:"theme-past"},
+  {word:"Yesterday",          phonetic:"/ˈjes.tər.deɪ/",            cat:"Past time",     theme:"theme-past"},
+  {word:"Go Snorkeling",      phonetic:"/ɡoʊ ˈsnɔr.kəl.ɪŋ/",        cat:"Outdoor",       theme:"theme-outdoor"},
+  {word:"Go Camping",         phonetic:"/ɡoʊ ˈkæm.pɪŋ/",            cat:"Outdoor",       theme:"theme-outdoor"},
+  {word:"Go Fishing",         phonetic:"/ɡoʊ ˈfɪʃ.ɪŋ/",             cat:"Outdoor",       theme:"theme-outdoor"},
+  {word:"Go Swimming",        phonetic:"/ɡoʊ ˈswɪm.ɪŋ/",            cat:"Outdoor",       theme:"theme-outdoor"},
+  {word:"Go Hiking",          phonetic:"/ɡoʊ ˈhaɪ.kɪŋ/",            cat:"Outdoor",       theme:"theme-outdoor"},
+  {word:"Go Rafting",         phonetic:"/ɡoʊ ˈræf.tɪŋ/",            cat:"Outdoor",       theme:"theme-outdoor"},
+  {word:"Build a Campfire",   phonetic:"/bɪld ə ˈkæmp.faɪr/",       cat:"Camp",          theme:"theme-camp"},
+  {word:"Have a Barbeque",    phonetic:"/hæv ə ˈbɑr.bɪ.kjuː/",      cat:"Camp",          theme:"theme-camp"},
+  {word:"Sing Songs",         phonetic:"/sɪŋ sɔŋz/",                cat:"Camp",          theme:"theme-camp"},
+  {word:"Take Pictures",      phonetic:"/teɪk ˈpɪk.tʃərz/",         cat:"Camp",          theme:"theme-camp"},
+  {word:"Set Up a Tent",      phonetic:"/set ʌp ə tent/",           cat:"Camp",          theme:"theme-camp"},
+  {word:"Observe Nature",     phonetic:"/əbˈzɜrv ˈneɪ.tʃər/",       cat:"Camp",          theme:"theme-camp"},
+];
+
+function uniqueByWord(words){
+  const seen=new Set();
+  return words.filter(item=>{
+    const key=item.word.toLowerCase();
+    if(seen.has(key))return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+const SESSIONS = {
+  midterm:{label:"期中考", words:MIDTERM_WORDS},
+  final:{label:"期末考", words:FINAL_WORDS},
+  mixed:{label:"綜合複習", words:uniqueByWord([...MIDTERM_WORDS, ...FINAL_WORDS])},
+};
+
 // ── State ──────────────────────────────────────────────────────────────────
-let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false,p2Reviewing=false;
+let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false,p2Reviewing=false,sessionKey='midterm';
 let p2Results={correct:[],wrong:[]};
 const speeds={1:4000,2:2500,3:1500,4:900,5:500};
 const speedLabels={1:"Slow",2:"Easy",3:"Medium",4:"Fast",5:"⚡ Flash"};
@@ -896,6 +981,23 @@ function speak(text){
 function speakCurrent(){const item=deck[idx];if(item)speak(item.word);}
 function toggleTTS(){autoRead=!autoRead;document.getElementById('tts-toggle').classList.toggle('on',autoRead);}
 
+function currentWords(){return SESSIONS[sessionKey].words;}
+function sessionLabel(){return SESSIONS[sessionKey].label;}
+function startDeck(){
+  deck=shuffle([...currentWords()]);
+  idx=0;
+}
+function setSession(key){
+  sessionKey=key;
+  document.querySelectorAll('.session-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.session===key));
+  stopAuto();
+  document.getElementById('done-overlay').classList.remove('show');
+  p2Reviewing=false;
+  startDeck();
+  if(phase===1)showCard(true);
+  else{resetP2Results();loadP2Card(true);}
+}
+
 // ── Phase ──────────────────────────────────────────────────────────────────
 function setPhase(p){
   phase=p;
@@ -906,7 +1008,7 @@ function setPhase(p){
   const btnNext=document.getElementById('btn-next');
   const bottomRow=document.getElementById('bottom-row');
   stopAuto();
-  deck=shuffle([...WORDS]);idx=0;updateCounter();
+  startDeck();updateCounter();
   if(p===1){
     p2Reviewing=false;
     stage.style.display='';p2panel.style.display='none';
@@ -925,7 +1027,7 @@ function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
   return arr;
 }
-function init(){deck=shuffle([...WORDS]);idx=0;showCard(true);}
+function init(){startDeck();showCard(true);}
 function updateCounter(){
   document.getElementById('counter').textContent=`${idx+1} / ${deck.length}`;
   document.getElementById('progress-bar').style.width=((idx+1)/deck.length*100).toFixed(1)+'%';
@@ -939,8 +1041,7 @@ function showCard(instant){
 }
 function applyCard(item){
   document.getElementById('card-face').className='card-face '+item.theme;
-  const fn=IL[item.word];
-  document.getElementById('card-illus').innerHTML=fn?fn():'';
+  document.getElementById('card-illus').innerHTML=illustrationFor(item);
   document.getElementById('card-word').textContent=item.word;
   document.getElementById('card-phonetic').textContent=item.phonetic;
   document.getElementById('card-cat').textContent=item.cat;
@@ -951,16 +1052,16 @@ function showDone(){
   document.getElementById('done-detail').replaceChildren();
   document.getElementById('btn-review-wrong').style.display='none';
   if(phase===2)showP2Results();
-  else document.getElementById('done-msg').textContent='All 30 words completed!';
+  else document.getElementById('done-msg').textContent=`${sessionLabel()} completed: ${deck.length} words`;
   document.getElementById('done-overlay').classList.add('show');
 }
 function restart(){
   document.getElementById('done-overlay').classList.remove('show');
-  if(phase===1)init();else{p2Reviewing=false;deck=shuffle([...WORDS]);idx=0;resetP2Results();loadP2Card(true);}
+  if(phase===1)init();else{p2Reviewing=false;startDeck();resetP2Results();loadP2Card(true);}
 }
 function shuffleAndRestart(){
   stopAuto();document.getElementById('done-overlay').classList.remove('show');
-  deck=shuffle([...WORDS]);idx=0;
+  startDeck();
   if(phase===1)showCard(true);else{p2Reviewing=false;resetP2Results();loadP2Card(true);}
 }
 function toggleAuto(){if(isAuto)stopAuto();else startAuto();}
@@ -1028,8 +1129,7 @@ function loadP2Card(instant){
   reveal.style.display='none';
   document.getElementById('p2-check-btn').textContent='✓ Check';
   // show illustration in phase 2 too
-  const fn=IL[item.word];
-  document.getElementById('p2-illus-wrap').innerHTML=fn?fn():'';
+  document.getElementById('p2-illus-wrap').innerHTML=illustrationFor(item);
   // hint: underscores per word part
   document.getElementById('p2-hint').textContent=item.word.split(' ').map(p=>'_'.repeat(p.length)).join('  ');
   if(autoRead||instant)setTimeout(()=>speak(item.word),instant?500:100);
