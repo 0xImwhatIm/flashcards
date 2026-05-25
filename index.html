@@ -93,6 +93,8 @@ body {
 .theme-past      { background:linear-gradient(135deg,#8e7cc3,#ffd166); }
 .theme-outdoor   { background:linear-gradient(135deg,#2ec4b6,#b7e778); }
 .theme-camp      { background:linear-gradient(135deg,#ff9f1c,#ff6b6b); }
+.theme-place     { background:linear-gradient(135deg,#00b4d8,#90e0ef); }
+.theme-movie     { background:linear-gradient(135deg,#845ec2,#ff9671); }
 /* Phase 2 */
 #p2-panel { display:none; flex-direction:column; align-items:center; gap:10px; width:min(92vw,460px); z-index:10; position:relative; }
 #p2-illus-wrap { border-radius:20px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12); }
@@ -832,7 +834,9 @@ function genericIllustration(item){
     "Last Weekend":"🗓️","Yesterday":"↩️","Go Snorkeling":"🤿","Go Camping":"⛺",
     "Go Fishing":"🎣","Go Swimming":"🏊","Go Hiking":"🥾","Go Rafting":"🚣",
     "Build a Campfire":"🔥","Have a Barbeque":"🍖","Sing Songs":"🎤","Take Pictures":"📷",
-    "Set Up a Tent":"⛺","Observe Nature":"🔎"
+    "Set Up a Tent":"⛺","Observe Nature":"🔎","Play Center":"🛝","Aquarium":"🐠",
+    "Amusement Park":"🎢","Shopping Mall":"🛍️","Sci-fi":"🚀","Animated":"🎬",
+    "Comedy":"😂","Horror":"👻","Fantasy":"🧙"
   };
   const emoji=emojiMap[item.word]||'⭐';
   const title=item.word.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
@@ -908,6 +912,15 @@ const FINAL_WORDS = [
   {word:"Take Pictures",      phonetic:"/teɪk ˈpɪk.tʃərz/",         cat:"Camp",          theme:"theme-camp"},
   {word:"Set Up a Tent",      phonetic:"/set ʌp ə tent/",           cat:"Camp",          theme:"theme-camp"},
   {word:"Observe Nature",     phonetic:"/əbˈzɜrv ˈneɪ.tʃər/",       cat:"Camp",          theme:"theme-camp"},
+  {word:"Play Center",        phonetic:"/pleɪ ˈsen.tər/",           cat:"Place",         theme:"theme-place"},
+  {word:"Aquarium",           phonetic:"/əˈkwer.i.əm/",             cat:"Place",         theme:"theme-place"},
+  {word:"Amusement Park",     phonetic:"/əˈmjuːz.mənt pɑrk/",       cat:"Place",         theme:"theme-place"},
+  {word:"Shopping Mall",      phonetic:"/ˈʃɑː.pɪŋ mɔːl/",           cat:"Place",         theme:"theme-place"},
+  {word:"Sci-fi",             phonetic:"/ˈsaɪ faɪ/",                cat:"Movie",         theme:"theme-movie"},
+  {word:"Animated",           phonetic:"/ˈæn.ə.meɪ.tɪd/",           cat:"Movie",         theme:"theme-movie"},
+  {word:"Comedy",             phonetic:"/ˈkɑː.mə.di/",              cat:"Movie",         theme:"theme-movie"},
+  {word:"Horror",             phonetic:"/ˈhɔːr.ər/",                cat:"Movie",         theme:"theme-movie"},
+  {word:"Fantasy",            phonetic:"/ˈfæn.tə.si/",              cat:"Movie",         theme:"theme-movie"},
 ];
 
 function uniqueByWord(words){
