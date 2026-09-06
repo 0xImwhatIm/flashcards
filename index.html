@@ -24,8 +24,16 @@ body {
   0%   { transform: translateY(110vh) rotate(0deg); }
   100% { transform: translateY(-20vh) rotate(360deg); }
 }
-/* Session and phase selectors */
-#session-selector { display:flex; gap:8px; margin:10px 0 2px; z-index:10; position:relative; flex-wrap:wrap; justify-content:center; }
+/* Course, session, and phase selectors */
+#course-selector { display:flex; gap:8px; margin:10px 0 2px; z-index:10; position:relative; flex-wrap:wrap; justify-content:center; }
+.course-btn {
+  font-family:'Fredoka One',cursive; font-size:0.9rem;
+  border:3px solid #ff6b6b; border-radius:50px;
+  padding:0.48rem 1.15rem; cursor:pointer; background:#fff; color:#cf4f4f;
+  transition:all 0.2s; box-shadow:0 4px 0 rgba(0,0,0,.12);
+}
+.course-btn.active { background:#ff6b6b; color:#fff; box-shadow:0 0 0 3px #ffd166; }
+#session-selector { display:flex; gap:8px; margin:8px 0 2px; z-index:10; position:relative; flex-wrap:wrap; justify-content:center; }
 .session-btn {
   font-family:'Fredoka One',cursive; font-size:0.88rem;
   border:3px solid #4ecdc4; border-radius:50px;
@@ -95,6 +103,59 @@ body {
 .theme-camp      { background:linear-gradient(135deg,#ff9f1c,#ff6b6b); }
 .theme-place     { background:linear-gradient(135deg,#00b4d8,#90e0ef); }
 .theme-movie     { background:linear-gradient(135deg,#845ec2,#ff9671); }
+.theme-family    { background:linear-gradient(135deg,#00c9a7,#f9f871); }
+.theme-job       { background:linear-gradient(135deg,#577590,#43aa8b); }
+.theme-trait     { background:linear-gradient(135deg,#f9844a,#f9c74f); }
+.theme-expression{ background:linear-gradient(135deg,#c77dff,#ffafcc); }
+body.course-junior {
+  background:#f6f7fb;
+  color:#243042;
+}
+body.course-junior .bubble { opacity:0.045; }
+body.course-junior #main-title {
+  font-family:'Nunito',sans-serif;
+  color:#243042;
+  text-shadow:none;
+  font-weight:900;
+  letter-spacing:0;
+}
+body.course-junior .course-btn {
+  font-family:'Nunito',sans-serif;
+  border-color:#4f6f8f;
+  color:#35516b;
+  border-radius:12px;
+  box-shadow:0 3px 0 rgba(36,48,66,.18);
+}
+body.course-junior .course-btn.active { background:#4f6f8f; color:#fff; box-shadow:0 0 0 3px #d9e6f2; }
+body.course-junior .session-btn {
+  font-family:'Nunito',sans-serif;
+  border-color:#43aa8b;
+  color:#2f7b67;
+  border-radius:12px;
+  box-shadow:0 3px 0 rgba(36,48,66,.14);
+}
+body.course-junior .session-btn.active { background:#43aa8b; color:#fff; box-shadow:0 0 0 3px #d8f0e8; }
+body.course-junior .phase-btn,
+body.course-junior button.ctrl,
+body.course-junior #p2-listen-btn,
+body.course-junior #p2-check-btn,
+body.course-junior #btn-restart,
+body.course-junior #btn-review-wrong {
+  font-family:'Nunito',sans-serif;
+  font-weight:900;
+  border-radius:14px;
+}
+body.course-junior #card,
+body.course-junior .card-face { border-radius:18px; }
+body.course-junior .card-face { box-shadow:0 14px 34px rgba(36,48,66,.16); }
+body.course-junior .card-illus svg { border-radius:10px; }
+body.course-junior .card-word {
+  font-family:'Nunito',sans-serif;
+  font-weight:900;
+  text-shadow:none;
+  letter-spacing:0;
+}
+body.course-junior #progress-bar { background:linear-gradient(90deg,#4f6f8f,#43aa8b); }
 /* Phase 2 */
 #p2-panel { display:none; flex-direction:column; align-items:center; gap:10px; width:min(92vw,460px); z-index:10; position:relative; }
 #p2-illus-wrap { border-radius:20px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12); }
@@ -176,7 +237,7 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 #btn-review-wrong{display:none;background:#7b5ea7}
 </style>
 </head>
-<body>
+<body class="course-junior">
 
 <div id="done-overlay">
   <h2>🎉 Well done!</h2>
@@ -188,10 +249,14 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 
 <div id="main-title">⚡ Flash Cards</div>
 
+<div id="course-selector">
+  <button class="course-btn active" data-course="junior" onclick="setCourse('junior')">國中課程</button>
+  <button class="course-btn" data-course="elementary" onclick="setCourse('elementary')">國小複習</button>
+</div>
+
 <div id="session-selector">
-  <button class="session-btn active" data-session="midterm" onclick="setSession('midterm')">期中考</button>
-  <button class="session-btn" data-session="final" onclick="setSession('final')">期末考</button>
-  <button class="session-btn" data-session="mixed" onclick="setSession('mixed')">綜合複習</button>
+  <button class="session-btn active" data-session="juniorUnit1" onclick="setSession('juniorUnit1')">Unit 1</button>
+  <button class="session-btn" data-session="juniorMixed" onclick="setSession('juniorMixed')">國中綜合</button>
 </div>
 
 <div id="phase-selector">
@@ -827,25 +892,37 @@ const IL = {
 </svg>`,
 };
 
+function vectorIconFor(item){
+  const common='stroke="#243042" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+  const accent='#43aa8b';
+  const warm='#f9c74f';
+  const coral='#f9844a';
+  const family=['Family','People'].includes(item.cat);
+  if(family || ['Baby','Uncle','Aunt','Wife','Daughter','Husband','Son','Cousin','Woman'].includes(item.word)){
+    return '<circle cx="70" cy="45" r="18" fill="'+warm+'" opacity=".95"/><path d="M37 105 Q70 74 103 105" '+common+'/><circle cx="45" cy="62" r="12" fill="'+accent+'" opacity=".75"/><circle cx="95" cy="62" r="12" fill="'+accent+'" opacity=".75"/>';
+  }
+  if(['School','Classmate','Junior High School','Elementary School'].includes(item.cat) || item.word.includes('School')){
+    return '<path d="M24 108 H116 V55 L70 28 24 55 Z" fill="#d9e6f2"/><path d="M24 108 H116 V55 L70 28 24 55 Z" '+common+'/><path d="M58 108 V78 H82 V108" '+common+'/><path d="M42 62 H52 M88 62 H98" '+common+'/>';
+  }
+  if(item.cat==='Job'){
+    return '<rect x="34" y="42" width="72" height="56" rx="10" fill="#d9e6f2"/><path d="M34 58 H106 M48 42 V32 H92 V42" '+common+'/><path d="M56 75 H84" '+common+'/><circle cx="70" cy="92" r="6" fill="'+accent+'"/>';
+  }
+  if(item.cat==='Trait'){
+    return '<path d="M70 24 L84 55 118 59 92 82 100 116 70 98 40 116 48 82 22 59 56 55 Z" fill="'+warm+'"/><path d="M70 24 L84 55 118 59 92 82 100 116 70 98 40 116 48 82 22 59 56 55 Z" '+common+'/>';
+  }
+  if(item.cat==='Expression' || item.cat==='Greeting'){
+    return '<path d="M28 38 H112 V86 H76 L55 106 V86 H28 Z" fill="#e9ddff"/><path d="M28 38 H112 V86 H76 L55 106 V86 H28 Z" '+common+'/><path d="M50 62 H90" '+common+'/><circle cx="48" cy="62" r="4" fill="'+coral+'"/><circle cx="92" cy="62" r="4" fill="'+coral+'"/>';
+  }
+  return '<circle cx="70" cy="70" r="42" fill="#d9e6f2"/><path d="M45 72 L63 90 98 49" '+common+'/>';
+}
+
 function genericIllustration(item){
-  const emojiMap={
-    "Watch TV":"📺","Listen to Music":"🎧","Talk on the Phone":"📱","Practice the Piano":"🎹",
-    "Clean the Room":"🧹","Study English":"📖","Last Sunday":"☀️","Last Night":"🌙",
-    "Last Weekend":"🗓️","Yesterday":"↩️","Go Snorkeling":"🤿","Go Camping":"⛺",
-    "Go Fishing":"🎣","Go Swimming":"🏊","Go Hiking":"🥾","Go Rafting":"🚣",
-    "Build a Campfire":"🔥","Have a Barbeque":"🍖","Sing Songs":"🎤","Take Pictures":"📷",
-    "Set Up a Tent":"⛺","Observe Nature":"🔎","Play Center":"🛝","Aquarium":"🐠",
-    "Amusement Park":"🎢","Shopping Mall":"🛍️","Sci-fi":"🚀","Animated":"🎬",
-    "Comedy":"😂","Horror":"👻","Fantasy":"🧙"
-  };
-  const emoji=emojiMap[item.word]||'⭐';
-  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-<rect width="${W}" height="${H}" rx="14" fill="#ffffff" opacity=".94"/>
-<circle cx="28" cy="26" r="14" fill="#ffd166" opacity=".28"/>
-<circle cx="112" cy="28" r="18" fill="#4ecdc4" opacity=".20"/>
-<circle cx="116" cy="102" r="13" fill="#ff6b6b" opacity=".18"/>
-<text x="70" y="78" font-family="Apple Color Emoji,Segoe UI Emoji,sans-serif" font-size="52" text-anchor="middle">${emoji}</text>
-</svg>`;
+  return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
+    '<rect width="'+W+'" height="'+H+'" rx="12" fill="#f8fafc"/>'+
+    '<circle cx="26" cy="28" r="18" fill="#f9c74f" opacity=".20"/>'+
+    '<circle cx="113" cy="101" r="20" fill="#43aa8b" opacity=".16"/>'+
+    vectorIconFor(item)+
+    '</svg>';
 }
 
 function illustrationFor(item){
@@ -921,6 +998,38 @@ const FINAL_WORDS = [
   {word:"Fantasy",            phonetic:"/ˈfæn.tə.si/",              cat:"Movie",         theme:"theme-movie"},
 ];
 
+const JUNIOR_UNIT1_WORDS = [
+  {word:"Dear",              phonetic:"/dɪr/",                       cat:"Greeting",   theme:"theme-expression"},
+  {word:"Junior High School",phonetic:"/ˈdʒuː.njər haɪ skuːl/",      cat:"School",     theme:"theme-family"},
+  {word:"Family",            phonetic:"/ˈfæm.əl.i/",                  cat:"Family",     theme:"theme-family"},
+  {word:"Baby",              phonetic:"/ˈbeɪ.bi/",                    cat:"Family",     theme:"theme-family"},
+  {word:"Elementary School", phonetic:"/ˌel.əˈmen.tər.i skuːl/",      cat:"School",     theme:"theme-family"},
+  {word:"Uncle",             phonetic:"/ˈʌŋ.kəl/",                    cat:"Family",     theme:"theme-family"},
+  {word:"Aunt",              phonetic:"/ænt/",                        cat:"Family",     theme:"theme-family"},
+  {word:"Wife",              phonetic:"/waɪf/",                       cat:"Family",     theme:"theme-family"},
+  {word:"Daughter",          phonetic:"/ˈdɔː.tər/",                   cat:"Family",     theme:"theme-family"},
+  {word:"Husband",           phonetic:"/ˈhʌz.bənd/",                  cat:"Family",     theme:"theme-family"},
+  {word:"Son",               phonetic:"/sʌn/",                        cat:"Family",     theme:"theme-family"},
+  {word:"Singer",            phonetic:"/ˈsɪŋ.ər/",                    cat:"Job",        theme:"theme-job"},
+  {word:"Writer",            phonetic:"/ˈraɪ.tər/",                   cat:"Job",        theme:"theme-job"},
+  {word:"Office Worker",     phonetic:"/ˈɑː.fɪs ˈwɝː.kər/",          cat:"Job",        theme:"theme-job"},
+  {word:"Housewife",         phonetic:"/ˈhaʊs.waɪf/",                 cat:"Job",        theme:"theme-job"},
+  {word:"Police Officer",    phonetic:"/pəˈliːs ˈɑː.fɪ.sər/",        cat:"Job",        theme:"theme-job"},
+  {word:"Nice to Meet You",  phonetic:"/naɪs tu miːt juː/",           cat:"Expression", theme:"theme-expression"},
+  {word:"Years Old",         phonetic:"/jɪrz oʊld/",                  cat:"Expression", theme:"theme-expression"},
+  {word:"Cousin",            phonetic:"/ˈkʌz.ən/",                    cat:"Family",     theme:"theme-family"},
+  {word:"I See",             phonetic:"/aɪ siː/",                     cat:"Expression", theme:"theme-expression"},
+  {word:"Really",            phonetic:"/ˈriː.ə.li/",                  cat:"Expression", theme:"theme-expression"},
+  {word:"Handsome",          phonetic:"/ˈhæn.səm/",                   cat:"Trait",      theme:"theme-trait"},
+  {word:"Woman",             phonetic:"/ˈwʊm.ən/",                    cat:"People",     theme:"theme-family"},
+  {word:"New",               phonetic:"/nuː/",                        cat:"Trait",      theme:"theme-trait"},
+  {word:"Very",              phonetic:"/ˈver.i/",                     cat:"Trait",      theme:"theme-trait"},
+  {word:"Classmate",         phonetic:"/ˈklæs.meɪt/",                 cat:"School",     theme:"theme-family"},
+  {word:"Beautiful",         phonetic:"/ˈbjuː.t̬ə.fəl/",              cat:"Trait",      theme:"theme-trait"},
+  {word:"Young",             phonetic:"/jʌŋ/",                        cat:"Trait",      theme:"theme-trait"},
+  {word:"Too",               phonetic:"/tuː/",                        cat:"Trait",      theme:"theme-trait"},
+];
+
 function uniqueByWord(words){
   const seen=new Set();
   return words.filter(item=>{
@@ -931,14 +1040,28 @@ function uniqueByWord(words){
   });
 }
 
-const SESSIONS = {
-  midterm:{label:"期中考", words:MIDTERM_WORDS},
-  final:{label:"期末考", words:FINAL_WORDS},
-  mixed:{label:"綜合複習", words:uniqueByWord([...MIDTERM_WORDS, ...FINAL_WORDS])},
+const COURSES = {
+  junior:{
+    label:"國中課程",
+    defaultSession:"juniorUnit1",
+    sessions:[
+      {key:"juniorUnit1", label:"Unit 1", words:JUNIOR_UNIT1_WORDS},
+      {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS])},
+    ],
+  },
+  elementary:{
+    label:"國小複習",
+    defaultSession:"elementaryMixed",
+    sessions:[
+      {key:"midterm", label:"期中考", words:MIDTERM_WORDS},
+      {key:"final", label:"期末考", words:FINAL_WORDS},
+      {key:"elementaryMixed", label:"國小綜合", words:uniqueByWord([...MIDTERM_WORDS, ...FINAL_WORDS])},
+    ],
+  },
 };
 
 // ── State ──────────────────────────────────────────────────────────────────
-let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false,p2Reviewing=false,sessionKey='midterm';
+let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false,p2Reviewing=false,courseKey='junior',sessionKey='juniorUnit1';
 let p2Results={correct:[],wrong:[]};
 const speeds={1:4000,2:2500,3:1500,4:900,5:500};
 const speedLabels={1:"Slow",2:"Easy",3:"Medium",4:"Fast",5:"⚡ Flash"};
@@ -992,11 +1115,42 @@ function speak(text){
 function speakCurrent(){const item=deck[idx];if(item)speak(item.word);}
 function toggleTTS(){autoRead=!autoRead;document.getElementById('tts-toggle').classList.toggle('on',autoRead);}
 
-function currentWords(){return SESSIONS[sessionKey].words;}
-function sessionLabel(){return SESSIONS[sessionKey].label;}
+function currentCourse(){return COURSES[courseKey];}
+function currentSession(){return currentCourse().sessions.find(s=>s.key===sessionKey)||currentCourse().sessions[0];}
+function currentWords(){return currentSession().words;}
+function sessionLabel(){return currentCourse().label+' · '+currentSession().label;}
 function startDeck(){
   deck=shuffle([...currentWords()]);
   idx=0;
+}
+function updateCoursePresentation(){
+  document.body.classList.toggle('course-junior',courseKey==='junior');
+  document.querySelectorAll('.course-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.course===courseKey));
+  document.getElementById('main-title').textContent=courseKey==='junior'?'Junior Flash Cards':'⚡ Flash Cards';
+}
+function renderSessionSelector(){
+  const wrap=document.getElementById('session-selector');
+  wrap.replaceChildren();
+  currentCourse().sessions.forEach(session=>{
+    const btn=document.createElement('button');
+    btn.className='session-btn'+(session.key===sessionKey?' active':'');
+    btn.dataset.session=session.key;
+    btn.textContent=session.label;
+    btn.onclick=()=>setSession(session.key);
+    wrap.appendChild(btn);
+  });
+}
+function setCourse(key){
+  courseKey=key;
+  sessionKey=currentCourse().defaultSession;
+  updateCoursePresentation();
+  renderSessionSelector();
+  stopAuto();
+  document.getElementById('done-overlay').classList.remove('show');
+  p2Reviewing=false;
+  startDeck();
+  if(phase===1)showCard(true);
+  else{resetP2Results();loadP2Card(true);}
 }
 function setSession(key){
   sessionKey=key;
@@ -1195,6 +1349,8 @@ for(let i=0;i<16;i++){
   document.body.appendChild(b);
 }
 
+updateCoursePresentation();
+renderSessionSelector();
 init();
 </script>
 </body>
