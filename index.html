@@ -893,27 +893,50 @@ const IL = {
 };
 
 function vectorIconFor(item){
-  const common='stroke="#243042" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"';
-  const accent='#43aa8b';
-  const warm='#f9c74f';
-  const coral='#f9844a';
-  const family=['Family','People'].includes(item.cat);
-  if(family || ['Baby','Uncle','Aunt','Wife','Daughter','Husband','Son','Cousin','Woman'].includes(item.word)){
-    return '<circle cx="70" cy="45" r="18" fill="'+warm+'" opacity=".95"/><path d="M37 105 Q70 74 103 105" '+common+'/><circle cx="45" cy="62" r="12" fill="'+accent+'" opacity=".75"/><circle cx="95" cy="62" r="12" fill="'+accent+'" opacity=".75"/>';
-  }
-  if(['School','Classmate','Junior High School','Elementary School'].includes(item.cat) || item.word.includes('School')){
-    return '<path d="M24 108 H116 V55 L70 28 24 55 Z" fill="#d9e6f2"/><path d="M24 108 H116 V55 L70 28 24 55 Z" '+common+'/><path d="M58 108 V78 H82 V108" '+common+'/><path d="M42 62 H52 M88 62 H98" '+common+'/>';
-  }
-  if(item.cat==='Job'){
-    return '<rect x="34" y="42" width="72" height="56" rx="10" fill="#d9e6f2"/><path d="M34 58 H106 M48 42 V32 H92 V42" '+common+'/><path d="M56 75 H84" '+common+'/><circle cx="70" cy="92" r="6" fill="'+accent+'"/>';
-  }
-  if(item.cat==='Trait'){
-    return '<path d="M70 24 L84 55 118 59 92 82 100 116 70 98 40 116 48 82 22 59 56 55 Z" fill="'+warm+'"/><path d="M70 24 L84 55 118 59 92 82 100 116 70 98 40 116 48 82 22 59 56 55 Z" '+common+'/>';
-  }
-  if(item.cat==='Expression' || item.cat==='Greeting'){
-    return '<path d="M28 38 H112 V86 H76 L55 106 V86 H28 Z" fill="#e9ddff"/><path d="M28 38 H112 V86 H76 L55 106 V86 H28 Z" '+common+'/><path d="M50 62 H90" '+common+'/><circle cx="48" cy="62" r="4" fill="'+coral+'"/><circle cx="92" cy="62" r="4" fill="'+coral+'"/>';
-  }
-  return '<circle cx="70" cy="70" r="42" fill="#d9e6f2"/><path d="M45 72 L63 90 98 49" '+common+'/>';
+  const c='#243042', a='#43aa8b', b='#4f6f8f', y='#f9c74f', o='#f9844a', p='#c77dff', pale='#d9e6f2';
+  const st='stroke="'+c+'" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+  const thin='stroke="'+c+'" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+  const user=(cx,cy,scale,fill)=>'<circle cx="'+cx+'" cy="'+cy+'" r="'+(14*scale)+'" fill="'+fill+'"/><path d="M'+(cx-24*scale)+' '+(cy+44*scale)+' Q'+cx+' '+(cy+20*scale)+' '+(cx+24*scale)+' '+(cy+44*scale)+'" '+st+'/>';
+  const sparkle=(x,y0)=>'<path d="M'+x+' '+(y0-12)+' V'+(y0+12)+' M'+(x-12)+' '+y0+' H'+(x+12)+'" '+thin+'/>';
+  const icons={
+    "Dear":()=>'<path d="M28 44 H112 V94 H28 Z" fill="'+p+'" opacity=".24"/><path d="M28 44 H112 V94 H28 Z" '+st+'/><path d="M28 48 L70 76 L112 48" '+st+'/><path d="M36 92 L58 72 M104 92 L82 72" '+thin+'/>',
+    "Junior High School":()=>'<path d="M22 108 H118 V52 L70 26 22 52 Z" fill="'+pale+'"/><path d="M22 108 H118 V52 L70 26 22 52 Z" '+st+'/><path d="M55 108 V76 H85 V108" '+st+'/><path d="M38 62 H50 M90 62 H102 M38 80 H50 M90 80 H102" '+thin+'/><path d="M70 26 V14" '+thin+'/>',
+    "Elementary School":()=>'<path d="M30 108 H110 V60 L70 36 30 60 Z" fill="'+pale+'"/><path d="M30 108 H110 V60 L70 36 30 60 Z" '+st+'/><path d="M58 108 V80 H82 V108" '+st+'/><circle cx="70" cy="60" r="7" fill="'+y+'"/>',
+    "Family":()=>user(70,38,1,y)+user(42,58,.72,a)+user(98,58,.72,o)+'<path d="M18 112 Q42 84 66 112 M74 112 Q98 84 122 112" '+thin+'/>',
+    "Baby":()=>'<circle cx="70" cy="64" r="28" fill="'+y+'"/><path d="M52 54 Q70 34 88 54" '+thin+'/><circle cx="60" cy="65" r="4" fill="'+c+'"/><circle cx="80" cy="65" r="4" fill="'+c+'"/><path d="M60 82 Q70 90 80 82" '+thin+'/><path d="M44 106 Q70 90 96 106" '+st+'/>',
+    "Uncle":()=>user(70,44,1,y)+'<path d="M48 50 Q70 30 92 50" '+thin+'/><path d="M56 74 H84" '+thin+'/>',
+    "Aunt":()=>'<path d="M42 72 Q42 34 70 30 Q98 34 98 72 Q92 100 70 106 Q48 100 42 72 Z" fill="'+y+'"/><circle cx="70" cy="58" r="18" fill="#f8d5a8"/><path d="M42 108 Q70 84 98 108" '+st+'/>',
+    "Wife":()=>'<circle cx="70" cy="50" r="18" fill="'+y+'"/><path d="M48 52 Q70 24 92 52" '+thin+'/><path d="M42 108 Q70 78 98 108" '+st+'/><circle cx="94" cy="44" r="6" fill="'+p+'"/>',
+    "Daughter":()=>'<circle cx="70" cy="56" r="16" fill="'+y+'"/><path d="M52 48 Q70 28 88 48" '+thin+'/><path d="M46 108 Q70 82 94 108" '+st+'/><path d="M58 84 L70 108 L82 84" fill="'+p+'" opacity=".45"/>',
+    "Husband":()=>user(70,48,1,y)+'<path d="M50 44 H90" '+thin+'/><path d="M62 82 L70 96 L78 82" fill="'+b+'"/>',
+    "Son":()=>'<circle cx="70" cy="56" r="16" fill="'+y+'"/><path d="M54 46 Q70 32 86 46" '+thin+'/><path d="M46 108 Q70 82 94 108" '+st+'/><rect x="56" y="82" width="28" height="22" rx="6" fill="'+a+'" opacity=".35"/>',
+    "Cousin":()=>user(52,52,.82,y)+user(88,52,.82,a)+'<path d="M70 28 V48 M58 28 H82" '+thin+'/>',
+    "Woman":()=>'<path d="M40 72 Q42 30 70 28 Q98 30 100 72 Q94 104 70 110 Q46 104 40 72 Z" fill="'+pale+'"/><circle cx="70" cy="58" r="18" fill="'+y+'"/><path d="M42 108 Q70 82 98 108" '+st+'/>',
+    "Singer":()=>'<rect x="58" y="24" width="24" height="48" rx="12" fill="'+pale+'"/><rect x="58" y="24" width="24" height="48" rx="12" '+st+'/><path d="M46 56 Q46 88 70 88 Q94 88 94 56 M70 88 V110 M50 110 H90" '+st+'/><path d="M96 32 Q112 44 96 56 M104 22 Q128 44 104 66" '+thin+'/>',
+    "Writer":()=>'<rect x="28" y="34" width="70" height="72" rx="8" fill="'+pale+'"/><rect x="28" y="34" width="70" height="72" rx="8" '+st+'/><path d="M45 56 H82 M45 72 H78" '+thin+'/><path d="M78 98 L110 66 L118 74 L86 106 L74 110 Z" fill="'+y+'"/><path d="M78 98 L110 66 L118 74 L86 106 L74 110 Z" '+thin+'/>',
+    "Office Worker":()=>'<rect x="32" y="44" width="76" height="58" rx="10" fill="'+pale+'"/><path d="M32 60 H108 M50 44 V34 H90 V44" '+st+'/><rect x="32" y="44" width="76" height="58" rx="10" '+st+'/><circle cx="70" cy="82" r="7" fill="'+a+'"/>',
+    "Housewife":()=>'<path d="M24 70 L70 34 L116 70 V110 H24 Z" fill="'+pale+'"/><path d="M24 70 L70 34 L116 70 V110 H24 Z" '+st+'/><circle cx="70" cy="72" r="12" fill="'+y+'"/><path d="M48 104 Q70 84 92 104" '+thin+'/>',
+    "Police Officer":()=>'<path d="M70 22 L110 38 V70 Q110 98 70 114 Q30 98 30 70 V38 Z" fill="'+pale+'"/><path d="M70 22 L110 38 V70 Q110 98 70 114 Q30 98 30 70 V38 Z" '+st+'/><path d="M54 64 L66 76 L90 50" '+st+'/>',
+    "Nice to Meet You":()=>'<path d="M38 70 L58 92 Q66 100 74 92 L102 64" '+st+'/><path d="M28 60 L50 82 M112 60 L90 82" '+st+'/><path d="M48 58 Q58 46 70 58 Q82 46 94 58" '+thin+'/>',
+    "Years Old":()=>'<path d="M36 68 H104 V106 H36 Z" fill="'+pale+'"/><path d="M36 68 H104 V106 H36 Z M36 82 H104" '+st+'/><path d="M70 46 V66" '+st+'/><path d="M62 46 Q70 26 78 46" fill="'+o+'"/><path d="M50 58 Q70 48 90 58" '+thin+'/>',
+    "I See":()=>'<path d="M20 70 Q70 28 120 70 Q70 112 20 70 Z" fill="'+pale+'"/><path d="M20 70 Q70 28 120 70 Q70 112 20 70 Z" '+st+'/><circle cx="70" cy="70" r="18" fill="'+y+'"/><circle cx="70" cy="70" r="7" fill="'+c+'"/>',
+    "Really":()=>'<path d="M30 34 H110 V84 H78 L58 104 V84 H30 Z" fill="'+pale+'"/><path d="M30 34 H110 V84 H78 L58 104 V84 H30 Z" '+st+'/><path d="M62 58 Q70 44 78 58 Q78 68 70 70 V76" '+thin+'/><circle cx="70" cy="90" r="4" fill="'+o+'"/>',
+    "Handsome":()=>user(70,44,1,y)+'<path d="M58 78 L70 96 L82 78" fill="'+b+'"/><path d="M100 38 L100 58 M90 48 H110" '+thin+'/>',
+    "New":()=>'<path d="M32 38 H88 L112 62 V102 H32 Z" fill="'+pale+'"/><path d="M32 38 H88 L112 62 V102 H32 Z" '+st+'/><path d="M88 38 V62 H112" '+thin+'/>'+sparkle(64,74),
+    "Very":()=>'<path d="M70 28 V76" '+st+'/><circle cx="70" cy="98" r="8" fill="'+o+'"/>'+sparkle(100,48)+'<path d="M38 54 H48 M92 86 H104" '+thin+'/>',
+    "Classmate":()=>user(50,52,.78,y)+user(88,52,.78,a)+'<path d="M64 96 H104 V116 H64 Z" fill="'+pale+'"/><path d="M64 96 H104 V116 H64 Z" '+thin+'/>',
+    "Beautiful":()=>'<circle cx="70" cy="70" r="12" fill="'+y+'"/><path d="M70 30 Q86 50 70 58 Q54 50 70 30 Z M110 70 Q90 86 82 70 Q90 54 110 70 Z M70 110 Q54 90 70 82 Q86 90 70 110 Z M30 70 Q50 54 58 70 Q50 86 30 70 Z" fill="'+p+'" opacity=".6"/><path d="M70 30 Q86 50 70 58 Q54 50 70 30 Z M110 70 Q90 86 82 70 Q90 54 110 70 Z M70 110 Q54 90 70 82 Q86 90 70 110 Z M30 70 Q50 54 58 70 Q50 86 30 70 Z" '+thin+'/>',
+    "Young":()=>'<circle cx="70" cy="58" r="17" fill="'+y+'"/><path d="M52 50 Q70 30 88 50" '+thin+'/><path d="M46 108 Q70 82 94 108" '+st+'/><path d="M96 94 Q110 78 118 58" '+thin+'/><path d="M107 78 Q126 74 120 58" fill="'+a+'"/>',
+    "Too":()=>'<circle cx="54" cy="70" r="18" fill="'+pale+'"/><circle cx="92" cy="70" r="18" fill="'+y+'"/><path d="M73 70 H118 M96 48 V92" '+st+'/>'
+  };
+  const icon=(icons[item.word]||(()=>{
+    if(item.cat==='Job')return icons["Office Worker"]();
+    if(item.cat==='Trait')return icons["Beautiful"]();
+    if(item.cat==='Expression'||item.cat==='Greeting')return icons["Really"]();
+    if(item.cat==='School')return icons["Junior High School"]();
+    return icons["Family"]();
+  }))();
+  return icon;
 }
 
 function genericIllustration(item){
