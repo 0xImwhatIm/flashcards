@@ -79,6 +79,7 @@ body {
 }
 .card-illus { line-height:0; }
 .card-illus svg { border-radius:14px; display:block; }
+.card-illus img { width:140px; height:130px; object-fit:cover; border-radius:14px; display:block; }
 .card-word { font-family:'Fredoka One',cursive; font-size:clamp(1.7rem,5.5vw,2.8rem); text-align:center; line-height:1.1; color:#fff; text-shadow:2px 3px 0 rgba(0,0,0,.18); }
 .card-phonetic { font-size:clamp(0.8rem,2.3vw,1rem); color:rgba(255,255,255,.9); font-weight:700; font-style:italic; }
 .card-category { font-size:0.78rem; font-weight:700; color:rgba(255,255,255,.75); background:rgba(0,0,0,.12); padding:2px 12px; border-radius:20px; letter-spacing:1px; text-transform:uppercase; }
@@ -148,7 +149,10 @@ body.course-junior #btn-review-wrong {
 body.course-junior #card,
 body.course-junior .card-face { border-radius:18px; }
 body.course-junior .card-face { box-shadow:0 14px 34px rgba(36,48,66,.16); }
-body.course-junior .card-illus svg { border-radius:10px; }
+body.course-junior .card-illus svg,
+body.course-junior .card-illus img { border-radius:10px; }
+body.course-junior .card-illus img { width:min(58vw,220px); height:min(50vw,190px); }
+body.course-junior #p2-illus-wrap img { width:min(72vw,300px); height:min(62vw,250px); }
 body.course-junior .card-word {
   font-family:'Nunito',sans-serif;
   font-weight:900;
@@ -160,6 +164,7 @@ body.course-junior #progress-bar { background:linear-gradient(90deg,#4f6f8f,#43a
 #p2-panel { display:none; flex-direction:column; align-items:center; gap:10px; width:min(92vw,460px); z-index:10; position:relative; }
 #p2-illus-wrap { border-radius:20px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12); }
 #p2-illus-wrap svg { display:block; border-radius:16px; }
+#p2-illus-wrap img { width:140px; height:130px; object-fit:cover; border-radius:16px; display:block; }
 #p2-listen-btn {
   font-family:'Fredoka One',cursive; font-size:1.05rem;
   border:none; border-radius:50px; padding:0.65rem 1.8rem;
@@ -949,6 +954,9 @@ function genericIllustration(item){
 }
 
 function illustrationFor(item){
+  if(item.image){
+    return '<img src="'+item.image+'" alt="" loading="lazy" decoding="async">';
+  }
   const fn=IL[item.word];
   return fn?fn():genericIllustration(item);
 }
@@ -1035,12 +1043,12 @@ const JUNIOR_UNIT1_WORDS = [
   {word:"Son",               phonetic:"/sʌn/",                        cat:"Family",     theme:"theme-family"},
   {word:"Singer",            phonetic:"/ˈsɪŋ.ər/",                    cat:"Job",        theme:"theme-job"},
   {word:"Writer",            phonetic:"/ˈraɪ.tər/",                   cat:"Job",        theme:"theme-job"},
-  {word:"Office Worker",     phonetic:"/ˈɑː.fɪs ˈwɝː.kər/",          cat:"Job",        theme:"theme-job"},
+  {word:"Office Worker",     phonetic:"/ˈɑː.fɪs ˈwɝː.kər/",          cat:"Job",        theme:"theme-job", image:"assets/unit1/office-worker.jpg"},
   {word:"Housewife",         phonetic:"/ˈhaʊs.waɪf/",                 cat:"Job",        theme:"theme-job"},
   {word:"Police Officer",    phonetic:"/pəˈliːs ˈɑː.fɪ.sər/",        cat:"Job",        theme:"theme-job"},
   {word:"Nice to Meet You",  phonetic:"/naɪs tu miːt juː/",           cat:"Expression", theme:"theme-expression"},
   {word:"Years Old",         phonetic:"/jɪrz oʊld/",                  cat:"Expression", theme:"theme-expression"},
-  {word:"Cousin",            phonetic:"/ˈkʌz.ən/",                    cat:"Family",     theme:"theme-family"},
+  {word:"Cousin",            phonetic:"/ˈkʌz.ən/",                    cat:"Family",     theme:"theme-family", image:"assets/unit1/cousin.jpg"},
   {word:"I See",             phonetic:"/aɪ siː/",                     cat:"Expression", theme:"theme-expression"},
   {word:"Really",            phonetic:"/ˈriː.ə.li/",                  cat:"Expression", theme:"theme-expression"},
   {word:"Handsome",          phonetic:"/ˈhæn.səm/",                   cat:"Trait",      theme:"theme-trait"},
@@ -1050,7 +1058,7 @@ const JUNIOR_UNIT1_WORDS = [
   {word:"Classmate",         phonetic:"/ˈklæs.meɪt/",                 cat:"School",     theme:"theme-family"},
   {word:"Beautiful",         phonetic:"/ˈbjuː.t̬ə.fəl/",              cat:"Trait",      theme:"theme-trait"},
   {word:"Young",             phonetic:"/jʌŋ/",                        cat:"Trait",      theme:"theme-trait"},
-  {word:"Too",               phonetic:"/tuː/",                        cat:"Trait",      theme:"theme-trait"},
+  {word:"Too",               phonetic:"/tuː/",                        cat:"Trait",      theme:"theme-trait", image:"assets/unit1/too.jpg"},
 ];
 
 function uniqueByWord(words){
