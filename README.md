@@ -34,6 +34,8 @@ https://0ximwhatim.github.io/flashcards/
 - 在 Spell 模式加入錯題複習功能。
 - 第一輪插圖辨識優化：調整 `Straight Brown`、`Navy Tie`、`By Train`。
 - 第二輪插圖辨識優化：調整 `By Subway`、`Star Bridge`。
+- 2026-09-21 final illustration integration：63 個 Unit 1／Unit 2 字彙全部接入目前選定的插圖；`Too`、`Son`、`Office Worker`、`Cousin` 已改用正式小恐龍角色規範版本，`But` 採用使用者選定的 v1。
+- 保留所有舊版候選與歷史資產，並在 `design/` 記錄選定結果、視覺索引、批次產圖與 QA 規則。
 
 ## 工作紀錄
 

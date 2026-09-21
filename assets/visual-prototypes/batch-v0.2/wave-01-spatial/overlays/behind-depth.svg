@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1254" height="1254" viewBox="0 0 1254 1254" role="img" aria-label="Static depth overlay for behind">
+  <title>Behind — static depth overlay</title>
+  <!-- Shifted toward the viewer/front plane; the head still points into the rear/upper plane. -->
+  <path d="M753 720 C815 658 876 616 932 598" fill="none" stroke="#202223" stroke-width="34" stroke-linecap="round" stroke-linejoin="round" opacity="0.98"/>
+  <path d="M753 720 C815 658 876 616 932 598" fill="none" stroke="#F2C44E" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M932 598 L879 591 L893 635 Z" fill="#F2C44E" stroke="#202223" stroke-width="9" stroke-linejoin="round"/>
+</svg>

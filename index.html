@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -79,7 +79,7 @@ body {
 }
 .card-illus { line-height:0; }
 .card-illus svg { border-radius:14px; display:block; }
-.card-illus img { width:140px; height:130px; object-fit:cover; border-radius:14px; display:block; }
+.card-illus img { width:140px; height:130px; object-fit:contain; border-radius:14px; display:block; }
 .card-word { font-family:'Fredoka One',cursive; font-size:clamp(1.7rem,5.5vw,2.8rem); text-align:center; line-height:1.1; color:#fff; text-shadow:2px 3px 0 rgba(0,0,0,.18); }
 .card-phonetic { font-size:clamp(0.8rem,2.3vw,1rem); color:rgba(255,255,255,.9); font-weight:700; font-style:italic; }
 .card-category { font-size:0.78rem; font-weight:700; color:rgba(255,255,255,.75); background:rgba(0,0,0,.12); padding:2px 12px; border-radius:20px; letter-spacing:1px; text-transform:uppercase; }
@@ -151,8 +151,8 @@ body.course-junior .card-face { border-radius:18px; }
 body.course-junior .card-face { box-shadow:0 14px 34px rgba(36,48,66,.16); }
 body.course-junior .card-illus svg,
 body.course-junior .card-illus img { border-radius:10px; }
-body.course-junior .card-illus img { width:min(58vw,220px); height:min(50vw,190px); }
-body.course-junior #p2-illus-wrap img { width:min(72vw,300px); height:min(62vw,250px); }
+body.course-junior .card-illus img { width:min(58vw,220px); height:min(58vw,220px); object-fit:contain; }
+body.course-junior #p2-illus-wrap img { width:min(72vw,300px); height:min(72vw,300px); object-fit:contain; }
 body.course-junior .card-word {
   font-family:'Nunito',sans-serif;
   font-weight:900;
@@ -164,7 +164,7 @@ body.course-junior #progress-bar { background:linear-gradient(90deg,#4f6f8f,#43a
 #p2-panel { display:none; flex-direction:column; align-items:center; gap:10px; width:min(92vw,460px); z-index:10; position:relative; }
 #p2-illus-wrap { border-radius:20px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12); }
 #p2-illus-wrap svg { display:block; border-radius:16px; }
-#p2-illus-wrap img { width:140px; height:130px; object-fit:cover; border-radius:16px; display:block; }
+#p2-illus-wrap img { width:140px; height:130px; object-fit:contain; border-radius:16px; display:block; }
 #p2-listen-btn {
   font-family:'Fredoka One',cursive; font-size:1.05rem;
   border:none; border-radius:50px; padding:0.65rem 1.8rem;
@@ -240,19 +240,519 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 #btn-restart,#btn-review-wrong{font-family:'Fredoka One',cursive;font-size:1.1rem;border:none;border-radius:50px;padding:0.7rem 2rem;cursor:pointer;color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.18)}
 #btn-restart{background:#ff6b6b}
 #btn-review-wrong{display:none;background:#7b5ea7}
+
+/* Junior editorial UI: calm controls, paper surfaces, and flat inked color. */
+body.course-junior {
+  --jr-ink:#202a2e;
+  --jr-ink-soft:#50646b;
+  --jr-canvas:#edf0ef;
+  --jr-paper:#f7f3e9;
+  --jr-paper-deep:#d8d4c8;
+  --jr-blue:#4d6f8d;
+  --jr-teal:#4d8c82;
+  --jr-green:#6d8d72;
+  --jr-mustard:#c99a40;
+  --jr-coral:#d46853;
+  --jr-shadow:rgba(32,42,46,.20);
+  background:var(--jr-canvas);
+  color:var(--jr-ink);
+  padding:18px 14px 34px;
+}
+
+body.course-junior .bubble { display:none; }
+body.course-junior #main-title {
+  font-family:'Nunito',sans-serif;
+  font-size:2rem;
+  font-weight:900;
+  line-height:1.15;
+  color:var(--jr-ink);
+  text-shadow:none;
+  margin:0 0 14px;
+  letter-spacing:.02em;
+}
+body.course-junior #main-title::after {
+  content:'';
+  display:block;
+  width:42px;
+  height:3px;
+  margin:8px auto 0;
+  background:var(--jr-coral);
+}
+
+body.course-junior #course-selector,
+body.course-junior #session-selector {
+  width:min(100%,460px);
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin:0 0 8px;
+}
+body.course-junior .course-btn,
+body.course-junior .session-btn {
+  min-width:0;
+  min-height:42px;
+  padding:8px 10px;
+  border:2px solid var(--jr-ink-soft);
+  border-radius:8px;
+  background:var(--jr-paper);
+  color:var(--jr-ink);
+  box-shadow:3px 3px 0 var(--jr-paper-deep);
+  font-family:'Nunito',sans-serif;
+  font-size:.94rem;
+  font-weight:900;
+  line-height:1.1;
+  transition:transform .15s, box-shadow .15s, background .15s, color .15s;
+}
+body.course-junior #session-selector { grid-template-columns:repeat(3,minmax(0,1fr)); }
+body.course-junior .course-btn.active {
+  background:var(--jr-blue);
+  border-color:var(--jr-blue);
+  color:#fff;
+  box-shadow:3px 3px 0 var(--jr-ink);
+}
+body.course-junior .session-btn {
+  border-color:var(--jr-teal);
+  color:var(--jr-teal);
+}
+body.course-junior .session-btn.active {
+  background:var(--jr-teal);
+  border-color:var(--jr-teal);
+  color:#fff;
+  box-shadow:3px 3px 0 var(--jr-ink);
+}
+body.course-junior .course-btn:active,
+body.course-junior .session-btn:active {
+  transform:translate(2px,2px);
+  box-shadow:1px 1px 0 var(--jr-paper-deep);
+}
+
+body.course-junior #phase-selector {
+  width:min(100%,460px);
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin:4px 0 12px;
+}
+body.course-junior .phase-btn {
+  min-width:0;
+  min-height:48px;
+  padding:8px 10px;
+  border:2px solid var(--jr-ink-soft);
+  border-radius:8px;
+  background:var(--jr-paper);
+  color:var(--jr-ink);
+  box-shadow:3px 3px 0 var(--jr-paper-deep);
+  font-family:'Nunito',sans-serif;
+  font-size:1rem;
+  font-weight:900;
+  line-height:1.1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+}
+body.course-junior .phase-btn.p1 {
+  background:var(--jr-coral);
+  border-color:var(--jr-coral);
+  color:#fff;
+}
+body.course-junior .phase-btn.p2 {
+  background:var(--jr-paper);
+  border-color:var(--jr-blue);
+  color:var(--jr-blue);
+}
+body.course-junior .phase-btn.active {
+  box-shadow:3px 3px 0 var(--jr-ink);
+}
+body.course-junior .phase-btn.p2.active {
+  background:var(--jr-blue);
+  color:#fff;
+}
+.phase-index {
+  font-size:.72rem;
+  letter-spacing:.08em;
+  opacity:.8;
+}
+body:not(.course-junior) .phase-index { margin-right:7px; }
+
+body.course-junior #progress-track {
+  width:min(100%,460px);
+  height:7px;
+  margin:0 0 7px;
+  border:1px solid #c6ccca;
+  border-radius:4px;
+  background:#d5d8d3;
+}
+body.course-junior #progress-bar {
+  background:var(--jr-teal);
+  border-radius:3px;
+}
+body.course-junior #counter {
+  margin:0 0 10px;
+  color:var(--jr-ink-soft);
+  font-family:'Nunito',sans-serif;
+  font-size:.82rem;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+
+body.course-junior #stage {
+  width:min(100%,460px);
+  margin-bottom:14px;
+}
+body.course-junior #card,
+body.course-junior .card-face {
+  border-radius:8px;
+}
+body.course-junior #card {
+  cursor:pointer;
+}
+body.course-junior .card-face {
+  min-height:360px;
+  padding:18px 18px 16px;
+  gap:9px;
+  background:var(--jr-paper) !important;
+  border:2px solid var(--jr-ink);
+  border-top:7px solid var(--jr-accent,var(--jr-blue));
+  box-shadow:7px 7px 0 var(--jr-shadow);
+}
+body.course-junior .card-face.theme-face,
+body.course-junior .card-face.theme-time,
+body.course-junior .card-face.theme-trait { --jr-accent:var(--jr-mustard); }
+body.course-junior .card-face.theme-hair,
+body.course-junior .card-face.theme-family,
+body.course-junior .card-face.theme-activity,
+body.course-junior .card-face.theme-outdoor { --jr-accent:var(--jr-teal); }
+body.course-junior .card-face.theme-accessor,
+body.course-junior .card-face.theme-landmark,
+body.course-junior .card-face.theme-transport,
+body.course-junior .card-face.theme-past,
+body.course-junior .card-face.theme-place,
+body.course-junior .card-face.theme-job { --jr-accent:var(--jr-blue); }
+body.course-junior .card-face.theme-camp,
+body.course-junior .card-face.theme-movie,
+body.course-junior .card-face.theme-expression { --jr-accent:var(--jr-coral); }
+body.course-junior .card-illus {
+  width:min(100%,260px);
+  padding:6px;
+  line-height:0;
+  background:#fffdf7;
+  border:2px solid var(--jr-ink);
+  border-radius:6px;
+  box-shadow:3px 3px 0 var(--jr-paper-deep);
+}
+body.course-junior .card-illus svg,
+body.course-junior .card-illus img {
+  display:block;
+  width:100% !important;
+  height:auto !important;
+  max-height:232px;
+  object-fit:contain;
+  border-radius:3px;
+}
+body.course-junior .card-word {
+  max-width:100%;
+  color:var(--jr-ink);
+  font-family:'Nunito',sans-serif;
+  font-size:2.55rem;
+  font-weight:900;
+  line-height:1.08;
+  overflow-wrap:anywhere;
+  text-shadow:none;
+  letter-spacing:.01em;
+}
+body.course-junior .card-phonetic {
+  color:var(--jr-ink-soft);
+  font-family:'Nunito',sans-serif;
+  font-size:1rem;
+  font-weight:700;
+}
+body.course-junior .card-category {
+  padding:4px 9px;
+  border:1px solid var(--jr-ink-soft);
+  border-radius:4px;
+  background:transparent;
+  color:var(--jr-ink-soft);
+  font-size:.68rem;
+  font-weight:900;
+  letter-spacing:.12em;
+}
+body.course-junior .sound-wave {
+  right:16px;
+  bottom:13px;
+}
+body.course-junior .sound-wave span {
+  background:var(--jr-coral);
+}
+
+body.course-junior #controls {
+  width:min(100%,460px);
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:0;
+}
+body.course-junior button.ctrl,
+body.course-junior #p2-listen-btn,
+body.course-junior #p2-check-btn,
+body.course-junior #btn-restart,
+body.course-junior #btn-review-wrong {
+  min-width:0;
+  min-height:48px;
+  padding:9px 10px;
+  border:2px solid var(--jr-ink);
+  border-radius:8px;
+  box-shadow:4px 4px 0 var(--jr-shadow);
+  font-family:'Nunito',sans-serif;
+  font-size:.88rem;
+  font-weight:900;
+  line-height:1.1;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  transition:transform .15s, box-shadow .15s, background .15s;
+}
+body.course-junior button.ctrl:active,
+body.course-junior #p2-listen-btn:active,
+body.course-junior #p2-check-btn:active,
+body.course-junior #btn-restart:active,
+body.course-junior #btn-review-wrong:active {
+  transform:translate(2px,2px);
+  box-shadow:2px 2px 0 var(--jr-shadow);
+}
+body.course-junior .btn-shuffle {
+  background:var(--jr-mustard);
+  color:var(--jr-ink);
+}
+body.course-junior .btn-listen {
+  background:var(--jr-paper);
+  border-color:var(--jr-teal) !important;
+  color:var(--jr-teal);
+}
+body.course-junior .btn-listen.speaking {
+  background:var(--jr-teal);
+  color:#fff;
+}
+body.course-junior .btn-next,
+body.course-junior #btn-restart {
+  background:var(--jr-coral);
+  color:#fff;
+}
+body.course-junior .btn-auto {
+  grid-column:2;
+  background:var(--jr-blue);
+  color:#fff;
+}
+.ui-icon {
+  width:1.08em;
+  height:1.08em;
+  flex:0 0 auto;
+  fill:none;
+  stroke:currentColor;
+  stroke-width:1.8;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+  vertical-align:-.16em;
+}
+
+body.course-junior #bottom-row {
+  width:min(100%,460px);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-top:14px;
+  padding-top:12px;
+  border-top:1px solid #c7cdca;
+  color:var(--jr-ink-soft);
+}
+body.course-junior #tts-wrap,
+body.course-junior #speed-wrap {
+  min-width:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font-family:'Nunito',sans-serif;
+  font-size:.78rem;
+  font-weight:900;
+  line-height:1.2;
+}
+body.course-junior #tts-toggle {
+  width:40px;
+  height:22px;
+  border:1px solid var(--jr-ink-soft);
+  border-radius:11px;
+  background:#c9cfcd;
+}
+body.course-junior #tts-toggle.on {
+  background:var(--jr-teal);
+}
+body.course-junior #tts-toggle::after {
+  box-shadow:0 1px 2px rgba(0,0,0,.18);
+}
+body.course-junior #speed-wrap input[type=range] {
+  width:76px;
+  accent-color:var(--jr-coral);
+  cursor:pointer;
+}
+body.course-junior #speed-label {
+  min-width:43px;
+  color:var(--jr-ink);
+}
+
+body.course-junior #p2-panel {
+  width:min(100%,460px);
+  gap:12px;
+}
+body.course-junior #p2-illus-wrap {
+  width:min(100%,330px);
+  padding:6px;
+  border:2px solid var(--jr-ink);
+  border-radius:8px;
+  background:var(--jr-paper);
+  box-shadow:6px 6px 0 var(--jr-shadow);
+}
+body.course-junior #p2-illus-wrap svg,
+body.course-junior #p2-illus-wrap img {
+  display:block;
+  width:100% !important;
+  height:auto !important;
+  max-height:300px;
+  object-fit:contain;
+  border-radius:3px;
+}
+body.course-junior #p2-listen-btn {
+  background:var(--jr-teal);
+  color:#fff;
+  animation:none;
+}
+body.course-junior #p2-score {
+  padding:5px 9px;
+  border:1px solid #b9c3c0;
+  border-radius:4px;
+  background:transparent;
+  color:var(--jr-ink-soft);
+  box-shadow:none;
+  font-size:.82rem;
+}
+body.course-junior #p2-hint {
+  color:var(--jr-ink-soft);
+  font-size:.9rem;
+  letter-spacing:.18em;
+}
+body.course-junior #p2-input {
+  min-height:48px;
+  border:2px solid var(--jr-ink-soft);
+  border-radius:6px;
+  background:#fffdf7;
+  color:var(--jr-ink);
+  font-family:'Nunito',sans-serif;
+  font-size:1.1rem;
+  letter-spacing:.08em;
+}
+body.course-junior #p2-input:focus { border-color:var(--jr-blue); }
+body.course-junior #p2-input.correct { border-color:var(--jr-teal); background:#f2f8f4; }
+body.course-junior #p2-input.wrong { border-color:var(--jr-coral); background:#fff5f1; }
+body.course-junior #p2-check-btn {
+  background:var(--jr-blue);
+  color:#fff;
+}
+body.course-junior #p2-reveal {
+  padding:14px 16px;
+  border:2px solid var(--jr-ink);
+  border-radius:8px;
+  background:var(--jr-paper);
+  box-shadow:4px 4px 0 var(--jr-shadow);
+}
+body.course-junior .reveal-word {
+  color:var(--jr-ink);
+  font-family:'Nunito',sans-serif;
+  font-size:2rem;
+  font-weight:900;
+}
+body.course-junior .reveal-phonetic { color:var(--jr-ink-soft); }
+body.course-junior .fb-correct { color:var(--jr-teal); }
+body.course-junior .fb-wrong { color:var(--jr-coral); }
+
+body.course-junior #done-overlay {
+  background:rgba(237,240,239,.97);
+  color:var(--jr-ink);
+  font-family:'Nunito',sans-serif;
+}
+body.course-junior #done-overlay h2 {
+  color:var(--jr-ink);
+  font-family:'Nunito',sans-serif;
+  font-size:2.3rem;
+  text-shadow:none;
+}
+body.course-junior .done-mark {
+  display:inline-flex;
+  width:1.1em;
+  height:1.1em;
+  align-items:center;
+  justify-content:center;
+  border:2px solid var(--jr-teal);
+  border-radius:50%;
+  color:var(--jr-teal);
+  font-size:.62em;
+  vertical-align:.12em;
+}
+body.course-junior #done-overlay p { color:var(--jr-ink-soft); }
+body.course-junior #done-detail {
+  border:2px solid var(--jr-ink);
+  border-radius:8px;
+  background:var(--jr-paper);
+  color:var(--jr-ink);
+  box-shadow:5px 5px 0 var(--jr-shadow);
+}
+body.course-junior .result-title { color:var(--jr-blue); }
+body.course-junior #btn-review-wrong {
+  background:var(--jr-mustard);
+  color:var(--jr-ink);
+}
+
+body.course-junior :is(button,input):focus-visible {
+  outline:3px solid var(--jr-coral);
+  outline-offset:3px;
+}
+@media (max-width:520px) {
+  body.course-junior { padding:14px 12px 28px; }
+  body.course-junior #main-title { font-size:1.75rem; margin-bottom:12px; }
+  body.course-junior #session-selector { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  body.course-junior .card-face { min-height:340px; }
+  body.course-junior .card-word { font-size:2.15rem; }
+  body.course-junior #bottom-row { grid-template-columns:1fr; gap:8px; }
+}
+@media (max-width:360px) {
+  body.course-junior .course-btn,
+  body.course-junior .session-btn { font-size:.84rem; }
+  body.course-junior .phase-btn { font-size:.9rem; }
+  body.course-junior button.ctrl { font-size:.78rem; padding-inline:6px; }
+  body.course-junior .card-face { min-height:320px; padding-inline:12px; }
+  body.course-junior .card-word { font-size:1.9rem; }
+}
+@media (prefers-reduced-motion:reduce) {
+  body.course-junior *, body.course-junior *::before, body.course-junior *::after {
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    scroll-behavior:auto !important;
+    transition-duration:.01ms !important;
+  }
+}
 </style>
 </head>
 <body class="course-junior">
 
 <div id="done-overlay">
-  <h2>🎉 Well done!</h2>
+  <h2><span class="done-mark" aria-hidden="true">✓</span> Well done!</h2>
   <p id="done-msg">Session completed!</p>
   <div id="done-detail"></div>
-  <button id="btn-review-wrong" onclick="reviewWrongWords()">Review Wrong Words 🔁</button>
-  <button id="btn-restart" onclick="restart()">Play Again 🔄</button>
+  <button id="btn-review-wrong" onclick="reviewWrongWords()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 0 0 15.5 6.2L21 16.5"/><path d="M21 12a9 9 0 0 0-15.5-6.2L3 7.5"/><path d="M21 16.5v-4h-4M3 7.5v4h4"/></svg><span data-button-label>Review Wrong Words</span></button>
+  <button id="btn-restart" onclick="restart()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg><span data-button-label>Play Again</span></button>
 </div>
 
-<div id="main-title">⚡ Flash Cards</div>
+<div id="main-title">Flash Cards</div>
 
 <div id="course-selector">
   <button class="course-btn active" data-course="junior" onclick="setCourse('junior')">國中課程</button>
@@ -265,8 +765,8 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 </div>
 
 <div id="phase-selector">
-  <button class="phase-btn p1 active" onclick="setPhase(1)">① Learn</button>
-  <button class="phase-btn p2"        onclick="setPhase(2)">② Spell</button>
+  <button class="phase-btn p1 active" aria-label="Learn" onclick="setPhase(1)"><span class="phase-index">01</span><span>Learn</span></button>
+  <button class="phase-btn p2"        aria-label="Spell" onclick="setPhase(2)"><span class="phase-index">02</span><span>Spell</span></button>
 </div>
 
 <div id="progress-track"><div id="progress-bar"></div></div>
@@ -290,12 +790,12 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 <!-- Phase 2 spell panel -->
 <div id="p2-panel">
   <div id="p2-illus-wrap"></div>
-  <button id="p2-listen-btn" onclick="speakCurrent()">🔊 Listen again</button>
+  <button id="p2-listen-btn" onclick="speakCurrent()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9.5a4 4 0 0 1 0 5M19.5 7a7.5 7.5 0 0 1 0 10"/></svg><span>Listen again</span></button>
   <div id="p2-score">Correct: 0 · Wrong: 0</div>
   <div id="p2-hint"></div>
   <div id="p2-input-wrap">
     <input id="p2-input" type="text" placeholder="Type the word…" autocomplete="off" autocorrect="off" spellcheck="false"/>
-    <button id="p2-check-btn" onclick="checkSpelling()">✓ Check</button>
+    <button id="p2-check-btn" onclick="checkSpelling()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6"/></svg><span data-button-label>Check</span></button>
   </div>
   <div id="p2-reveal">
     <div class="reveal-word"     id="reveal-word"></div>
@@ -306,18 +806,18 @@ button.ctrl:active{transform:translateY(3px);box-shadow:0 1px 0 rgba(0,0,0,.15)}
 
 <!-- Controls -->
 <div id="controls">
-  <button class="ctrl btn-shuffle" onclick="shuffleAndRestart()">🔀 Shuffle</button>
-  <button class="ctrl btn-listen"  id="btn-speak" onclick="speakCurrent()">🔊 Listen</button>
-  <button class="ctrl btn-next"    id="btn-next"  onclick="nextCard()">Next ➡️</button>
-  <button class="ctrl btn-auto"    id="btn-auto"  onclick="toggleAuto()">▶️ Auto</button>
+  <button class="ctrl btn-shuffle" onclick="shuffleAndRestart()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h3c5 0 7 10 12 10h3"/><path d="m18 14 3 3-3 3"/><path d="M3 17h3c1.5 0 2.7-.7 3.7-1.7M14.3 8.7C15.3 7.6 16.2 7 18 7h3"/><path d="m18 4 3 3-3 3"/></svg><span>Shuffle</span></button>
+  <button class="ctrl btn-listen"  id="btn-speak" onclick="speakCurrent()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9.5a4 4 0 0 1 0 5M19.5 7a7.5 7.5 0 0 1 0 10"/></svg><span>Listen</span></button>
+  <button class="ctrl btn-next"    id="btn-next"  onclick="nextCard()"><span>Next</span><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+  <button class="ctrl btn-auto"    id="btn-auto"  onclick="toggleAuto()"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m8 5 11 7-11 7V5z"/></svg><span data-button-label>Auto</span></button>
 </div>
 
 <div id="bottom-row">
   <div id="tts-wrap">
-    🔕 <button id="tts-toggle" class="on" onclick="toggleTTS()"></button> 🔊 Auto Read
+    <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="m19 9-5 6M14 9l5 6"/></svg><button id="tts-toggle" class="on" onclick="toggleTTS()" aria-label="Toggle auto read"></button><span>Auto Read</span>
   </div>
   <div id="speed-wrap">
-    🐢 <input type="range" id="speed-slider" min="1" max="5" value="3"> 🚀
+    <span aria-hidden="true">Slow</span><input type="range" id="speed-slider" min="1" max="5" value="3" aria-label="Reading speed"><span aria-hidden="true">Fast</span>
     <span id="speed-label">Medium</span>
   </div>
 </div>
@@ -944,6 +1444,274 @@ function vectorIconFor(item){
   return icon;
 }
 
+// Direction A prototype: one green mascot, one clear semantic action, and very few props.
+const MASCOT_STYLE={
+  green:'#18ad70', greenDark:'#11885b', ink:'#171717', paper:'#fffdf8',
+  mint:'#dcefe5', yellow:'#ffd34e', orange:'#f28b54', pink:'#e97989',
+  blue:'#8fc4d6', purple:'#a88bd2', gray:'#b9c0c0', brown:'#a87952'
+};
+
+function mascotLine(d,color=MASCOT_STYLE.ink,width=3.4){
+  return `<path d="${d}" fill="none" stroke="${color}" stroke-width="${width}" stroke-linecap="round" stroke-linejoin="round"/>`;
+}
+
+function mascotBody(x=70,y=82,scale=1,options={}){
+  const {tilt=0,mood='neutral',fill=MASCOT_STYLE.green}=options;
+  const mouths={
+    neutral:'M-7 11 Q0 15 7 11',
+    smile:'M-8 9 Q0 18 8 9',
+    flat:'M-7 12 H7',
+    surprised:'M0 9 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0',
+    frown:'M-8 16 Q0 8 8 16'
+  };
+  const arms=mood==='shrug'
+    ? `${mascotLine('M-21 2 Q-37 -6 -39 9',MASCOT_STYLE.ink,3)}${mascotLine('M21 2 Q37 -6 39 9',MASCOT_STYLE.ink,3)}`
+    : `${mascotLine('M-21 2 Q-34 10 -30 22',MASCOT_STYLE.ink,3)}${mascotLine('M21 2 Q34 10 30 22',MASCOT_STYLE.ink,3)}`;
+  return `<g transform="translate(${x} ${y}) rotate(${tilt}) scale(${scale})">
+    <path d="M-25 -31 Q-30 -6 -23 18 Q-15 37 0 39 Q16 37 24 17 Q31 -8 23 -31 Q11 -44 -4 -42 Q-19 -41 -25 -31Z" fill="${fill}" stroke="${MASCOT_STYLE.ink}" stroke-width="4" stroke-linejoin="round"/>
+    ${arms}
+    <circle cx="-9" cy="-7" r="3.2" fill="${MASCOT_STYLE.ink}"/>
+    <circle cx="9" cy="-7" r="3.2" fill="${MASCOT_STYLE.ink}"/>
+    ${mascotLine(mouths[mood]||mouths.neutral,MASCOT_STYLE.ink,2.6)}
+  </g>`;
+}
+
+function mascotSvg(scene){
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-hidden="true">
+    <rect width="${W}" height="${H}" rx="14" fill="${MASCOT_STYLE.paper}"/>
+    ${scene}
+  </svg>`;
+}
+
+
+// Stable Direction A renderer. SVG fragments are assembled through helpers so
+// every prop remains valid markup when a card is rendered on a small screen.
+function mascotIllustrationFor(item){
+  const m=MASCOT_STYLE;
+  const line=(d,color=m.ink,width=3.4)=>mascotLine(d,color,width);
+  const shape=(tag,attrs)=>'<'+tag+' '+attrs+'/>';
+  const path=(d,attrs)=>shape('path','d="'+d+'" '+attrs);
+  const circle=(cx,cy,r,attrs)=>shape('circle','cx="'+cx+'" cy="'+cy+'" r="'+r+'" '+attrs);
+  const rect=(x,y,w,h,attrs)=>shape('rect','x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" '+attrs);
+  const ellipse=(cx,cy,rx,ry,attrs)=>shape('ellipse','cx="'+cx+'" cy="'+cy+'" rx="'+rx+'" ry="'+ry+'" '+attrs);
+  const filled=(fill,width=3.5,extra='')=>'fill="'+fill+'" stroke="'+m.ink+'" stroke-width="'+width+'" stroke-linejoin="round"'+extra;
+  const outline=(width=3.4,extra='')=>'fill="none" stroke="'+m.ink+'" stroke-width="'+width+'" stroke-linecap="round" stroke-linejoin="round"'+extra;
+  const outlinedPath=(d,width=3.4,extra='')=>path(d,outline(width,extra));
+  const filledPath=(d,fill,width=3.5,extra='')=>path(d,filled(fill,width,extra));
+  const cookie=
+    circle(103,86,22,filled('#e5b36f',3))+
+    circle(93,77,3,'fill="'+m.brown+'"')+
+    circle(109,73,3,'fill="'+m.brown+'"')+
+    circle(115,91,3,'fill="'+m.brown+'"')+
+    circle(97,99,3,'fill="'+m.brown+'"');
+  const star=filledPath('M113 22 l4 9 10 1-8 7 3 10-9-5-9 5 3-10-8-7 10-1z',m.yellow,3);
+  const mouse=(x,y,scale=1)=>'<g transform="translate('+x+' '+y+') scale('+scale+')">'+
+    filledPath('M-13 8 Q-19 -5 -10 -13 Q-2 -20 6 -13 Q15 -5 9 8 Q2 19 -13 8Z','#c7c7c7',2.5)+
+    circle(-8,-14,6,filled('#c7c7c7',2))+
+    circle(4,-14,6,filled('#c7c7c7',2))+
+    circle(-4,-3,2,'fill="'+m.ink+'"')+
+    outlinedPath('M7 4 Q21 4 25 10',2)+'</g>';
+  let scene='';
+  switch(item.word){
+    case 'House':
+      scene=filledPath('M10 64 L45 32 L80 64 V106 H10Z',m.mint)+
+        outlinedPath('M7 64 L45 30 L83 64',3.5)+
+        rect(31,80,27,26,filled(m.yellow,3))+
+        rect(18,68,13,13,filled(m.blue,2.5))+
+        mascotBody(108,84,.58,{mood:'smile'});
+      break;
+    case 'Parents':
+      scene=mascotBody(42,82,.62,{mood:'smile'})+
+        mascotBody(98,82,.62,{mood:'smile',tilt:2})+
+        filledPath('M70 43 C62 34 50 47 70 61 C90 47 78 34 70 43Z',m.pink,3);
+      break;
+    case 'Living Room':
+      scene=filledPath('M14 68 Q14 56 26 56 H114 Q126 56 126 68 V101 H14Z',m.blue)+
+        outlinedPath('M18 80 H122 M28 57 V80 M112 57 V80',3.2)+
+        outlinedPath('M20 101 V112 M120 101 V112',3)+
+        mascotBody(72,79,.47,{mood:'smile'});
+      break;
+    case 'Wall':
+      scene=rect(16,22,108,88,filled('#d9dfda',3.5))+
+        rect(31,35,37,29,filled(m.yellow,3))+
+        outlinedPath('M18 95 H122',3)+
+        mascotBody(91,84,.58,{mood:'neutral',tilt:-5})+
+        line('M88 61 Q75 52 68 50',m.ink,2.5);
+      break;
+    case 'Purple':
+      scene=rect(83,43,38,38,filled(m.purple,3))+
+        outlinedPath('M83 91 H121',3)+
+        mascotBody(48,83,.62,{mood:'smile'})+
+        line('M69 67 Q79 61 84 60',m.ink,3);
+      break;
+    case 'Favorite':
+      scene=star+mascotBody(66,84,.7,{mood:'smile'})+
+        line('M44 91 Q65 72 87 91',m.pink,5);
+      break;
+    case 'Color':
+      scene=rect(83,31,21,21,filled(m.orange,2.5))+
+        rect(108,31,21,21,filled(m.purple,2.5))+
+        rect(83,57,21,21,filled(m.yellow,2.5))+
+        rect(108,57,21,21,filled(m.blue,2.5))+
+        mascotBody(47,84,.66,{mood:'smile'});
+      break;
+    case 'Kitchen':
+      scene=outlinedPath('M12 96 H128',3.5)+
+        rect(42,74,56,26,filled(m.orange,3.5))+
+        outlinedPath('M52 74 Q70 58 88 74',3.5)+
+        outlinedPath('M70 42 V67 M61 48 Q70 38 79 48',3)+
+        mascotBody(28,82,.42,{mood:'neutral'});
+      break;
+    case 'Dining Room':
+      scene=filledPath('M17 66 Q70 54 123 66 L117 78 Q70 89 23 78Z',m.brown)+
+        outlinedPath('M30 78 L24 111 M110 78 L116 111',3.2)+
+        ellipse(70,69,18,7,'fill="'+m.paper+'" stroke="'+m.ink+'" stroke-width="2.5"')+
+        circle(70,68,4,'fill="'+m.orange+'"')+
+        mascotBody(70,43,.42,{mood:'smile'});
+      break;
+    case 'But':
+      scene=outlinedPath('M20 74 H52 M88 74 H120',4)+
+        line('M52 65 L66 74 L52 83 M88 65 L74 74 L88 83',m.orange,3.5)+
+        line('M70 38 V110',m.ink,3)+
+        mascotBody(43,44,.42,{mood:'smile'})+
+        mascotBody(97,103,.42,{mood:'flat',tilt:180});
+      break;
+    case 'Gray':
+      scene=circle(98,70,28,filled(m.gray,3.5))+
+        outlinedPath('M80 105 H116',3)+
+        mascotBody(45,83,.64,{mood:'neutral'});
+      break;
+    case 'Brown':
+      scene=rect(82,42,43,53,filled(m.brown,3.5))+
+        outlinedPath('M89 54 H118 M89 66 H110',2.5)+
+        mascotBody(43,83,.64,{mood:'smile'});
+      break;
+    case 'Cookie':
+      scene=cookie+mascotBody(44,82,.64,{mood:'smile'})+
+        line('M67 72 Q78 67 83 70',m.ink,3);
+      break;
+    case 'Mice':
+      scene=mouse(99,81,.9)+mouse(120,96,.55)+
+        mascotBody(46,83,.62,{mood:'neutral'})+
+        line('M68 67 Q79 58 88 70',m.ink,2.5);
+      break;
+    case 'Maybe':
+      scene=outlinedPath('M101 27 Q117 27 115 42 Q114 51 104 56 Q99 59 99 66',5)+
+        circle(99,79,3,'fill="'+m.orange+'"')+
+        mascotBody(49,84,.67,{mood:'shrug'});
+      break;
+    case 'Sofa':
+      scene=filledPath('M17 71 Q17 57 30 57 H110 Q123 57 123 71 V101 H17Z',m.blue)+
+        outlinedPath('M18 82 H122 M29 58 V81 M111 58 V81',3)+
+        outlinedPath('M26 101 V112 M114 101 V112',3)+
+        mascotBody(70,84,.37,{mood:'smile'});
+      break;
+    case 'Hungry':
+      scene=filledPath('M78 81 Q101 72 124 81 L119 101 Q101 113 83 101Z',m.paper)+
+        line('M82 82 Q101 90 120 82',m.blue,3)+
+        outlinedPath('M87 88 H115',2.4)+
+        mascotBody(43,84,.66,{mood:'frown',tilt:5})+
+        line('M28 109 Q44 101 60 109',m.ink,3);
+      break;
+    case 'Notebook':
+      scene=filledPath('M74 38 L120 46 V103 L74 95Z M74 38 L26 46 V103 L74 95Z',m.paper)+
+        outlinedPath('M74 39 V96 M35 59 H65 M83 59 H110 M35 72 H65 M83 72 H110',2.5)+
+        mascotBody(47,101,.35,{mood:'smile'});
+      break;
+    case 'Marker':
+      scene='<g transform="rotate(-22 94 70)">'+
+        rect(82,38,24,66,filled(m.orange,3.5))+
+        outlinedPath('M82 52 H106 M82 89 H106',2.5)+
+        filledPath('M87 38 H101 L106 27 H82Z',m.blue,3.5)+
+        '</g>'+mascotBody(45,84,.62,{mood:'smile'});
+      break;
+    case 'Brush':
+      scene=filledPath('M96 33 L112 49 L72 89 L56 73Z',m.brown)+
+        filledPath('M56 73 Q43 72 35 83 Q30 91 25 103 Q40 99 48 94 Q59 88 56 73Z',m.purple)+
+        circle(105,42,4,filled(m.yellow,2))+
+        mascotBody(102,100,.32,{mood:'smile'});
+      break;
+    case 'Gift':
+      scene=rect(68,57,55,46,filled(m.pink,3.5))+
+        line('M68 70 H123 M95 57 V103',m.yellow,4)+
+        filledPath('M95 57 Q82 43 76 55 Q76 64 95 62 Q114 64 114 55 Q108 43 95 57Z',m.yellow,3)+
+        mascotBody(39,84,.61,{mood:'smile'});
+      break;
+    case 'Pencil Case':
+      scene=filledPath('M66 51 Q66 42 76 42 H118 Q126 42 126 51 V91 Q126 100 118 100 H76 Q66 100 66 91Z',m.blue)+
+        outlinedPath('M75 58 H117',2.5)+
+        outlinedPath('M80 51 L76 25 M95 51 L94 21 M110 51 L113 27',3)+
+        line('M76 25 L81 25 M94 21 L99 21 M113 27 L118 27',m.orange,3);
+      break;
+    case 'Bathroom':
+      scene=filledPath('M18 78 H119 Q121 101 99 105 H38 Q18 101 18 78Z',m.blue)+
+        outlinedPath('M40 78 V56 Q40 42 53 42 Q65 42 65 55 V62 H56 V55 Q56 51 52 51 Q49 51 49 56 V78',3.2)+
+        outlinedPath('M83 69 Q83 57 95 57 Q107 57 107 69',3)+
+        mascotBody(73,97,.34,{mood:'smile'});
+      break;
+    case 'Table':
+      scene=filledPath('M22 57 H118 L109 76 H31Z',m.brown)+
+        outlinedPath('M35 76 L27 111 M105 76 L113 111',3.3)+
+        circle(70,55,9,filled(m.yellow,2.5))+
+        mascotBody(70,101,.35,{mood:'smile'});
+      break;
+    case 'Bedroom':
+      scene=filledPath('M14 75 H125 V103 H14Z',m.blue)+
+        filledPath('M14 75 Q24 59 42 75 V103 H14Z',m.purple,3)+
+        line('M48 82 H116',m.paper,3)+
+        outlinedPath('M116 51 V75 M110 51 H122',3)+
+        filledPath('M108 49 Q116 38 124 49Z',m.yellow,3)+
+        mascotBody(74,91,.37,{mood:'smile'});
+      break;
+    case 'Near':
+      scene=circle(108,69,18,filled(m.yellow,3))+
+        mascotBody(52,84,.65,{mood:'smile'})+
+        line('M74 103 H99 M74 98 V108 M99 98 V108',m.orange,3);
+      break;
+    case 'Between':
+      scene=circle(22,70,17,filled(m.yellow,3))+
+        circle(118,70,17,filled(m.blue,3))+
+        mascotBody(70,83,.62,{mood:'smile'})+
+        line('M40 70 H54 M86 70 H100',m.ink,2.8);
+      break;
+    case 'Behind':
+      scene=mascotBody(69,76,.68,{mood:'smile'})+
+        rect(45,55,60,49,filled(m.orange,3.5))+
+        outlinedPath('M54 68 H96',2.5);
+      break;
+    case 'In Front Of':
+      scene=rect(67,39,58,60,filled(m.orange,3.5))+
+        mascotBody(51,84,.68,{mood:'smile'})+
+        line('M70 112 H119',m.ink,2.8);
+      break;
+    case 'Special':
+      scene=outlinedPath('M70 20 V110 M18 65 H122',3)+
+        circle(70,65,29,'fill="'+m.yellow+'" opacity=".45"')+
+        star+
+        mascotBody(70,82,.62,{mood:'smile'});
+      break;
+    case 'Inside':
+      scene=filledPath('M31 48 H109 V105 H31Z',m.mint)+
+        filledPath('M31 48 L70 29 L109 48',m.paper,3.5)+
+        mascotBody(70,83,.5,{mood:'smile'});
+      break;
+    case 'Right':
+      scene=mascotBody(49,84,.68,{mood:'smile'})+
+        line('M79 70 L91 82 L119 50',m.greenDark,6)+
+        circle(103,86,23,'fill="none" stroke="'+m.yellow+'" stroke-width="3"');
+      break;
+    case 'Each Other':
+      scene=mascotBody(42,82,.61,{mood:'smile',tilt:-3})+
+        mascotBody(98,82,.61,{mood:'smile',tilt:3})+
+        line('M61 67 Q70 56 79 67',m.yellow,5)+
+        line('M62 68 L78 68',m.ink,2.5);
+      break;
+    default:
+      scene=mascotBody(70,82,.75,{mood:'smile'});
+  }
+  return mascotSvg(scene);
+}
+
 function genericIllustration(item){
   return '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'">'+
     '<rect width="'+W+'" height="'+H+'" rx="12" fill="#f8fafc"/>'+
@@ -953,10 +1721,78 @@ function genericIllustration(item){
     '</svg>';
 }
 
+// User-selected final illustration assets wired into the local app.
+// Keep this map separate from vocabulary data so a visual replacement does not
+// alter the word, phonetic, category, or lesson ordering. Superseded variants
+// remain in assets/ for history and are never selected implicitly.
+const IMAGE_OVERRIDES = Object.freeze({
+  "Classmate":   "assets/visual-prototypes/pilot-v0.1/unit1/classmate.png",
+  "I See":       "assets/visual-prototypes/pilot-v0.1/unit1/i-see.png",
+  "House":       "assets/visual-prototypes/batch-v0.2/wave-02-concrete/house-anchor.jpg",
+  "Parents":     "assets/visual-prototypes/semantic-v0.2/family-parents/parents-v2.png",
+  "Living Room": "assets/visual-prototypes/batch-v0.2/wave-02-concrete/living-room-v1.png",
+  "Wall":        "assets/visual-prototypes/batch-v0.2/wave-02-concrete/wall-v1.png",
+  "Purple":      "assets/visual-prototypes/batch-v0.2/wave-05-color-grammar/purple-v1.png",
+  "Color":       "assets/visual-prototypes/batch-v0.2/wave-05-color-grammar/color-v1.png",
+  "Colorful":    "assets/visual-prototypes/batch-v0.2/wave-05-color-grammar/colorful-v1.png",
+  "Kitchen":     "assets/visual-prototypes/batch-v0.2/wave-02-concrete/kitchen-v1.png",
+  "Dining Room": "assets/visual-prototypes/batch-v0.2/wave-02-concrete/dining-room-v1.png",
+  "Gray":        "assets/visual-prototypes/batch-v0.2/wave-05-color-grammar/gray-v1.png",
+  "Brown":       "assets/visual-prototypes/batch-v0.2/wave-05-color-grammar/brown-v1.png",
+  "Cookie":      "assets/visual-prototypes/batch-v0.2/wave-03-everyday-objects/cookie-v1.png",
+  "Mice":        "assets/visual-prototypes/batch-v0.2/wave-04-home-social/mice-v1.png",
+  "Maybe":       "assets/visual-prototypes/pilot-v0.1/unit2/maybe.png",
+  "Sofa":        "assets/visual-prototypes/batch-v0.2/wave-02-concrete/sofa-v1.png",
+  "Notebook":    "assets/visual-prototypes/batch-v0.2/wave-03-everyday-objects/notebook-v1.png",
+  "Marker":      "assets/visual-prototypes/batch-v0.2/wave-03-everyday-objects/marker-v1.png",
+  "Brush":       "assets/visual-prototypes/batch-v0.2/wave-03-everyday-objects/brush-v1.png",
+  "Gift":        "assets/visual-prototypes/batch-v0.2/wave-03-everyday-objects/gift-v1.png",
+  "Pencil Case": "assets/visual-prototypes/batch-v0.2/wave-03-everyday-objects/pencil-case-v1.png",
+  "Bathroom":    "assets/visual-prototypes/batch-v0.2/wave-04-home-social/bathroom-v1.png",
+  "Table":       "assets/visual-prototypes/batch-v0.2/wave-04-home-social/table-v1.png",
+  "Bedroom":    "assets/visual-prototypes/batch-v0.2/wave-04-home-social/bedroom-v1.png",
+  "Near":        "assets/visual-prototypes/batch-v0.2/wave-01-spatial/near-v2.png",
+  "Between":     "assets/visual-prototypes/semantic-v0.2/between/between-clean-v2.png",
+  "Behind":      "assets/visual-prototypes/batch-v0.2/wave-01-spatial/behind-v1.png",
+  "In Front Of": "assets/visual-prototypes/batch-v0.2/wave-01-spatial/in-front-of-v2.png",
+  "Inside":      "assets/visual-prototypes/batch-v0.2/wave-01-spatial/inside-v1.png",
+  "Each Other":  "assets/visual-prototypes/semantic-v0.2/each-other/each-other-pointing-v3.png",
+  "Family":      "assets/visual-prototypes/semantic-v0.2/family-parents/family-v2.png",
+  "Favorite":    "assets/visual-prototypes/batch-v0.2/wave-06-abstract-grammar/favorite-v1.png",
+  "But":         "assets/visual-prototypes/batch-v0.2/wave-06-abstract-grammar/but-v1-character-hold.png",
+  "Hungry":      "assets/visual-prototypes/batch-v0.2/wave-06-abstract-grammar/hungry-v1.png",
+  "Special":     "assets/visual-prototypes/batch-v0.2/wave-06-abstract-grammar/special-v1.png",
+  "Singer":      "assets/visual-prototypes/batch-v0.2/wave-07-people-roles/singer-v2.png",
+  "Writer":      "assets/visual-prototypes/batch-v0.2/wave-07-people-roles/writer-v1.png",
+  "Police Officer":"assets/visual-prototypes/batch-v0.2/wave-07-people-roles/police-officer-v1.png",
+  "Baby":        "assets/visual-prototypes/batch-v0.2/wave-07-people-roles/baby-v1.png",
+  "Uncle":       "assets/visual-prototypes/batch-v0.2/wave-08-family-roles/uncle-v1.png",
+  "Aunt":        "assets/visual-prototypes/batch-v0.2/wave-08-family-roles/aunt-v2.png",
+  "Wife":        "assets/visual-prototypes/batch-v0.2/wave-08-family-roles/wife-v1.png",
+  "Husband":     "assets/visual-prototypes/batch-v0.2/wave-08-family-roles/husband-v1.png",
+  "Daughter":    "assets/visual-prototypes/batch-v0.2/wave-08-family-roles/daughter-v1.png",
+  "Junior High School":"assets/visual-prototypes/batch-v0.2/wave-09-school-greetings/junior-high-school-v1.png",
+  "Elementary School":"assets/visual-prototypes/batch-v0.2/wave-09-school-greetings/elementary-school-v1.png",
+  "Housewife":   "assets/visual-prototypes/batch-v0.2/wave-09-school-greetings/housewife-v1.png",
+  "Nice to Meet You":"assets/visual-prototypes/batch-v0.2/wave-09-school-greetings/nice-to-meet-you-v1.png",
+  "Dear":        "assets/visual-prototypes/batch-v0.2/wave-09-school-greetings/dear-v1.png",
+  "Years Old":   "assets/visual-prototypes/batch-v0.2/wave-09-school-greetings/years-old-v3.png",
+  "Woman":       "assets/visual-prototypes/batch-v0.2/wave-10-traits-expressions/woman-v1.png",
+  "Young":       "assets/visual-prototypes/batch-v0.2/wave-10-traits-expressions/young-v4.png",
+  "New":         "assets/visual-prototypes/batch-v0.2/wave-10-traits-expressions/new-v1.png",
+  "Really":      "assets/visual-prototypes/batch-v0.2/wave-10-traits-expressions/really-v2.png",
+  "Very":        "assets/visual-prototypes/batch-v0.2/wave-10-traits-expressions/very-v2.png",
+  "Handsome":    "assets/visual-prototypes/batch-v0.2/wave-10-traits-expressions/handsome-v1.png",
+  "Beautiful":   "assets/visual-prototypes/batch-v0.2/wave-10-traits-expressions/beautiful-v1.png",
+  "Right":       "assets/visual-prototypes/batch-v0.2/wave-11-right-spatial/right-v2-turn.png"
+});
+
 function illustrationFor(item){
-  if(item.image){
-    return '<img src="'+item.image+'" alt="" loading="lazy" decoding="async">';
+  const imagePath=item.image || IMAGE_OVERRIDES[item.word];
+  if(imagePath){
+    return '<img src="'+imagePath+'" alt="" loading="lazy" decoding="async">';
   }
+  if(item.style==='mascot')return mascotIllustrationFor(item);
   const fn=IL[item.word];
   return fn?fn():genericIllustration(item);
 }
@@ -1040,15 +1876,15 @@ const JUNIOR_UNIT1_WORDS = [
   {word:"Wife",              phonetic:"/waɪf/",                       cat:"Family",     theme:"theme-family"},
   {word:"Daughter",          phonetic:"/ˈdɔː.tər/",                   cat:"Family",     theme:"theme-family"},
   {word:"Husband",           phonetic:"/ˈhʌz.bənd/",                  cat:"Family",     theme:"theme-family"},
-  {word:"Son",               phonetic:"/sʌn/",                        cat:"Family",     theme:"theme-family"},
+  {word:"Son",               phonetic:"/sʌn/",                        cat:"Family",     theme:"theme-family", image:"assets/visual-prototypes/batch-v0.2/wave-12-unit1-repair/son-v2.png"},
   {word:"Singer",            phonetic:"/ˈsɪŋ.ər/",                    cat:"Job",        theme:"theme-job"},
   {word:"Writer",            phonetic:"/ˈraɪ.tər/",                   cat:"Job",        theme:"theme-job"},
-  {word:"Office Worker",     phonetic:"/ˈɑː.fɪs ˈwɝː.kər/",          cat:"Job",        theme:"theme-job", image:"assets/unit1/office-worker.jpg"},
+  {word:"Office Worker",     phonetic:"/ˈɑː.fɪs ˈwɝː.kər/",          cat:"Job",        theme:"theme-job", image:"assets/visual-prototypes/batch-v0.2/wave-12-unit1-repair/office-worker-v2.png"},
   {word:"Housewife",         phonetic:"/ˈhaʊs.waɪf/",                 cat:"Job",        theme:"theme-job"},
   {word:"Police Officer",    phonetic:"/pəˈliːs ˈɑː.fɪ.sər/",        cat:"Job",        theme:"theme-job"},
   {word:"Nice to Meet You",  phonetic:"/naɪs tu miːt juː/",           cat:"Expression", theme:"theme-expression"},
   {word:"Years Old",         phonetic:"/jɪrz oʊld/",                  cat:"Expression", theme:"theme-expression"},
-  {word:"Cousin",            phonetic:"/ˈkʌz.ən/",                    cat:"Family",     theme:"theme-family", image:"assets/unit1/cousin.jpg"},
+  {word:"Cousin",            phonetic:"/ˈkʌz.ən/",                    cat:"Family",     theme:"theme-family", image:"assets/visual-prototypes/batch-v0.2/wave-12-unit1-repair/cousin-v2.png"},
   {word:"I See",             phonetic:"/aɪ siː/",                     cat:"Expression", theme:"theme-expression"},
   {word:"Really",            phonetic:"/ˈriː.ə.li/",                  cat:"Expression", theme:"theme-expression"},
   {word:"Handsome",          phonetic:"/ˈhæn.səm/",                   cat:"Trait",      theme:"theme-trait"},
@@ -1058,7 +1894,48 @@ const JUNIOR_UNIT1_WORDS = [
   {word:"Classmate",         phonetic:"/ˈklæs.meɪt/",                 cat:"School",     theme:"theme-family"},
   {word:"Beautiful",         phonetic:"/ˈbjuː.t̬ə.fəl/",              cat:"Trait",      theme:"theme-trait"},
   {word:"Young",             phonetic:"/jʌŋ/",                        cat:"Trait",      theme:"theme-trait"},
-  {word:"Too",               phonetic:"/tuː/",                        cat:"Trait",      theme:"theme-trait", image:"assets/unit1/too.jpg"},
+  {word:"Too",               phonetic:"/tuː/",                        cat:"Trait",      theme:"theme-trait", image:"assets/visual-prototypes/batch-v0.2/wave-12-unit1-repair/too-v2.png"},
+];
+
+const juniorUnit2 = (word, phonetic, cat, theme) => ({
+  word, phonetic, cat, theme, style:"mascot"
+});
+
+const JUNIOR_UNIT2_WORDS = [
+  juniorUnit2("House",          "/haʊs/",                 "Place",     "theme-place"),
+  juniorUnit2("Parents",        "/ˈper.ənts/",            "Family",    "theme-family"),
+  juniorUnit2("Living Room",    "/ˈlɪv.ɪŋ ruːm/",         "Place",     "theme-place"),
+  juniorUnit2("Wall",           "/wɔːl/",                 "Place",     "theme-place"),
+  juniorUnit2("Purple",        "/ˈpɝː.pəl/",              "Color",     "theme-trait"),
+  juniorUnit2("Favorite",       "/ˈfeɪ.vər.ɪt/",          "Trait",     "theme-trait"),
+  juniorUnit2("Color",          "/ˈkʌl.ər/",              "Color",     "theme-trait"),
+  juniorUnit2("Colorful",       "/ˈkʌl.ər.fəl/",           "Color",     "theme-trait"),
+  juniorUnit2("Kitchen",        "/ˈkɪtʃ.ən/",             "Place",     "theme-place"),
+  juniorUnit2("Dining Room",    "/ˈdaɪ.nɪŋ ruːm/",        "Place",     "theme-place"),
+  juniorUnit2("But",            "/bʌt/",                  "Connector", "theme-expression"),
+  juniorUnit2("Gray",           "/ɡreɪ/",                 "Color",     "theme-trait"),
+  juniorUnit2("Brown",          "/braʊn/",                "Color",     "theme-trait"),
+  juniorUnit2("Cookie",         "/ˈkʊk.i/",               "Food",      "theme-place"),
+  juniorUnit2("Mice",           "/maɪs/",                 "Animal",    "theme-family"),
+  juniorUnit2("Maybe",          "/ˈmeɪ.bi/",              "Expression","theme-expression"),
+  juniorUnit2("Sofa",           "/ˈsoʊ.fə/",              "Object",    "theme-place"),
+  juniorUnit2("Hungry",         "/ˈhʌŋ.ɡri/",             "State",     "theme-trait"),
+  juniorUnit2("Notebook",       "/ˈnoʊt.bʊk/",            "School",    "theme-accessor"),
+  juniorUnit2("Marker",         "/ˈmɑːr.kər/",            "School",    "theme-accessor"),
+  juniorUnit2("Brush",          "/brʌʃ/",                 "School",    "theme-accessor"),
+  juniorUnit2("Gift",           "/ɡɪft/",                 "Object",    "theme-accessor"),
+  juniorUnit2("Pencil Case",    "/ˈpen.səl keɪs/",        "School",    "theme-accessor"),
+  juniorUnit2("Bathroom",       "/ˈbæθ.ruːm/",            "Place",     "theme-place"),
+  juniorUnit2("Table",          "/ˈteɪ.bəl/",             "Object",    "theme-place"),
+  juniorUnit2("Bedroom",        "/ˈbed.ruːm/",            "Place",     "theme-place"),
+  juniorUnit2("Near",           "/nɪr/",                  "Position",  "theme-expression"),
+  juniorUnit2("Between",        "/bɪˈtwiːn/",             "Position",  "theme-expression"),
+  juniorUnit2("Behind",         "/bɪˈhaɪnd/",             "Position",  "theme-expression"),
+  juniorUnit2("In Front Of",    "/ɪn frʌnt əv/",          "Position",  "theme-expression"),
+  juniorUnit2("Special",        "/ˈspeʃ.əl/",             "Trait",     "theme-trait"),
+  juniorUnit2("Inside",         "/ɪnˈsaɪd/",              "Position",  "theme-expression"),
+  juniorUnit2("Right",          "/raɪt/",                 "Expression","theme-expression"),
+  juniorUnit2("Each Other",     "/iːtʃ ˈʌð.ər/",          "Expression","theme-expression"),
 ];
 
 function uniqueByWord(words){
@@ -1077,7 +1954,8 @@ const COURSES = {
     defaultSession:"juniorUnit1",
     sessions:[
       {key:"juniorUnit1", label:"Unit 1", words:JUNIOR_UNIT1_WORDS},
-      {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS])},
+      {key:"juniorUnit2", label:"Unit 2", words:JUNIOR_UNIT2_WORDS},
+      {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS, ...JUNIOR_UNIT2_WORDS])},
     ],
   },
   elementary:{
@@ -1218,6 +2096,13 @@ function setPhase(p){
   }
 }
 
+function setButtonLabel(button,label){
+  if(!button)return;
+  const target=button.querySelector('[data-button-label]');
+  if(target)target.textContent=label;
+  else button.textContent=label;
+}
+
 // ── Phase 1 ────────────────────────────────────────────────────────────────
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];}
@@ -1262,11 +2147,11 @@ function shuffleAndRestart(){
 }
 function toggleAuto(){if(isAuto)stopAuto();else startAuto();}
 function startAuto(){
-  isAuto=true;document.getElementById('btn-auto').textContent='⏹ Stop';
+  isAuto=true;setButtonLabel(document.getElementById('btn-auto'),'Stop');
   const ms=speeds[document.getElementById('speed-slider').value];
   autoTimer=setInterval(()=>{if(idx>=deck.length-1){stopAuto();showDone();return;}idx++;showCard(false);},ms);
 }
-function stopAuto(){isAuto=false;clearInterval(autoTimer);const b=document.getElementById('btn-auto');if(b)b.textContent='▶️ Auto';}
+function stopAuto(){isAuto=false;clearInterval(autoTimer);setButtonLabel(document.getElementById('btn-auto'),'Auto');}
 
 // ── Phase 2 ────────────────────────────────────────────────────────────────
 function resetP2Results(){
@@ -1323,7 +2208,7 @@ function loadP2Card(instant){
   const reveal=document.getElementById('p2-reveal');
   input.value='';input.className='';input.disabled=false;
   reveal.style.display='none';
-  document.getElementById('p2-check-btn').textContent='✓ Check';
+  setButtonLabel(document.getElementById('p2-check-btn'),'Check');
   // show illustration in phase 2 too
   document.getElementById('p2-illus-wrap').innerHTML=illustrationFor(item);
   // hint: underscores per word part
@@ -1348,12 +2233,12 @@ function checkSpelling(){
   fb.className='reveal-feedback '+(ok?'fb-correct':'fb-wrong');
   reveal.style.display='flex';
   input.disabled=true;p2Revealed=true;
-  document.getElementById('p2-check-btn').textContent=idx>=deck.length-1?'Show Score 🏁':'Next ➡️';
+  setButtonLabel(document.getElementById('p2-check-btn'),idx>=deck.length-1?'Show Score':'Next');
   speak(item.word);
 }
 function nextP2(){
   if(idx>=deck.length-1){showDone();return;}
-  idx++;document.getElementById('p2-check-btn').textContent='✓ Check';
+  idx++;setButtonLabel(document.getElementById('p2-check-btn'),'Check');
   loadP2Card(false);
 }
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1254" height="1254" viewBox="0 0 1254 1254" role="img" aria-label="Static closeness overlay for near">
+  <title>Near — static closeness overlay</title>
+  <path d="M688 560 H724" fill="none" stroke="#202223" stroke-width="28" stroke-linecap="round"/>
+  <path d="M688 560 H724" fill="none" stroke="#F2C44E" stroke-width="17" stroke-linecap="round"/>
+  <path d="M724 560 L697 539 L697 581 Z" fill="#F2C44E" stroke="#202223" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M800 560 H764" fill="none" stroke="#202223" stroke-width="28" stroke-linecap="round"/>
+  <path d="M800 560 H764" fill="none" stroke="#F2C44E" stroke-width="17" stroke-linecap="round"/>
+  <path d="M764 560 L791 539 L791 581 Z" fill="#F2C44E" stroke="#202223" stroke-width="8" stroke-linejoin="round"/>
+</svg>

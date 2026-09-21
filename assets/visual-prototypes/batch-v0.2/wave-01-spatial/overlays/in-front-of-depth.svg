@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1254" height="1254" viewBox="0 0 1254 1254" role="img" aria-label="Static depth overlay for in front of">
+  <title>In front of — static depth overlay</title>
+  <path d="M908 704 C900 756 878 803 849 846" fill="none" stroke="#202223" stroke-width="38" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M908 704 C900 756 878 803 849 846" fill="none" stroke="#F2C44E" stroke-width="23" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- The arrowhead follows the final down-left tangent toward the foreground anchor. -->
+  <path d="M849 846 L857 793 L895 819 Z" fill="#F2C44E" stroke="#202223" stroke-width="10" stroke-linejoin="round"/>
+</svg>
