@@ -740,6 +740,206 @@ body.course-junior :is(button,input):focus-visible {
     transition-duration:.01ms !important;
   }
 }
+
+/* Anchor-aligned visual refresh: warm paper, inked edges, and mascot-led color. */
+body.course-junior {
+  --jr-ink:#25221e;
+  --jr-ink-soft:#6c665c;
+  --jr-canvas:#eeeae1;
+  --jr-paper:#fbf8ef;
+  --jr-paper-soft:#fffdf7;
+  --jr-paper-deep:#d8d0c1;
+  --jr-blue:#7892a2;
+  --jr-teal:#3f987f;
+  --jr-green:#21b679;
+  --jr-mustard:#d2a040;
+  --jr-coral:#d4775b;
+  --jr-shadow:rgba(37,34,30,.20);
+  background-color:var(--jr-canvas);
+  background-image:
+    radial-gradient(circle at 14% 10%, rgba(210,160,64,.12) 0 2px, transparent 2.5px),
+    radial-gradient(circle at 86% 22%, rgba(63,152,127,.10) 0 1.5px, transparent 2px),
+    linear-gradient(135deg, rgba(255,255,255,.42), transparent 40%, rgba(213,204,188,.18));
+  background-size:110px 110px, 150px 150px, 100% 100%;
+}
+body.course-junior::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+  opacity:.22;
+  background-image:repeating-linear-gradient(0deg, rgba(37,34,30,.025) 0 1px, transparent 1px 5px);
+  mix-blend-mode:multiply;
+}
+body.course-junior #main-title {
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.8rem,4vw,2.35rem);
+  letter-spacing:.015em;
+  color:var(--jr-ink);
+  text-shadow:1px 1px 0 var(--jr-paper-soft);
+}
+body.course-junior #main-title::after {
+  width:56px;
+  height:5px;
+  margin-top:9px;
+  border-radius:5px 3px 4px 2px;
+  background:var(--jr-coral);
+  box-shadow:18px 2px 0 -1px var(--jr-mustard);
+}
+body.course-junior .course-btn,
+body.course-junior .session-btn,
+body.course-junior .phase-btn {
+  border-radius:13px 10px 14px 11px;
+  border-width:2.5px;
+  background:var(--jr-paper-soft);
+  box-shadow:4px 4px 0 var(--jr-paper-deep);
+}
+body.course-junior .course-btn.active {
+  background:var(--jr-blue);
+  border-color:var(--jr-ink);
+  box-shadow:4px 4px 0 var(--jr-ink);
+}
+body.course-junior .session-btn.active {
+  background:var(--jr-teal);
+  border-color:var(--jr-ink);
+  box-shadow:4px 4px 0 var(--jr-ink);
+}
+body.course-junior .phase-btn.p1 {
+  background:var(--jr-coral);
+  border-color:var(--jr-ink);
+  box-shadow:4px 4px 0 var(--jr-ink);
+}
+body.course-junior .phase-btn.p2 {
+  border-color:var(--jr-blue);
+  color:var(--jr-blue);
+}
+body.course-junior .phase-btn.p2.active {
+  background:var(--jr-blue);
+  border-color:var(--jr-ink);
+  box-shadow:4px 4px 0 var(--jr-ink);
+}
+body.course-junior #progress-track {
+  height:10px;
+  border:2px solid var(--jr-ink);
+  border-radius:8px;
+  background:#dfd8ca;
+  box-shadow:2px 2px 0 var(--jr-paper-deep);
+}
+body.course-junior #progress-bar {
+  background:linear-gradient(90deg,var(--jr-teal),var(--jr-green));
+  border-radius:5px;
+}
+body.course-junior #counter {
+  color:var(--jr-ink-soft);
+  letter-spacing:.08em;
+}
+body.course-junior #stage {
+  filter:drop-shadow(0 5px 0 rgba(37,34,30,.06));
+}
+body.course-junior .card-face {
+  min-height:410px;
+  padding:20px 18px 18px;
+  gap:10px;
+  border-radius:21px 17px 22px 16px;
+  border:2.5px solid var(--jr-ink);
+  border-top:8px solid var(--jr-accent,var(--jr-teal));
+  background:var(--jr-paper) !important;
+  box-shadow:8px 8px 0 var(--jr-shadow);
+}
+body.course-junior .card-illus {
+  width:min(100%,320px);
+  padding:8px;
+  border:2.5px solid var(--jr-ink);
+  border-radius:15px 11px 14px 10px;
+  background:var(--jr-paper-soft);
+  box-shadow:4px 4px 0 var(--jr-paper-deep);
+}
+body.course-junior .card-illus img,
+body.course-junior .card-illus svg {
+  max-height:290px;
+  border-radius:7px 5px 6px 4px;
+}
+body.course-junior .card-word {
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(2.1rem,5.2vw,2.75rem);
+  color:var(--jr-ink);
+  letter-spacing:.01em;
+}
+body.course-junior .card-phonetic { color:var(--jr-ink-soft); }
+body.course-junior .card-category {
+  border:1.5px solid var(--jr-ink-soft);
+  border-radius:9px 6px 8px 5px;
+  background:#f3ead4;
+  color:#6d5b37;
+  letter-spacing:.1em;
+}
+body.course-junior .sound-wave { right:18px; bottom:15px; }
+body.course-junior .sound-wave span { background:var(--jr-coral); }
+body.course-junior #controls {
+  gap:10px;
+}
+body.course-junior button.ctrl,
+body.course-junior #p2-listen-btn,
+body.course-junior #p2-check-btn,
+body.course-junior #btn-restart,
+body.course-junior #btn-review-wrong {
+  min-height:50px;
+  border-radius:13px 10px 14px 11px;
+  border:2.5px solid var(--jr-ink);
+  box-shadow:5px 5px 0 var(--jr-shadow);
+  font-family:'Nunito',sans-serif;
+  font-size:.92rem;
+  font-weight:900;
+}
+body.course-junior .btn-shuffle {
+  background:var(--jr-mustard);
+  color:var(--jr-ink);
+}
+body.course-junior .btn-listen {
+  border-color:var(--jr-teal) !important;
+  background:var(--jr-paper-soft);
+  color:var(--jr-teal);
+}
+body.course-junior .btn-listen.speaking { background:var(--jr-teal); color:#fff; }
+body.course-junior .btn-next,
+body.course-junior #btn-restart { background:var(--jr-coral); color:#fff; }
+body.course-junior .btn-auto { background:var(--jr-blue); color:#fff; }
+body.course-junior #bottom-row {
+  margin-top:18px;
+  padding-top:14px;
+  border-top:2px solid rgba(37,34,30,.18);
+}
+body.course-junior #tts-toggle {
+  border:2px solid var(--jr-ink);
+  background:#c9c3b7;
+  box-shadow:2px 2px 0 var(--jr-paper-deep);
+}
+body.course-junior #tts-toggle.on { background:var(--jr-teal); }
+body.course-junior #speed-wrap input[type=range] { accent-color:var(--jr-coral); }
+body.course-junior #p2-illus-wrap,
+body.course-junior #p2-reveal,
+body.course-junior #done-detail {
+  border-radius:16px 12px 15px 11px;
+}
+body.course-junior #p2-illus-wrap {
+  border:2.5px solid var(--jr-ink);
+  background:var(--jr-paper);
+  box-shadow:7px 7px 0 var(--jr-shadow);
+}
+body.course-junior #p2-listen-btn { background:var(--jr-teal); }
+body.course-junior #p2-input { border-color:var(--jr-ink-soft); border-radius:11px 8px 10px 7px; }
+body.course-junior #p2-check-btn { background:var(--jr-blue); }
+body.course-junior #done-overlay { background:rgba(238,234,225,.97); }
+body.course-junior #done-overlay h2 { font-family:'Fredoka One',cursive; color:var(--jr-ink); }
+body.course-junior #done-detail { border:2.5px solid var(--jr-ink); background:var(--jr-paper); box-shadow:6px 6px 0 var(--jr-shadow); }
+body.course-junior :is(button,input):focus-visible { outline-color:var(--jr-coral); }
+@media (max-width:520px) {
+  body.course-junior .card-face { min-height:380px; }
+  body.course-junior .card-illus { width:min(100%,300px); }
+  body.course-junior .card-illus img,
+  body.course-junior .card-illus svg { max-height:270px; }
+}
 </style>
 </head>
 <body class="course-junior">
