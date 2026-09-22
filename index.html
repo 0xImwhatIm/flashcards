@@ -1996,7 +1996,10 @@ const IMAGE_OVERRIDES = Object.freeze({
 function illustrationFor(item){
   const imagePath=item.image || IMAGE_OVERRIDES[item.word];
   if(imagePath){
-    return '<img src="'+imagePath+'" alt="" loading="lazy" decoding="async">';
+    // These images are inserted into the card after the deck is shuffled or
+    // advanced. Eager loading avoids mobile Safari leaving dynamically added
+    // lazy images blank while preserving the existing asset map.
+    return '<img src="'+imagePath+'" alt="" loading="eager">';
   }
   if(item.style==='mascot')return mascotIllustrationFor(item);
   const fn=IL[item.word];
