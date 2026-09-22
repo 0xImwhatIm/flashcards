@@ -1,12 +1,12 @@
 # FlashCards Illustration Batch｜Wave 13 Unit 2 expansion
 
-> Status: `generated / 4 Unit 2 words / review-ready / anchor-locked`
+> Status: `generated / 5 Unit 2 words / review-ready / anchor-locked`
 >
 > Date: 2026-09-22 (Asia/Taipei)
 
 ## Scope
 
-Unit 2新增四個單字：`Above`、`Enough`、`Person`、`People`。本批使用正式綠色小恐龍定錨圖作為 character/style reference，先接入本機 app 供語意與角色一致性檢視；目前是 review-ready 候選，不宣稱已通過最終選圖。
+Unit 2新增五個單字：`Above`、`Enough`、`Person`、`People`、`Outside`。本批使用正式綠色小恐龍定錨圖作為 character/style reference，先接入本機 app 供語意與角色一致性檢視；目前是 review-ready 候選，不宣稱已通過最終選圖。
 
 來源語意依使用者提供的課本照片記錄：
 
@@ -14,6 +14,7 @@ Unit 2新增四個單字：`Above`、`Enough`、`Person`、`People`。本批使�
 - `Enough`：足夠的；以「每個角色各有一份」表達 sufficiency，而非單純很多。
 - `Person`：一個人／單一個體；本批用單一友善小恐龍肖像表示，不加入職業或身份線索。
 - `People`：人們／複數個體；本批用三隻並列的小恐龍表示複數，不加入家庭、職業或群眾場景線索。
+- `Outside`：在……外面；與既有 `Inside` 使用同一個開口紙箱對照，小恐龍完整站在箱子外側。
 
 ## Shared visual lock
 
@@ -33,10 +34,11 @@ Unit 2新增四個單字：`Above`、`Enough`、`Person`、`People`。本批使�
 | `Enough` | Three characters each receive exactly one matching bowl; the green anchor remains primary and the two companions make “enough for everyone” countable. | `assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/enough-v1.png` | `5540b32ac63b654ebbd8c65cb098fb4a97c8a6e546d921fd5583438278684d09` | review-ready |
 | `Person` | One green mascot stands alone and waves; no occupation, clothing or extra role cue. | `assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/person-v1.png` | `5cc488e668d6928b58e3d7cfc876e7358cf1484155c0808bebe49e26275015d461` | review-ready |
 | `People` | Exactly three separate dinosaur individuals stand side by side; the green anchor remains central and the companions are only plural-count cues. | `assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/people-v1.png` | `c7b45c72d5966785ccd6807bef7a0627615aa9f2bd9fcdc9d6c8b2b680cae117` | review-ready |
+| `Outside` | The green mascot stands fully outside and beside the same open tan box used for the `Inside` contrast; no contact with the rim. | `assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/outside-v1.png` | `187fdbbbe21d9eba5b96d6369b38f9dcbe3129fd0c361283d257d6226face87b` | review-ready |
 
 ## Prompt set
 
-All four assets were generated with built-in ImageGen using the anchor above as the only style/character reference.
+All five assets were generated with built-in ImageGen using the anchor above as the only style/character reference; `Outside` additionally used the existing `Inside` candidate as a semantic counterpart reference.
 
 ### `Above`
 
@@ -62,9 +64,15 @@ Create a clear wordless illustration for the English word "person". Show one fri
 Create a clear wordless illustration for the English word "people". Show exactly three friendly small dinosaur individuals standing side by side on the same ground line, with the green anchor in the middle and one dusty blue-gray and one muted terracotta companion. They are three separate people, not a family role, occupation, crowd or action scene. Keep all bodies, tails and the main three dorsal plates visible; use the same warm paper, charcoal contour and restrained pigment grain, with no props, text or watermark.
 ```
 
+### `Outside`
+
+```text
+Create a clear wordless illustration for the English word "outside". Show the same green small dinosaur standing fully outside and beside the same simple warm-tan open cardboard box used for the inside counterpart. The dinosaur must be on the ground to the left of the box, not inside it, not behind it, and not touching the inside rim. Keep its full body, low rounded tail and three rounded dorsal plates visible. Use warm off-white paper, thick wobbly charcoal contour and no arrows, text or watermark.
+```
+
 ## Integration
 
-`index.html` now includes the four words at the end of `JUNIOR_UNIT2_WORDS` and maps them through `IMAGE_OVERRIDES`. `Person` remains one dinosaur; `People` is exactly three. The vocabulary data remains separate from the image paths so future candidate replacement does not alter phonetics, categories or lesson order.
+`index.html` now includes the five new words at the end of `JUNIOR_UNIT2_WORDS` and maps them through `IMAGE_OVERRIDES`. `Person` remains one dinosaur; `People` is exactly three; `Outside` is paired semantically with the existing `Inside` asset. The vocabulary data remains separate from the image paths so future candidate replacement does not alter phonetics, categories or lesson order.
 
 ## QA follow-up
 
@@ -74,5 +82,6 @@ Create a clear wordless illustration for the English word "people". Show exactly
 - [x] `Enough` reads as one share per character, not abundance
 - [x] `Person` reads as one individual, not a role
 - [x] `People` reads as exactly three individuals, not a family or crowd
+- [x] `Outside` reads as outside the same container used by `Inside`
 - [ ] Owner blind review and final selection
 - [ ] Update final image selection and coverage documents after approval
