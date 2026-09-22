@@ -78,6 +78,7 @@ body {
   min-height:min(52vw,270px); user-select:none;
 }
 .card-illus { line-height:0; }
+.card-illus picture { display:block; }
 .card-illus svg { border-radius:14px; display:block; }
 .card-illus img { width:140px; height:130px; object-fit:contain; border-radius:14px; display:block; }
 .card-word { font-family:'Fredoka One',cursive; font-size:clamp(1.7rem,5.5vw,2.8rem); text-align:center; line-height:1.1; color:#fff; text-shadow:2px 3px 0 rgba(0,0,0,.18); }
@@ -163,6 +164,7 @@ body.course-junior #progress-bar { background:linear-gradient(90deg,#4f6f8f,#43a
 /* Phase 2 */
 #p2-panel { display:none; flex-direction:column; align-items:center; gap:10px; width:min(92vw,460px); z-index:10; position:relative; }
 #p2-illus-wrap { border-radius:20px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12); }
+#p2-illus-wrap picture { display:block; }
 #p2-illus-wrap svg { display:block; border-radius:16px; }
 #p2-illus-wrap img { width:140px; height:130px; object-fit:contain; border-radius:16px; display:block; }
 #p2-listen-btn {
@@ -1996,10 +1998,14 @@ const IMAGE_OVERRIDES = Object.freeze({
 function illustrationFor(item){
   const imagePath=item.image || IMAGE_OVERRIDES[item.word];
   if(imagePath){
-    // These images are inserted into the card after the deck is shuffled or
-    // advanced. Eager loading avoids mobile Safari leaving dynamically added
-    // lazy images blank while preserving the existing asset map.
-    return '<img src="'+imagePath+'" alt="" loading="eager">';
+    const optimizedPath=imagePath
+      .replace(/^assets\//,'assets/optimized/')
+      .replace(/\.(png|jpe?g)$/i,'.webp');
+    // The WebP derivative is small enough for mobile. Keep the approved
+    // original as an image fallback for older browsers or a failed derivative.
+    return '<picture><source srcset="'+optimizedPath+'" type="image/webp">'+
+      '<img src="'+imagePath+'" data-fallback-src="'+imagePath+'" alt="" loading="eager" '+
+      'onerror="this.onerror=null;this.src=this.dataset.fallbackSrc;"></picture>';
   }
   if(item.style==='mascot')return mascotIllustrationFor(item);
   const fn=IL[item.word];
