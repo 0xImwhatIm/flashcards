@@ -963,7 +963,7 @@ body.course-junior :is(button,input):focus-visible { outline-color:var(--jr-cora
 </div>
 
 <div id="session-selector">
-  <button class="session-btn active" data-session="juniorUnit1" onclick="setSession('juniorUnit1')">Unit 1</button>
+  <button class="session-btn active" data-session="juniorUnit1_1" onclick="setSession('juniorUnit1_1')">Unit 1-1</button>
   <button class="session-btn" data-session="juniorMixed" onclick="setSession('juniorMixed')">國中綜合</button>
 </div>
 
@@ -1991,6 +1991,7 @@ const IMAGE_OVERRIDES = Object.freeze({
   "Above":       "assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/above-v1.png",
   "Enough":      "assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/enough-v1.png",
   "Person":      "assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/person-v1.png",
+  "Persons":     "assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/people-v1.png",
   "People":      "assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/people-v1.png",
   "Outside":     "assets/visual-prototypes/batch-v0.2/wave-13-unit2-expansion/outside-v1.png"
 });
@@ -2155,8 +2156,16 @@ const JUNIOR_UNIT2_WORDS = [
   juniorUnit2("Above",          "/əˈbʌv/",                "Position",  "theme-expression"),
   juniorUnit2("Enough",         "/ɪˈnʌf/",                "Quantity",  "theme-trait"),
   juniorUnit2("Person",         "/ˈpɝː.sən/",             "People",    "theme-family"),
+  juniorUnit2("Persons",        "/ˈpɝː.sənz/",            "People",    "theme-family"),
   juniorUnit2("People",         "/ˈpiː.pəl/",             "People",    "theme-family"),
 ];
+
+// Each junior subunit is capped at 20 cards. Related extension words stay
+// together at the boundary: Color/Colorful and Person/Persons/People.
+const JUNIOR_UNIT1_1_WORDS = JUNIOR_UNIT1_WORDS.slice(0,20);
+const JUNIOR_UNIT1_2_WORDS = JUNIOR_UNIT1_WORDS.slice(20);
+const JUNIOR_UNIT2_1_WORDS = JUNIOR_UNIT2_WORDS.slice(0,20);
+const JUNIOR_UNIT2_2_WORDS = JUNIOR_UNIT2_WORDS.slice(20);
 
 function uniqueByWord(words){
   const seen=new Set();
@@ -2171,10 +2180,12 @@ function uniqueByWord(words){
 const COURSES = {
   junior:{
     label:"國中課程",
-    defaultSession:"juniorUnit1",
+    defaultSession:"juniorUnit1_1",
     sessions:[
-      {key:"juniorUnit1", label:"Unit 1", words:JUNIOR_UNIT1_WORDS},
-      {key:"juniorUnit2", label:"Unit 2", words:JUNIOR_UNIT2_WORDS},
+      {key:"juniorUnit1_1", label:"Unit 1-1", words:JUNIOR_UNIT1_1_WORDS},
+      {key:"juniorUnit1_2", label:"Unit 1-2", words:JUNIOR_UNIT1_2_WORDS},
+      {key:"juniorUnit2_1", label:"Unit 2-1", words:JUNIOR_UNIT2_1_WORDS},
+      {key:"juniorUnit2_2", label:"Unit 2-2", words:JUNIOR_UNIT2_2_WORDS},
       {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS, ...JUNIOR_UNIT2_WORDS])},
     ],
   },

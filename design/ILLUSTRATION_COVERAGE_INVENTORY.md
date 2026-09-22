@@ -1,6 +1,6 @@
 # FlashCards Illustration Coverage Inventory
 
-> Status: `63 user-selected final + 5 Wave 13 review candidates / 68 vocabulary words / 68 wired / 0 without an image`
+> Status: `63 user-selected final + 5 Wave 13 review candidates / 69 vocabulary cards / 68 unique image assets / 69 wired / 0 without an image`
 >
 > Date: 2026-09-22 (Asia/Taipei)
 
@@ -13,8 +13,8 @@ This inventory parses the live `JUNIOR_UNIT1_WORDS` and `JUNIOR_UNIT2_WORDS` arr
 | Unit | Vocabulary words | Covered by an image/prototype | Still without an image/prototype |
 |---:|---:|---:|---:|
 | Unit 1 | 29 | 29 | 0 |
-| Unit 2 | 39 | 39 | 0 |
-| **Total** | **68** | **68** | **0** |
+| Unit 2 | 40 | 40 | 0 |
+| **Total** | **69** | **69** | **0** |
 
 ## Unit 1
 
@@ -26,11 +26,11 @@ None. All Unit 1 words now have a user-selected current image wired into `index.
 
 ## Unit 2
 
-Covered: `House`, `Parents`, `Living Room`, `Wall`, `Purple`, `Color`, `Colorful`, `Favorite`, `Kitchen`, `Dining Room`, `But`, `Gray`, `Brown`, `Cookie`, `Mice`, `Maybe`, `Sofa`, `Hungry`, `Notebook`, `Marker`, `Brush`, `Gift`, `Pencil Case`, `Bathroom`, `Table`, `Bedroom`, `Near`, `Between`, `Behind`, `In Front Of`, `Special`, `Inside`, `Outside`, `Each Other`, `Right`, `Above`, `Enough`, `Person`, `People`.
+Covered: `House`, `Parents`, `Living Room`, `Wall`, `Purple`, `Color`, `Colorful`, `Favorite`, `Kitchen`, `Dining Room`, `But`, `Gray`, `Brown`, `Cookie`, `Mice`, `Maybe`, `Sofa`, `Hungry`, `Notebook`, `Marker`, `Brush`, `Gift`, `Pencil Case`, `Bathroom`, `Table`, `Bedroom`, `Near`, `Between`, `Behind`, `In Front Of`, `Special`, `Inside`, `Outside`, `Each Other`, `Right`, `Above`, `Enough`, `Person`, `Persons`, `People`.
 
 Still without an image/prototype (0):
 
-None. `Right` now uses the selected Wave 11 turn-right asset; the earlier static viewer-right candidate is retained as historical, and a future correctness sense would require a separate asset. `Above`, `Enough`, `Person`, `People` and `Outside` are newly wired Wave 13 review candidates; they are not yet part of the 63-image final-selection record.
+None. `Right` now uses the selected Wave 11 turn-right asset; the earlier static viewer-right candidate is retained as historical, and a future correctness sense would require a separate asset. `Above`, `Enough`, `Person`, `People` and `Outside` are newly wired Wave 13 review candidates; `Persons` is a plural extension card that deliberately reuses the `People` image so the three-word family stays together.
 
 `Colorful` was added to the live Unit 2 vocabulary on 2026-09-20 and is now wired to the selected Wave 05 extension asset. The selected Wave 06, Wave 07, Wave 08, Wave 09, Wave 10 and Wave 11 assets are also wired into `index.html`. Unselected wave variants remain stored locally as history. This local final-selection state is separate from Git commit or publication.
 

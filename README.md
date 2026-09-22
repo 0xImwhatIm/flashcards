@@ -37,6 +37,7 @@ https://0ximwhatim.github.io/flashcards/
 - 2026-09-21 final illustration integration：63 個 Unit 1／Unit 2 字彙全部接入目前選定的插圖；`Too`、`Son`、`Office Worker`、`Cousin` 已改用正式小恐龍角色規範版本，`But` 採用使用者選定的 v1。
 - 2026-09-22 Unit 2 vocabulary expansion：新增 `Above`、`Enough`、`Person`，並以定錨一致的小恐龍圖像接入本機 review 版本；最終選圖仍待確認。
 - 2026-09-22 Unit 2 plural expansion：`Person` 維持單一小恐龍，新增 `People` 並以三隻小恐龍表達複數；兩者均保留為 review-ready 候選。
+- 2026-09-22 Junior 課程分組：依 20 張為一個小單元拆成 `Unit 1-1`、`Unit 1-2`、`Unit 2-1`、`Unit 2-2`；`Color`／`Colorful` 與 `Person`／`Persons`／`People` 會留在同一小單元，並保留 `國中綜合` 全部複習。
 - 2026-09-22 Unit 2 spatial completion：確認 `Inside` 已存在，新增 `Outside` 作為同一紙箱語意對照；圖像與字彙已接入本機 review 版本。
 - 保留所有舊版候選與歷史資產，並在 `design/` 記錄選定結果、視覺索引、批次產圖與 QA 規則。
 

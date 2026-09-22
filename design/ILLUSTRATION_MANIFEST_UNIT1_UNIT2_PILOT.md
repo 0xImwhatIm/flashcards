@@ -1,6 +1,6 @@
 # FlashCards Illustration Manifest｜Unit 1 / Unit 2 Pilot
 
-> Status: `pilot-v0.1 historical / 63 final assets + 5 Wave 13 review candidates wired / 68 of 68 covered`
+> Status: `pilot-v0.1 historical / 63 final assets + 5 Wave 13 review candidates wired / 69 cards, 68 unique image assets, all covered`
 >
 > Date: 2026-09-22 (Asia/Taipei)
 >
@@ -18,7 +18,7 @@
 
 > Generated wave: [`design/ILLUSTRATION_BATCH_WAVE_04_HOME_SOCIAL.md`](ILLUSTRATION_BATCH_WAVE_04_HOME_SOCIAL.md) records five selected Unit 2 assets (`Bathroom`, `Table`, `Bedroom`, `Parents`, `Mice`), now wired into `index.html`.
 
-> Coverage audit: [`design/ILLUSTRATION_COVERAGE_INVENTORY.md`](ILLUSTRATION_COVERAGE_INVENTORY.md) counts 68 Unit 1／Unit 2 words; 63 use the user-selected image set and five Wave 13 review candidates are newly wired. `Colorful` and the Wave 06–11 assets are wired; superseded variants remain stored for history.
+> Coverage audit: [`design/ILLUSTRATION_COVERAGE_INVENTORY.md`](ILLUSTRATION_COVERAGE_INVENTORY.md) counts 69 Unit 1／Unit 2 cards; 63 use the user-selected image set, five Wave 13 review candidates are newly wired, and `Persons` reuses the `People` image as a plural extension. `Colorful` and the Wave 06–11 assets are wired; superseded variants remain stored for history.
 
 > Generated wave: [`design/ILLUSTRATION_BATCH_WAVE_05_COLOR_GRAMMAR.md`](ILLUSTRATION_BATCH_WAVE_05_COLOR_GRAMMAR.md) records the selected Unit 2 color assets (`Purple`, `Color`, `Gray`, `Brown`) plus the selected `Colorful` extension; they are wired into `index.html`.
 
