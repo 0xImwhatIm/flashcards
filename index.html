@@ -780,6 +780,7 @@ body.course-junior #main-title {
   text-shadow:1px 1px 0 var(--jr-paper-soft);
 }
 body.course-junior #main-title::after {
+  display:none;
   width:56px;
   height:5px;
   margin-top:9px;
@@ -2233,9 +2234,12 @@ function startDeck(){
   idx=0;
 }
 function updateCoursePresentation(){
-  document.body.classList.toggle('course-junior',courseKey==='junior');
+  // Both course tracks use the approved editorial UI skin.  Keep the
+  // existing class name for backwards-compatible CSS while making the
+  // presentation choice independent from the course content.
+  document.body.classList.toggle('course-junior',courseKey==='junior'||courseKey==='elementary');
   document.querySelectorAll('.course-btn').forEach(btn=>btn.classList.toggle('active',btn.dataset.course===courseKey));
-  document.getElementById('main-title').textContent=courseKey==='junior'?'Junior Flash Cards':'⚡ Flash Cards';
+  document.getElementById('main-title').textContent=courseKey==='junior'?'Junior Flash Cards':'Elementary Flash Cards';
 }
 function renderSessionSelector(){
   const wrap=document.getElementById('session-selector');

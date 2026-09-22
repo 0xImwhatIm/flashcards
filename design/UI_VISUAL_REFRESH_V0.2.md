@@ -24,3 +24,15 @@ Align the interactive learning interface with the approved FlashCards illustrati
 ## Release status
 
 The owner approved this UI after visual review on 2026-09-21. It is now being released through the repository's `main` branch and GitHub Pages.
+
+## 2026-09-22 Elementary parity
+
+The Elementary course now uses the same approved editorial skin as Junior: warm
+paper canvas, charcoal ink borders, mascot-led accent colors, paper cards, and
+the same responsive control layout. Course labels, vocabulary, illustrations,
+and learning behavior remain course-specific; this change only removes the old
+generic Elementary presentation.
+
+The owner approved the parity update after visual review on 2026-09-22. The
+title underline was removed as a final polish, and this update is being
+published through the repository's `main` branch and GitHub Pages.
