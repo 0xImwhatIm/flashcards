@@ -35,6 +35,8 @@ https://0ximwhatim.github.io/flashcards/
 - 第一輪插圖辨識優化：調整 `Straight Brown`、`Navy Tie`、`By Train`。
 - 第二輪插圖辨識優化：調整 `By Subway`、`Star Bridge`。
 - 2026-09-21 final illustration integration：63 個 Unit 1／Unit 2 字彙全部接入目前選定的插圖；`Too`、`Son`、`Office Worker`、`Cousin` 已改用正式小恐龍角色規範版本，`But` 採用使用者選定的 v1。
+- 2026-09-22 Unit 2 vocabulary expansion：新增 `Above`、`Enough`、`Person`，並以定錨一致的小恐龍圖像接入本機 review 版本；最終選圖仍待確認。
+- 2026-09-22 Unit 2 plural expansion：`Person` 維持單一小恐龍，新增 `People` 並以三隻小恐龍表達複數；兩者均保留為 review-ready 候選。
 - 保留所有舊版候選與歷史資產，並在 `design/` 記錄選定結果、視覺索引、批次產圖與 QA 規則。
 
 ## 工作紀錄

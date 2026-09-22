@@ -1,8 +1,8 @@
 # FlashCards Illustration Manifest｜Unit 1 / Unit 2 Pilot
 
-> Status: `pilot-v0.1 historical / user-selected final image set wired / 63 of 63 covered`
+> Status: `pilot-v0.1 historical / 63 final assets + 4 Wave 13 review candidates wired / 67 of 67 covered`
 >
-> Date: 2026-09-21 (Asia/Taipei)
+> Date: 2026-09-22 (Asia/Taipei)
 >
 > Purpose: 先驗證單角色、雙角色、三角色、關係語意與抽象語意，再進入 Unit 1／Unit 2 批次產圖。
 
@@ -18,7 +18,7 @@
 
 > Generated wave: [`design/ILLUSTRATION_BATCH_WAVE_04_HOME_SOCIAL.md`](ILLUSTRATION_BATCH_WAVE_04_HOME_SOCIAL.md) records five selected Unit 2 assets (`Bathroom`, `Table`, `Bedroom`, `Parents`, `Mice`), now wired into `index.html`.
 
-> Coverage audit: [`design/ILLUSTRATION_COVERAGE_INVENTORY.md`](ILLUSTRATION_COVERAGE_INVENTORY.md) counts 63 Unit 1／Unit 2 words; all 63 now use the user-selected image set. `Colorful` and the Wave 06–11 assets are wired; superseded variants remain stored for history.
+> Coverage audit: [`design/ILLUSTRATION_COVERAGE_INVENTORY.md`](ILLUSTRATION_COVERAGE_INVENTORY.md) counts 67 Unit 1／Unit 2 words; 63 use the user-selected image set and four Wave 13 review candidates are newly wired. `Colorful` and the Wave 06–11 assets are wired; superseded variants remain stored for history.
 
 > Generated wave: [`design/ILLUSTRATION_BATCH_WAVE_05_COLOR_GRAMMAR.md`](ILLUSTRATION_BATCH_WAVE_05_COLOR_GRAMMAR.md) records the selected Unit 2 color assets (`Purple`, `Color`, `Gray`, `Brown`) plus the selected `Colorful` extension; they are wired into `index.html`.
 
@@ -34,6 +34,8 @@
 
 > Wave 12 repair: [`design/ILLUSTRATION_BATCH_WAVE_12_UNIT1_REPAIR.md`](ILLUSTRATION_BATCH_WAVE_12_UNIT1_REPAIR.md) records the four regenerated Unit 1 assets (`Too`, `Son`, `Office Worker`, `Cousin`) under the small-dinosaur anchor rules. Their earlier human-style sources remain historical.
 
+> Wave 13 expansion: [`design/ILLUSTRATION_BATCH_WAVE_13_UNIT2_EXPANSION.md`](ILLUSTRATION_BATCH_WAVE_13_UNIT2_EXPANSION.md) records the new Unit 2 candidates (`Above`, `Enough`, `Person`, `People`) and their semantic QA rules.
+
 > Spatial teaching overlays: [`design/SPATIAL_INSTRUCTIONAL_OVERLAYS_V0.1.md`](SPATIAL_INSTRUCTIONAL_OVERLAYS_V0.1.md) defines optional arrows／brackets without changing the clean base assets.
 
 ## 使用規則
@@ -43,7 +45,7 @@
 - 角色數量是由語意決定的變數：1–3 個；每張只有一個主要語意與主要焦點。
 - 多角色沿用同一套 mascot grammar，但以大小、姿勢、單一配件或受控輔色區分關係；不做無意義 clone 群像。
 - 圖中不放答案單字、字母、數字、logo、浮水印或可讀文字。
-- `status` 由生成、QA、使用者選定與 app wiring 分開記錄；本次 63 張選定檔（含 Wave 12 四張修正版）已成為目前 final image set。`But` 由使用者明確改選 v1；v2 與四張舊 Unit 1 圖檔仍保留作為歷史。Git commit／publication 仍未執行。
+- `status` 由生成、QA、使用者選定與 app wiring 分開記錄；63 張選定檔（含 Wave 12 四張修正版）仍是目前 final image set，Wave 13 的 `Above`、`Enough`、`Person`、`People` 是另列的 review-ready 候選。`But` 由使用者明確改選 v1；v2 與四張舊 Unit 1 圖檔仍保留作為歷史。Git commit／publication 仍未執行。
 
 ## Pilot coverage
 

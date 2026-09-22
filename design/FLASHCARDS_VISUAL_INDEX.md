@@ -38,6 +38,8 @@
 
 > Wave 12 repair: `design/ILLUSTRATION_BATCH_WAVE_12_UNIT1_REPAIR.md`
 
+> Wave 13 expansion: `design/ILLUSTRATION_BATCH_WAVE_13_UNIT2_EXPANSION.md` (`Above` + `Enough` + `Person`, review-ready candidates)
+
 ## 1. 定錨與權威範圍
 
 ### 正式定錨圖
@@ -61,7 +63,7 @@
 
 目前 `index.html` 內已有未提交的 Junior editorial UI 樣式與 `--jr-*` tokens。這份文件不覆寫該工作，也不宣稱兩者已完成同步；它先建立插畫層的單一依據。若日後將本文件 tokens 寫入 CSS 或 Figma Variables，應另開一次明確的設計同步變更。
 
-2026-09-21 的本地整合在 `index.html` 以明確的 `IMAGE_OVERRIDES` 對照表接入使用者選定的 63 張圖；Wave 12 已將 `Too`、`Son`、`Office Worker`、`Cousin` 改為小恐龍規範版本，`But` 則依使用者決定改選 v1。`Colorful` 已在 Unit 2 字彙陣列中。這代表本機工作樹已完成 current final image wiring；仍不等同 Git commit 或已發佈版本。
+2026-09-21 的本地整合在 `index.html` 以明確的 `IMAGE_OVERRIDES` 對照表接入使用者選定的 63 張圖；Wave 12 已將 `Too`、`Son`、`Office Worker`、`Cousin` 改為小恐龍規範版本，`But` 則依使用者決定改選 v1。`Colorful` 已在 Unit 2 字彙陣列中。2026-09-22 的 Wave 13 再加入 `Above`、`Enough`、`Person`、`People` 四個 Unit 2 字彙與 review-ready 圖像候選。這代表本機工作樹目前有 67 個已接圖字彙，其中 63 個是 final-selection set、4 個等待盲測確認；仍不等同 Git commit 或已發佈版本。
 
 ### Prototype 的地位
 
