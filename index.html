@@ -2372,7 +2372,7 @@ const JUNIOR_UNIT3_WORDS = [
   juniorUnit3("Guy",          "/ɡaɪ/",              "People",     "theme-family"),
   juniorUnit3("Magic",        "/ˈmædʒ.ɪk/",         "Expression", "theme-expression"),
   juniorUnit3("With",         "/wɪð/",              "Expression", "theme-expression"),
-  juniorUnit3("Can",          "/kæn/",              "Grammar",    "theme-expression"),
+  juniorUnit3("Can",          "/kæn/",              "Object",     "theme-accessor"),
   juniorUnit3("Many",         "/ˈmen.i/",            "Quantity",   "theme-trait"),
   juniorUnit3("Place",        "/pleɪs/",             "Place",      "theme-place"),
   juniorUnit3("Use",          "/juːz/",              "Action",     "theme-expression"),
@@ -2404,6 +2404,57 @@ const JUNIOR_UNIT3_WORDS = [
   juniorUnit3("Hand",         "/hænd/",              "Body",       "theme-family"),
   juniorUnit3("After Class",  "/ˈæf.tər klæs/",      "Time",       "theme-expression"),
 ];
+
+// UNIT3_APPROVED_RASTER_IMAGES_START
+// Approved 2026-10-27 raster illustrations; scoped ONLY to Unit 3.
+// Keep item.image so the existing <picture> fallback and WebP selection work.
+const UNIT3_APPROVED_IMAGE_PATHS = Object.freeze({
+  "Guy": "assets/unit3/guy.png",
+  "Man": "assets/unit3/man.png",
+  "Magic": "assets/unit3/magic.png",
+  "With": "assets/unit3/with.png",
+  "Can": "assets/unit3/can.png",
+  "Many": "assets/unit3/many.png",
+  "Place": "assets/unit3/place.png",
+  "Use": "assets/unit3/use.png",
+  "Sure": "assets/unit3/sure.png",
+  "Or": "assets/unit3/or.png",
+  "Time": "assets/unit3/time.png",
+  "Now": "assets/unit3/now.png",
+  "Museum": "assets/unit3/museum.png",
+  "Class": "assets/unit3/class.png",
+  "After Class": "assets/unit3/after-class.png",
+  "Let's": "assets/unit3/let-s.png",
+  "Hurry": "assets/unit3/hurry.png",
+  "Wait": "assets/unit3/wait.png",
+  "Wake Up": "assets/unit3/wake-up.png",
+  "See": "assets/unit3/see.png",
+  "Turn Off": "assets/unit3/turn-off.png",
+  "Talk": "assets/unit3/talk.png",
+  "Fight": "assets/unit3/fight.png",
+  "Turn": "assets/unit3/turn.png",
+  "Follow": "assets/unit3/follow.png",
+  "Wash": "assets/unit3/wash.png",
+  "Careful": "assets/unit3/careful.png",
+  "Please": "assets/unit3/please.png",
+  "Quiet": "assets/unit3/quiet.png",
+  "Sign": "assets/unit3/sign.png",
+  "Rule": "assets/unit3/rule.png",
+  "Safe": "assets/unit3/safe.png",
+  "Oh My!": "assets/unit3/oh-my.png",
+  "Hand": "assets/unit3/hand.png"
+});
+if(JUNIOR_UNIT3_WORDS.length !== 34) throw new Error('Unit 3 vocabulary count changed; review image mapping.');
+const unit3ImageWords = new Set();
+for(const item of JUNIOR_UNIT3_WORDS) {
+  const image = UNIT3_APPROVED_IMAGE_PATHS[item.word];
+  if(!image) throw new Error('Missing Unit 3 image mapping: ' + item.word);
+  if(unit3ImageWords.has(item.word)) throw new Error('Duplicate Unit 3 vocabulary item: ' + item.word);
+  unit3ImageWords.add(item.word);
+  item.image = image;
+}
+if(unit3ImageWords.size !== 34) throw new Error('Unit 3 mapping coverage is not 34/34.');
+// UNIT3_APPROVED_RASTER_IMAGES_END
 
 const JUNIOR_UNIT3_1_WORDS = JUNIOR_UNIT3_WORDS.slice(0,20);
 const JUNIOR_UNIT3_2_WORDS = JUNIOR_UNIT3_WORDS.slice(20);

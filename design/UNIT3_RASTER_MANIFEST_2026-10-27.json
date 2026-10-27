@@ -1,0 +1,723 @@
+{
+  "version": "2026-10-27",
+  "source": "4 user-approved raster illustration sheets",
+  "format": "raster PNG and WebP (NOT SVG)",
+  "items": [
+    {
+      "word": "Guy",
+      "file": "assets/unit3/guy.png",
+      "optimized_file": "assets/optimized/unit3/guy.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        18,
+        129,
+        470,
+        388
+      ],
+      "dimensions": [
+        452,
+        259
+      ],
+      "sha256_png": "39f318e8160f608ec1eb89d23654aa8278e76a160c46a99ac8436125dd81484f",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "5ffc777456b137326f3b48df93d34fb0be72234cc6755ffe0ed99a95de6b1c70"
+    },
+    {
+      "word": "Man",
+      "file": "assets/unit3/man.png",
+      "optimized_file": "assets/optimized/unit3/man.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        487,
+        129,
+        929,
+        388
+      ],
+      "dimensions": [
+        442,
+        259
+      ],
+      "sha256_png": "37f8a15b5dfbda2403f63d6b3736a575ef9187a2b23560c32b50827098597f91",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "5da525d234336d7c227e1e55271efece17a7546fcba705332dc25cc591a74b47"
+    },
+    {
+      "word": "Magic",
+      "file": "assets/unit3/magic.png",
+      "optimized_file": "assets/optimized/unit3/magic.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        941,
+        129,
+        1392,
+        388
+      ],
+      "dimensions": [
+        451,
+        259
+      ],
+      "sha256_png": "0fa5ebff5da351d7a2a2297df84961e4d789ee4e69f81535e3158fb50a90cd9e",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "8bf75e0b888bf1d02971706925f8a2dd54eb3ab64997138441762e347d89f256"
+    },
+    {
+      "word": "With",
+      "file": "assets/unit3/with.png",
+      "optimized_file": "assets/optimized/unit3/with.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        18,
+        452,
+        471,
+        684
+      ],
+      "dimensions": [
+        453,
+        232
+      ],
+      "sha256_png": "fd258173c7df0aad9a89d55a8da2f3a682bf73174bbd54fd34c3bccc42f91098",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "7bd3fc2d0352ad445d6eb17c2bddd3667e253ad88e110c8728e581afb83eb821"
+    },
+    {
+      "word": "Can",
+      "file": "assets/unit3/can.png",
+      "optimized_file": "assets/optimized/unit3/can.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        487,
+        452,
+        929,
+        684
+      ],
+      "dimensions": [
+        442,
+        232
+      ],
+      "sha256_png": "611d93b5723e18dded5a4d188b7d4e078b670acb56099554ba6fa25d4278be6a",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "6184baf780f49752ba9f5a1a824b5cbaee4edf5c1d93a56d6b87b845f1ba9caa",
+      "meaning_note": "User explicitly selected noun sense: 罐子; Object category. Not modal auxiliary."
+    },
+    {
+      "word": "Many",
+      "file": "assets/unit3/many.png",
+      "optimized_file": "assets/optimized/unit3/many.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        941,
+        452,
+        1392,
+        684
+      ],
+      "dimensions": [
+        451,
+        232
+      ],
+      "sha256_png": "3ce77128dad9c34f13a702d3890b4902e9f44c3ef7f3d8ee354df72f59ebcaa4",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "c6156f1e75c728ec0cb7d1d35a4514087c91511bfcaeff023cd45ea79878e5e7"
+    },
+    {
+      "word": "Place",
+      "file": "assets/unit3/place.png",
+      "optimized_file": "assets/optimized/unit3/place.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        18,
+        750,
+        471,
+        980
+      ],
+      "dimensions": [
+        453,
+        230
+      ],
+      "sha256_png": "0df4756ba68c5c4828650df46ae53b45d793138eeb58b60c4cd406d7699b9810",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "fc96ea4d4df827e4f4b1851a8104c9cbb1e5f5480dd9ecc4cead97a5aa23a19f"
+    },
+    {
+      "word": "Use",
+      "file": "assets/unit3/use.png",
+      "optimized_file": "assets/optimized/unit3/use.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        487,
+        750,
+        929,
+        980
+      ],
+      "dimensions": [
+        442,
+        230
+      ],
+      "sha256_png": "1bde443392bafe113be89d978530b4e4bccf401124d0a98d7cfa1f540c0b385b",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "b88c11e8c011ff0e63201b68c7585cb573554a701e4e596a2eb2a29bfa8208b4"
+    },
+    {
+      "word": "Sure",
+      "file": "assets/unit3/sure.png",
+      "optimized_file": "assets/optimized/unit3/sure.webp",
+      "source_sheet": "第三單元單字插畫卡_綠色小恐龍冒險.png",
+      "source_sheet_number": 1,
+      "source_crop_xyxy": [
+        941,
+        750,
+        1392,
+        980
+      ],
+      "dimensions": [
+        451,
+        230
+      ],
+      "sha256_png": "7f2e44d3912224be4e87db8c5464861d984f488900df8003102860e3f3edf51b",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "c3017d81c7157eeeebda8c06adf12ec23258fad6dd895c614f5378bedb95b444"
+    },
+    {
+      "word": "Or",
+      "file": "assets/unit3/or.png",
+      "optimized_file": "assets/optimized/unit3/or.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        18,
+        128,
+        470,
+        385
+      ],
+      "dimensions": [
+        452,
+        257
+      ],
+      "sha256_png": "051f4fa6a295e859b8ce6bcb76fa2a9f854a6899682fd9697f919f7ae3fdbbf7",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "4da2aaed16a2d9f329dae911f0003590c7a2141d4f7008c67e7bcf240556056a"
+    },
+    {
+      "word": "Time",
+      "file": "assets/unit3/time.png",
+      "optimized_file": "assets/optimized/unit3/time.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        487,
+        128,
+        929,
+        385
+      ],
+      "dimensions": [
+        442,
+        257
+      ],
+      "sha256_png": "4e9a59acd0177c1754634f210ebfb7dc6f1681d2b2ecb5ad43ce4dab4d4f3324",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "003988f56281bd37d65b2d3bb59a0b104ac1c713264f4a88d57333b9af4c791f"
+    },
+    {
+      "word": "Now",
+      "file": "assets/unit3/now.png",
+      "optimized_file": "assets/optimized/unit3/now.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        941,
+        128,
+        1392,
+        385
+      ],
+      "dimensions": [
+        451,
+        257
+      ],
+      "sha256_png": "f899f6994eb80878f7da1db2b32b5f2719e7847ba3184a2bbfa95e3e6db3ea6f",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "30bdec0af11378ebb7b81e2bf17c407e0f62132835a3e3d02264eb7018058ecd"
+    },
+    {
+      "word": "Museum",
+      "file": "assets/unit3/museum.png",
+      "optimized_file": "assets/optimized/unit3/museum.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        18,
+        433,
+        470,
+        696
+      ],
+      "dimensions": [
+        452,
+        263
+      ],
+      "sha256_png": "e5b97efdec7d5046c71ac83c2912c87dd83953365a925a13d26d28924c8b40b3",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "69595db1003fcfd2e018bd86b1b5ace8cda968900c75655bf0796ef83d8fa8dc"
+    },
+    {
+      "word": "Class",
+      "file": "assets/unit3/class.png",
+      "optimized_file": "assets/optimized/unit3/class.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        487,
+        433,
+        929,
+        696
+      ],
+      "dimensions": [
+        442,
+        263
+      ],
+      "sha256_png": "2262161e94de3745f71a75ad7c709c4ba994fda6e4dce6429649a77f273b254d",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "14174f3c6e2f94b7c8cecb906eade31a2a10a04fe148d417f0fd5a7e3e5713f8"
+    },
+    {
+      "word": "After Class",
+      "file": "assets/unit3/after-class.png",
+      "optimized_file": "assets/optimized/unit3/after-class.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        941,
+        433,
+        1392,
+        696
+      ],
+      "dimensions": [
+        451,
+        263
+      ],
+      "sha256_png": "b153a83799d6a4d2ec33401d8656e32b382c12ab20318e15b60d6dc92872ee2f",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "91007fef593e9d011c0162b47998c5fe0ae10cd7425c8ad749c5c03a2040afed"
+    },
+    {
+      "word": "Let's",
+      "file": "assets/unit3/let-s.png",
+      "optimized_file": "assets/optimized/unit3/let-s.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        18,
+        759,
+        470,
+        992
+      ],
+      "dimensions": [
+        452,
+        233
+      ],
+      "sha256_png": "53bf3025b1b5ccb5a5db2f8c29298da966dcf03e00bf3766bcc31fa0ff1a061b",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "49378da1627366a3ae18a1ade5c707c137eaeb5089c5ae8f3807f3270af385a8"
+    },
+    {
+      "word": "Hurry",
+      "file": "assets/unit3/hurry.png",
+      "optimized_file": "assets/optimized/unit3/hurry.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        487,
+        759,
+        929,
+        992
+      ],
+      "dimensions": [
+        442,
+        233
+      ],
+      "sha256_png": "1279ccb7a79ebd20225a7f92fedb74e8872c06347abc0a7e26bbfa7ad2cfc40f",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "9c4f60d699497230a4db7d089825641e642f544c87ae3e2d789e9296c0dda1b8"
+    },
+    {
+      "word": "Wait",
+      "file": "assets/unit3/wait.png",
+      "optimized_file": "assets/optimized/unit3/wait.webp",
+      "source_sheet": "第三單元單字卡插畫表.png",
+      "source_sheet_number": 2,
+      "source_crop_xyxy": [
+        941,
+        774,
+        1392,
+        992
+      ],
+      "dimensions": [
+        451,
+        218
+      ],
+      "sha256_png": "bda347f84bd714c7ccb27f13575c417ff5b82966774b930e85f4083f5816521a",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "d1337fabb276f56dd13653fcad3b34bf4e1b9eb9206ab937f97bd6d47ce94a6e"
+    },
+    {
+      "word": "Wake Up",
+      "file": "assets/unit3/wake-up.png",
+      "optimized_file": "assets/optimized/unit3/wake-up.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        18,
+        126,
+        470,
+        391
+      ],
+      "dimensions": [
+        452,
+        265
+      ],
+      "sha256_png": "01d922ef74ca3a89e5dca0a6be4be71e955ecdb2efa8dcd764cecbedb85b574d",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "8ef870af242fd600fced18b97cbe0bbd7b32f0d4a16fc20fde12b02012318398"
+    },
+    {
+      "word": "See",
+      "file": "assets/unit3/see.png",
+      "optimized_file": "assets/optimized/unit3/see.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        487,
+        126,
+        929,
+        391
+      ],
+      "dimensions": [
+        442,
+        265
+      ],
+      "sha256_png": "efa5423c49b2d646fa043c7cc1b2a33e3f71dc27de2045fbbc0c6e6b10df87d7",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "a311f26dc57bd7d24e37e2ae187c355014f02a1524fdf60318ce47bc8ecc4eb9"
+    },
+    {
+      "word": "Turn Off",
+      "file": "assets/unit3/turn-off.png",
+      "optimized_file": "assets/optimized/unit3/turn-off.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        941,
+        126,
+        1392,
+        391
+      ],
+      "dimensions": [
+        451,
+        265
+      ],
+      "sha256_png": "e37354aba9559add359f86f758b5d685b58578b3cd78a322ab2a877724e52da5",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "0d2394049e045a1791ada79514a7547d3921c09e6929f420241a11ab56af81a8"
+    },
+    {
+      "word": "Talk",
+      "file": "assets/unit3/talk.png",
+      "optimized_file": "assets/optimized/unit3/talk.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        18,
+        439,
+        470,
+        698
+      ],
+      "dimensions": [
+        452,
+        259
+      ],
+      "sha256_png": "8d6fb3b92d744594a1ba01b01fb2b227c45d851ad51d298449a7cffda849fd3b",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "08d9ad2158d3db2cf1e1b4d48fb2ef0b6d16275c759b80e09a0b43dba29c7b17"
+    },
+    {
+      "word": "Fight",
+      "file": "assets/unit3/fight.png",
+      "optimized_file": "assets/optimized/unit3/fight.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        487,
+        439,
+        929,
+        698
+      ],
+      "dimensions": [
+        442,
+        259
+      ],
+      "sha256_png": "21be399a7589addbc7326daaed631d35c8bf464edf9ba98ad2a00f39452fe3a3",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "fcc7a06bbfe274392ea823daf56159013cebdaf211cf4e8570504de26815bbb2"
+    },
+    {
+      "word": "Turn",
+      "file": "assets/unit3/turn.png",
+      "optimized_file": "assets/optimized/unit3/turn.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        941,
+        439,
+        1392,
+        698
+      ],
+      "dimensions": [
+        451,
+        259
+      ],
+      "sha256_png": "6a4761f4e7f5a06b7551f20eaa17786878af3048771f7c4664b87f2c1538bfe4",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "4c9257120885f5c2613aa4bce6c6d7b8369f31e30942b746d5d9e0ea943aec5e"
+    },
+    {
+      "word": "Follow",
+      "file": "assets/unit3/follow.png",
+      "optimized_file": "assets/optimized/unit3/follow.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        18,
+        759,
+        470,
+        993
+      ],
+      "dimensions": [
+        452,
+        234
+      ],
+      "sha256_png": "0ca2c3bf5b1f1ca2bba891da5e61af1f5cf00df7529d2c19e5884d4259abdc0f",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "028d45bd06188642659bebcd9ed79e756149af2b9ee40d7e209a9bdc65c216a1"
+    },
+    {
+      "word": "Wash",
+      "file": "assets/unit3/wash.png",
+      "optimized_file": "assets/optimized/unit3/wash.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        487,
+        759,
+        929,
+        993
+      ],
+      "dimensions": [
+        442,
+        234
+      ],
+      "sha256_png": "a6745968ead22ff59e582c5dd7d7bf380ff4260390ae335dd9670cff009c585f",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "a7fdc1fb77ea9f891fc20f20c6bdd134697056367c5dae40b20bbc0cbe00e35e"
+    },
+    {
+      "word": "Careful",
+      "file": "assets/unit3/careful.png",
+      "optimized_file": "assets/optimized/unit3/careful.webp",
+      "source_sheet": "童趣綠恐龍單字卡插畫表.png",
+      "source_sheet_number": 3,
+      "source_crop_xyxy": [
+        941,
+        759,
+        1392,
+        993
+      ],
+      "dimensions": [
+        451,
+        234
+      ],
+      "sha256_png": "1914810f10f1fd030432d6fe7133d1dc5f23656d035981b0ded7ccc64f161ff4",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "4a62f4b386a17ab35ddc6f59590bc8cfd3bc25b8d95b0085686a6bca55097584"
+    },
+    {
+      "word": "Please",
+      "file": "assets/unit3/please.png",
+      "optimized_file": "assets/optimized/unit3/please.webp",
+      "source_sheet": "綠色小恐龍單字閃卡插畫表.png",
+      "source_sheet_number": 4,
+      "source_crop_xyxy": [
+        17,
+        144,
+        354,
+        525
+      ],
+      "dimensions": [
+        337,
+        381
+      ],
+      "sha256_png": "3c0fc4f65e2f94cfe14a566cf8bcf6d8040c82193ca6d66802e0571966e6c9b4",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "b6703cf38bd10306e80d8ff33f81b424dcf7a44b06ba28da23c9cef362e497cb"
+    },
+    {
+      "word": "Quiet",
+      "file": "assets/unit3/quiet.png",
+      "optimized_file": "assets/optimized/unit3/quiet.webp",
+      "source_sheet": "綠色小恐龍單字閃卡插畫表.png",
+      "source_sheet_number": 4,
+      "source_crop_xyxy": [
+        372,
+        144,
+        697,
+        525
+      ],
+      "dimensions": [
+        325,
+        381
+      ],
+      "sha256_png": "4847c4dba81ceecf8396fe884d0b9b64eeeb1af7aefebecd768abdcca5072a7b",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "1601924384639f64a13970307784db5a055053350c0386dc89db9cd14fa4140b"
+    },
+    {
+      "word": "Sign",
+      "file": "assets/unit3/sign.png",
+      "optimized_file": "assets/optimized/unit3/sign.webp",
+      "source_sheet": "綠色小恐龍單字閃卡插畫表.png",
+      "source_sheet_number": 4,
+      "source_crop_xyxy": [
+        713,
+        144,
+        1040,
+        525
+      ],
+      "dimensions": [
+        327,
+        381
+      ],
+      "sha256_png": "badf3184b240b9a2708bed98e7368566f4ce30576e311551bc7584e3c023db0d",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "28f88020af5a0ba9036277110a31b6055d1d2d9409dbad9cf7e59df61b018f86"
+    },
+    {
+      "word": "Rule",
+      "file": "assets/unit3/rule.png",
+      "optimized_file": "assets/optimized/unit3/rule.webp",
+      "source_sheet": "綠色小恐龍單字閃卡插畫表.png",
+      "source_sheet_number": 4,
+      "source_crop_xyxy": [
+        1054,
+        144,
+        1394,
+        525
+      ],
+      "dimensions": [
+        340,
+        381
+      ],
+      "sha256_png": "cc7420c7ad5133f0f3be03b1382c6568f1ed2d13f90a20fa9f3219bc5d276862",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "3edce42c6e8c1c8c0c8b05fc1656681568f2e422f859487ff0aabdd55087b6af"
+    },
+    {
+      "word": "Safe",
+      "file": "assets/unit3/safe.png",
+      "optimized_file": "assets/optimized/unit3/safe.webp",
+      "source_sheet": "綠色小恐龍單字閃卡插畫表.png",
+      "source_sheet_number": 4,
+      "source_crop_xyxy": [
+        17,
+        605,
+        487,
+        989
+      ],
+      "dimensions": [
+        470,
+        384
+      ],
+      "sha256_png": "ac1ba64a97fbb5ac5e07f6ce34715732eec5aca6bde995fd8f8f6e90f0381058",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "dfb146f55702ac98bc9dbed30fc69cfdf5ca22784863fe838b62d18805b73cf0"
+    },
+    {
+      "word": "Oh My!",
+      "file": "assets/unit3/oh-my.png",
+      "optimized_file": "assets/optimized/unit3/oh-my.webp",
+      "source_sheet": "綠色小恐龍單字閃卡插畫表.png",
+      "source_sheet_number": 4,
+      "source_crop_xyxy": [
+        508,
+        605,
+        924,
+        989
+      ],
+      "dimensions": [
+        416,
+        384
+      ],
+      "sha256_png": "1b6e2a45d118b56be43063a17a6fed282b953125e9691fa832c0f5d57dd21571",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "d815d66016ab0a4a99c04ee348f66d043916a6179416cdb31b613649b8cee888"
+    },
+    {
+      "word": "Hand",
+      "file": "assets/unit3/hand.png",
+      "optimized_file": "assets/optimized/unit3/hand.webp",
+      "source_sheet": "綠色小恐龍單字閃卡插畫表.png",
+      "source_sheet_number": 4,
+      "source_crop_xyxy": [
+        942,
+        605,
+        1394,
+        989
+      ],
+      "dimensions": [
+        452,
+        384
+      ],
+      "sha256_png": "f5ad9d5af8a6694d5101fc650cc6397b789dbf1ae66867cfc864bfd0f9e3e4b8",
+      "semantic_qa": "VISUALLY_REVIEWED_2026-10-27",
+      "sha256_webp": "14d42a203d4a6876ef139a4cf2950e087717ccd250ae4512dad6821caf15a41a"
+    }
+  ],
+  "local_validation": {
+    "png_http_and_decode": "34/34",
+    "webp_http_and_decode": "34/34",
+    "learn_ui": "34/34",
+    "spell_ui": "34/34",
+    "wrong_answer_review": "Both Unit 3 subunits: intentional wrong answer, score, review to 1/1",
+    "mobile": [
+      {
+        "width": 375,
+        "isMobile": true,
+        "hasTouch": true,
+        "checks": 68,
+        "javascriptErrors": []
+      },
+      {
+        "width": 390,
+        "isMobile": true,
+        "hasTouch": true,
+        "checks": 68,
+        "javascriptErrors": []
+      },
+      {
+        "width": 430,
+        "isMobile": true,
+        "hasTouch": true,
+        "checks": 68,
+        "javascriptErrors": []
+      }
+    ],
+    "javascript_errors": 0,
+    "card_image_failures": 0,
+    "legacy": "Unit 1/2 and elementary data unchanged; Learn/Spell smoke checks passed",
+    "audio": "Speech API invocation verified; no human listening test",
+    "deployment": "Verify separately against release SHA after push"
+  }
+}
