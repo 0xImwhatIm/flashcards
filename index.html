@@ -1909,6 +1909,203 @@ function mascotIllustrationFor(item){
         line('M61 67 Q70 56 79 67',m.yellow,5)+
         line('M62 68 L78 68',m.ink,2.5);
       break;
+    case 'Guy':
+      scene=mascotBody(69,83,.72,{mood:'smile',tilt:-4})+
+        filledPath('M43 51 Q69 31 95 51 L89 60 H48Z',m.blue,3)+
+        line('M51 61 H86',m.ink,2.5);
+      break;
+    case 'Magic':
+      scene=filledPath('M28 99 L93 35',m.brown,3)+
+        circle(97,31,6,filled(m.yellow,2.5))+
+        star+
+        mascotBody(46,84,.56,{mood:'surprised'});
+      break;
+    case 'With':
+      scene=mascotBody(42,82,.61,{mood:'smile'})+
+        mascotBody(98,82,.61,{mood:'smile',tilt:2})+
+        line('M61 75 Q70 64 79 75',m.yellow,4);
+      break;
+    case 'Can':
+      scene=rect(82,52,35,51,filled(m.gray,3))+
+        ellipse(99,52,17,5,'fill="'+m.paper+'" stroke="'+m.ink+'" stroke-width="3"')+
+        ellipse(99,103,17,5,'fill="'+m.gray+'" stroke="'+m.ink+'" stroke-width="3"')+
+        mascotBody(46,84,.63,{mood:'smile'});
+      break;
+    case 'Many':
+      scene=mascotBody(43,84,.62,{mood:'smile'})+
+        circle(88,49,9,filled(m.yellow,2.5))+
+        circle(108,62,8,filled(m.blue,2.5))+
+        circle(91,82,7,filled(m.pink,2.5))+
+        circle(113,95,6,filled(m.orange,2.5));
+      break;
+    case 'Place':
+      scene=filledPath('M96 31 Q117 31 117 51 Q117 72 96 91 Q75 72 75 51 Q75 31 96 31Z',m.orange,3)+
+        circle(96,51,8,filled(m.paper,2.5))+
+        mascotBody(44,88,.59,{mood:'smile'});
+      break;
+    case 'Use':
+      scene=mascotBody(43,84,.63,{mood:'smile'})+
+        rect(75,52,46,35,filled(m.blue,3))+
+        line('M82 63 H113 M82 72 H105',m.ink,2.5)+
+        line('M63 75 Q72 68 80 66',m.ink,3);
+      break;
+    case 'Sure':
+      scene=mascotBody(46,84,.65,{mood:'smile'})+
+        circle(101,69,24,'fill="none" stroke="'+m.greenDark+'" stroke-width="4"')+
+        line('M88 69 L98 79 L115 57',m.greenDark,5);
+      break;
+    case "Let's":
+      scene=mascotBody(42,84,.56,{mood:'smile'})+
+        mascotBody(88,84,.56,{mood:'smile',tilt:3})+
+        line('M101 69 H124 M115 59 L125 69 L115 79',m.orange,4);
+      break;
+    case 'Careful':
+      scene=filledPath('M102 27 L127 88 H77Z',m.yellow,3)+
+        line('M102 46 V68',m.ink,4)+
+        circle(102,78,3,'fill="'+m.ink+'"')+
+        mascotBody(45,86,.62,{mood:'neutral',tilt:-6});
+      break;
+    case 'Museum':
+      scene=filledPath('M16 52 L70 28 L124 52Z',m.brown,3)+
+        rect(23,52,94,52,filled(m.paper,3))+
+        line('M39 58 V97 M59 58 V97 M81 58 V97 M101 58 V97',m.ink,4)+
+        line('M16 104 H124',m.ink,3.5)+
+        mascotBody(70,93,.35,{mood:'smile'});
+      break;
+    case 'Hurry':
+      scene=mascotBody(67,82,.66,{mood:'smile',tilt:12})+
+        line('M26 58 H55 M18 75 H50 M28 92 H52',m.orange,4)+
+        line('M80 104 L96 91 L108 99',m.ink,3);
+      break;
+    case 'Please':
+      scene=mascotBody(70,82,.7,{mood:'smile'})+
+        line('M50 79 Q59 65 67 78 M73 78 Q81 65 90 79',m.ink,3)+
+        filledPath('M112 32 Q122 24 127 34 Q127 43 112 52 Q97 43 97 34 Q102 24 112 32Z',m.pink,2.5);
+      break;
+    case 'Wait':
+      scene=ellipse(100,65,25,25,'fill="'+m.paper+'" stroke="'+m.ink+'" stroke-width="3.5"')+
+        line('M100 65 V48 M100 65 L113 72',m.ink,3)+
+        line('M100 33 V27 M100 97 V103',m.ink,3)+
+        mascotBody(44,85,.62,{mood:'neutral'});
+      break;
+    case 'Man':
+      scene=mascotBody(70,84,.72,{mood:'neutral'})+
+        filledPath('M45 51 Q70 34 95 51 L91 59 H49Z',m.brown,3)+
+        line('M61 76 Q70 82 79 76',m.ink,3);
+      break;
+    case 'Now':
+      scene=ellipse(100,68,27,27,'fill="'+m.blue+'" stroke="'+m.ink+'" stroke-width="3.5"')+
+        line('M100 68 V48 M100 68 H115',m.ink,3)+
+        circle(100,68,4,filled(m.orange,2))+
+        mascotBody(45,85,.62,{mood:'smile'});
+      break;
+    case 'Or':
+      scene=mascotBody(42,84,.5,{mood:'smile'})+
+        mascotBody(98,84,.5,{mood:'smile'})+
+        line('M61 72 Q70 62 79 72 M70 62 V49',m.orange,4)+
+        circle(70,42,5,filled(m.yellow,2));
+      break;
+    case 'Time':
+      scene=ellipse(70,67,30,30,'fill="'+m.paper+'" stroke="'+m.ink+'" stroke-width="3.5"')+
+        line('M70 67 V47 M70 67 L84 76',m.ink,3)+
+        line('M70 29 V22 M70 105 V112',m.ink,3)+
+        mascotBody(70,105,.35,{mood:'smile'});
+      break;
+    case 'Wake Up':
+      scene=filledPath('M15 76 H124 V103 H15Z',m.blue,3)+
+        filledPath('M15 76 Q27 58 47 76 V103 H15Z',m.purple,3)+
+        mascotBody(76,74,.48,{mood:'surprised'})+
+        filledPath('M104 23 Q117 23 124 36 Q111 30 101 39 Q98 29 104 23Z',m.yellow,2.5);
+      break;
+    case 'Class':
+      scene=rect(21,31,82,51,filled(m.blue,3.5))+
+        line('M35 48 H89 M35 61 H76',m.paper,3)+
+        rect(42,89,57,13,filled(m.brown,3))+
+        mascotBody(116,83,.42,{mood:'smile'});
+      break;
+    case 'Oh My!':
+      scene=mascotBody(70,83,.72,{mood:'surprised'})+
+        line('M70 23 V37 M48 31 L56 42 M92 31 L84 42 M39 55 H52 M101 55 H114',m.orange,4)+
+        star;
+      break;
+    case 'See':
+      scene=filledPath('M16 68 Q70 27 124 68 Q70 109 16 68Z',m.paper,3.5)+
+        circle(70,68,19,filled(m.blue,3))+
+        circle(70,68,7,'fill="'+m.ink+'"')+
+        mascotBody(70,111,.31,{mood:'smile'});
+      break;
+    case 'Quiet':
+      scene=mascotBody(70,83,.7,{mood:'neutral'})+
+        line('M74 72 L74 49',m.ink,4)+
+        circle(74,45,4,filled(m.ink,2))+
+        line('M45 29 L95 29',m.blue,4);
+      break;
+    case 'Turn Off':
+      scene=rect(75,50,45,51,filled(m.gray,3))+
+        circle(96,75,10,'fill="'+m.paper+'" stroke="'+m.ink+'" stroke-width="3"')+
+        line('M96 75 L103 69',m.ink,3)+
+        mascotBody(43,85,.63,{mood:'smile'});
+      break;
+    case 'Sign':
+      scene=rect(75,38,48,35,filled(m.yellow,3))+
+        line('M83 55 H115',m.ink,3)+
+        line('M99 73 V111',m.brown,4)+
+        mascotBody(43,86,.62,{mood:'smile'});
+      break;
+    case 'Talk':
+      scene=mascotBody(42,86,.57,{mood:'smile'})+
+        mascotBody(98,86,.57,{mood:'smile',tilt:3})+
+        filledPath('M26 32 H61 V56 H42 L35 63 V56 H26Z',m.paper,2.5)+
+        filledPath('M78 29 H113 V53 H97 L90 60 V53 H78Z',m.paper,2.5)+
+        circle(39,44,2,'fill="'+m.ink+'"')+circle(48,44,2,'fill="'+m.ink+'"')+
+        circle(91,41,2,'fill="'+m.ink+'"')+circle(100,41,2,'fill="'+m.ink+'"');
+      break;
+    case 'Fight':
+      scene=mascotBody(42,84,.58,{mood:'frown',tilt:-8})+
+        mascotBody(98,84,.58,{mood:'frown',tilt:8})+
+        line('M61 59 L68 66 L62 73 L70 80 L78 73 L72 66 L79 59',m.orange,4);
+      break;
+    case 'Turn':
+      scene=mascotBody(70,84,.65,{mood:'smile'})+
+        line('M33 53 Q45 27 74 34 Q103 40 103 66',m.orange,4)+
+        line('M94 55 L104 67 L116 57',m.orange,4);
+      break;
+    case 'Follow':
+      scene=mascotBody(91,82,.62,{mood:'smile'})+
+        ellipse(38,55,8,13,'fill="'+m.blue+'" stroke="'+m.ink+'" stroke-width="2.5" transform="rotate(-25 38 55)"')+
+        ellipse(55,74,8,13,'fill="'+m.blue+'" stroke="'+m.ink+'" stroke-width="2.5" transform="rotate(-25 55 74)"')+
+        line('M23 42 H49',m.orange,3);
+      break;
+    case 'Rule':
+      scene=rect(76,42,48,61,filled(m.paper,3))+
+        line('M87 58 H113 M87 72 H113 M87 86 H106',m.ink,2.5)+
+        line('M79 57 L83 61 L89 53 M79 71 L83 75 L89 67',m.greenDark,3)+
+        mascotBody(43,85,.62,{mood:'smile'});
+      break;
+    case 'Safe':
+      scene=filledPath('M100 27 L124 38 V65 Q124 88 100 103 Q76 88 76 65 V38Z',m.mint,3.5)+
+        line('M88 64 L97 73 L113 53',m.greenDark,5)+
+        mascotBody(43,86,.62,{mood:'smile'});
+      break;
+    case 'Wash':
+      scene=filledPath('M72 80 H122 Q122 100 99 104 H82 Q72 100 72 80Z',m.blue,3)+
+        line('M81 80 V66 Q81 53 93 53 Q105 53 105 66 V80',m.ink,3)+
+        line('M43 53 Q39 62 43 68 M55 49 Q51 59 55 65 M67 53 Q63 62 67 68',m.blue,3)+
+        mascotBody(37,90,.48,{mood:'smile'});
+      break;
+    case 'Hand':
+      scene=mascotBody(67,90,.68,{mood:'smile'})+
+        line('M67 70 V31 M67 31 Q61 22 67 17 Q73 22 67 31',m.ink,4)+
+        line('M46 47 L36 35 M88 47 L99 35',m.ink,3);
+      break;
+    case 'After Class':
+      scene=rect(18,45,55,48,filled(m.blue,3))+
+        filledPath('M18 45 L45 27 L73 45Z',m.brown,3)+
+        ellipse(104,55,22,22,'fill="'+m.paper+'" stroke="'+m.ink+'" stroke-width="3"')+
+        line('M104 55 V42 M104 55 L115 61',m.ink,3)+
+        mascotBody(89,96,.38,{mood:'smile'})+
+        line('M76 99 H126 M116 89 L126 99 L116 109',m.orange,3.5);
+      break;
     default:
       scene=mascotBody(70,82,.75,{mood:'smile'});
   }
@@ -2167,6 +2364,50 @@ const JUNIOR_UNIT1_2_WORDS = JUNIOR_UNIT1_WORDS.slice(20);
 const JUNIOR_UNIT2_1_WORDS = JUNIOR_UNIT2_WORDS.slice(0,20);
 const JUNIOR_UNIT2_2_WORDS = JUNIOR_UNIT2_WORDS.slice(20);
 
+const juniorUnit3 = (word, phonetic, cat, theme) => ({
+  word, phonetic, cat, theme, style:"mascot"
+});
+
+const JUNIOR_UNIT3_WORDS = [
+  juniorUnit3("Guy",          "/ɡaɪ/",              "People",     "theme-family"),
+  juniorUnit3("Magic",        "/ˈmædʒ.ɪk/",         "Expression", "theme-expression"),
+  juniorUnit3("With",         "/wɪð/",              "Expression", "theme-expression"),
+  juniorUnit3("Can",          "/kæn/",              "Grammar",    "theme-expression"),
+  juniorUnit3("Many",         "/ˈmen.i/",            "Quantity",   "theme-trait"),
+  juniorUnit3("Place",        "/pleɪs/",             "Place",      "theme-place"),
+  juniorUnit3("Use",          "/juːz/",              "Action",     "theme-expression"),
+  juniorUnit3("Sure",         "/ʃʊr/",               "Expression", "theme-expression"),
+  juniorUnit3("Let's",        "/lets/",              "Expression", "theme-expression"),
+  juniorUnit3("Careful",      "/ˈker.fəl/",          "Trait",      "theme-trait"),
+  juniorUnit3("Museum",       "/mjuˈziː.əm/",        "Place",      "theme-place"),
+  juniorUnit3("Hurry",        "/ˈhɝː.i/",             "Action",     "theme-expression"),
+  juniorUnit3("Please",       "/pliːz/",             "Expression", "theme-expression"),
+  juniorUnit3("Wait",         "/weɪt/",              "Action",     "theme-expression"),
+  juniorUnit3("Man",          "/mæn/",               "People",     "theme-family"),
+  juniorUnit3("Now",          "/naʊ/",               "Time",       "theme-expression"),
+  juniorUnit3("Or",           "/ɔːr/",               "Connector",  "theme-expression"),
+  juniorUnit3("Time",         "/taɪm/",              "Time",       "theme-expression"),
+  juniorUnit3("Wake Up",      "/weɪk ʌp/",           "Action",     "theme-expression"),
+  juniorUnit3("Class",        "/klæs/",              "School",     "theme-accessor"),
+  juniorUnit3("Oh My!",       "/oʊ maɪ/",            "Expression", "theme-expression"),
+  juniorUnit3("See",          "/siː/",               "Action",     "theme-expression"),
+  juniorUnit3("Quiet",        "/ˈkwaɪ.ət/",           "Trait",      "theme-trait"),
+  juniorUnit3("Turn Off",     "/tɝːn ɔːf/",           "Action",     "theme-expression"),
+  juniorUnit3("Sign",         "/saɪn/",              "Object",     "theme-accessor"),
+  juniorUnit3("Talk",         "/tɔːk/",               "Action",     "theme-expression"),
+  juniorUnit3("Fight",        "/faɪt/",              "Action",     "theme-expression"),
+  juniorUnit3("Turn",         "/tɝːn/",              "Action",     "theme-expression"),
+  juniorUnit3("Follow",       "/ˈfɑː.loʊ/",           "Action",     "theme-expression"),
+  juniorUnit3("Rule",         "/ruːl/",              "School",     "theme-accessor"),
+  juniorUnit3("Safe",         "/seɪf/",              "Trait",      "theme-trait"),
+  juniorUnit3("Wash",         "/wɑːʃ/",              "Action",     "theme-expression"),
+  juniorUnit3("Hand",         "/hænd/",              "Body",       "theme-family"),
+  juniorUnit3("After Class",  "/ˈæf.tər klæs/",      "Time",       "theme-expression"),
+];
+
+const JUNIOR_UNIT3_1_WORDS = JUNIOR_UNIT3_WORDS.slice(0,20);
+const JUNIOR_UNIT3_2_WORDS = JUNIOR_UNIT3_WORDS.slice(20);
+
 function uniqueByWord(words){
   const seen=new Set();
   return words.filter(item=>{
@@ -2186,7 +2427,9 @@ const COURSES = {
       {key:"juniorUnit1_2", label:"Unit 1-2", words:JUNIOR_UNIT1_2_WORDS},
       {key:"juniorUnit2_1", label:"Unit 2-1", words:JUNIOR_UNIT2_1_WORDS},
       {key:"juniorUnit2_2", label:"Unit 2-2", words:JUNIOR_UNIT2_2_WORDS},
-      {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS, ...JUNIOR_UNIT2_WORDS])},
+      {key:"juniorUnit3_1", label:"Unit 3-1", words:JUNIOR_UNIT3_1_WORDS},
+      {key:"juniorUnit3_2", label:"Unit 3-2", words:JUNIOR_UNIT3_2_WORDS},
+      {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS, ...JUNIOR_UNIT2_WORDS, ...JUNIOR_UNIT3_WORDS])},
     ],
   },
   elementary:{
@@ -2201,7 +2444,7 @@ const COURSES = {
 };
 
 // ── State ──────────────────────────────────────────────────────────────────
-let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false,p2Reviewing=false,courseKey='junior',sessionKey='juniorUnit1';
+let deck=[],idx=0,autoTimer=null,isAuto=false,autoRead=true,ttsVoice=null,phase=1,p2Revealed=false,p2Reviewing=false,courseKey='junior',sessionKey='juniorUnit1_1';
 let p2Results={correct:[],wrong:[]};
 const speeds={1:4000,2:2500,3:1500,4:900,5:500};
 const speedLabels={1:"Slow",2:"Easy",3:"Medium",4:"Fast",5:"⚡ Flash"};
