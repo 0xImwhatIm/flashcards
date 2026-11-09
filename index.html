@@ -943,6 +943,13 @@ body.course-junior :is(button,input):focus-visible { outline-color:var(--jr-cora
   body.course-junior .card-illus img,
   body.course-junior .card-illus svg { max-height:270px; }
 }
+.illustration-pending {
+  width:min(64vw,280px); min-height:220px; max-width:100%; margin:auto;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:12px; padding:20px; box-sizing:border-box; text-align:center;
+  color:var(--jr-ink-soft,#6d5b37); font:700 1rem/1.5 'Nunito',sans-serif;
+}
+.illustration-pending small { font-size:.85rem; font-weight:400; }
 </style>
 </head>
 <body class="course-junior">
@@ -2194,6 +2201,9 @@ const IMAGE_OVERRIDES = Object.freeze({
 });
 
 function illustrationFor(item){
+  // Pending Unit 4 art must not fall through to unrelated word-only/SVG art.
+  if(item.imagePending && !item.image)
+    return '<div class="illustration-pending" role="status"><span>插畫準備中</span><small>可先聽發音練習</small></div>';
   const imagePath=item.image || IMAGE_OVERRIDES[item.word];
   if(imagePath){
     const optimizedPath=imagePath
@@ -2459,10 +2469,100 @@ if(unit3ImageWords.size !== 34) throw new Error('Unit 3 mapping coverage is not 
 const JUNIOR_UNIT3_1_WORDS = JUNIOR_UNIT3_WORDS.slice(0,20);
 const JUNIOR_UNIT3_2_WORDS = JUNIOR_UNIT3_WORDS.slice(20);
 
+// Unit 4: What Time Is The Concert?
+// Approved raster files are pending. Null paths deliberately make no requests.
+// When supplied, set each slug to assets/unit4/<slug>.png and add its WebP.
+const UNIT4_IMAGE_PATHS = Object.freeze({
+  "music-video": null,
+  "band": null,
+  "take-a-look": null,
+  "all": null,
+  "cute": null,
+  "great": null,
+  "free": null,
+  "weekend": null,
+  "saturday": null,
+  "together": null,
+  "ready": null,
+  "pm": null,
+  "oclock": null,
+  "day": null,
+  "today": null,
+  "friday": null,
+  "sunday": null,
+  "monday": null,
+  "tuesday": null,
+  "wednesday": null,
+  "thursday": null,
+  "week": null,
+  "am": null,
+  "study": null,
+  "english": null,
+  "take-a-walk": null,
+  "movie": null,
+  "take-a-picture": null,
+  "party": null,
+  "report": null,
+  "popular": null,
+  "fan": null,
+  "shake-hands": null,
+  "everyone": null,
+  "sign": null,
+});
+const juniorUnit4 = (word, phonetic, cat, slug) => ({
+  word, phonetic, cat, style:"mascot",
+  theme:cat==='Time'?'theme-time':cat==='Trait'||cat==='State'?'theme-trait':cat==='People'?'theme-family':'theme-expression',
+  image:UNIT4_IMAGE_PATHS[slug],
+  imagePending:!UNIT4_IMAGE_PATHS[slug],
+  ...(slug==='sign'?{sense:'autograph'}:{})
+});
+const JUNIOR_UNIT4_WORDS = [
+  juniorUnit4("music video", "/ˈmjuː.zɪk ˌvɪd.i.oʊ/", "Entertainment", "music-video"),
+  juniorUnit4("band", "/bænd/", "Music", "band"),
+  juniorUnit4("take a look", "/teɪk ə lʊk/", "Action", "take-a-look"),
+  juniorUnit4("all", "/ɔːl/", "Quantity", "all"),
+  juniorUnit4("cute", "/kjuːt/", "Trait", "cute"),
+  juniorUnit4("great", "/ɡreɪt/", "Trait", "great"),
+  juniorUnit4("free", "/friː/", "State", "free"),
+  juniorUnit4("weekend", "/ˈwiːk.end/", "Time", "weekend"),
+  juniorUnit4("Saturday", "/ˈsæt̬.ɚ.deɪ/", "Time", "saturday"),
+  juniorUnit4("together", "/təˈɡeð.ɚ/", "Expression", "together"),
+  juniorUnit4("ready", "/ˈred.i/", "State", "ready"),
+  juniorUnit4("p.m.", "/ˌpiːˈem/", "Time", "pm"),
+  juniorUnit4("o'clock", "/əˈklɑːk/", "Time", "oclock"),
+  juniorUnit4("day", "/deɪ/", "Time", "day"),
+  juniorUnit4("today", "/təˈdeɪ/", "Time", "today"),
+  juniorUnit4("Friday", "/ˈfraɪ.deɪ/", "Time", "friday"),
+  juniorUnit4("Sunday", "/ˈsʌn.deɪ/", "Time", "sunday"),
+  juniorUnit4("Monday", "/ˈmʌn.deɪ/", "Time", "monday"),
+  juniorUnit4("Tuesday", "/ˈtuːz.deɪ/", "Time", "tuesday"),
+  juniorUnit4("Wednesday", "/ˈwenz.deɪ/", "Time", "wednesday"),
+  juniorUnit4("Thursday", "/ˈθɝːz.deɪ/", "Time", "thursday"),
+  juniorUnit4("week", "/wiːk/", "Time", "week"),
+  juniorUnit4("a.m.", "/ˌeɪˈem/", "Time", "am"),
+  juniorUnit4("study", "/ˈstʌd.i/", "Action", "study"),
+  juniorUnit4("English", "/ˈɪŋ.ɡlɪʃ/", "School", "english"),
+  juniorUnit4("take a walk", "/teɪk ə wɔːk/", "Action", "take-a-walk"),
+  juniorUnit4("movie", "/ˈmuː.vi/", "Entertainment", "movie"),
+  juniorUnit4("take a picture", "/teɪk ə ˈpɪk.tʃɚ/", "Action", "take-a-picture"),
+  juniorUnit4("party", "/ˈpɑːr.t̬i/", "Event", "party"),
+  juniorUnit4("report", "/rɪˈpɔːrt/", "School", "report"),
+  juniorUnit4("popular", "/ˈpɑː.pjə.lɚ/", "Trait", "popular"),
+  juniorUnit4("fan", "/fæn/", "People", "fan"),
+  juniorUnit4("shake hands", "/ʃeɪk hændz/", "Action", "shake-hands"),
+  juniorUnit4("everyone", "/ˈev.ri.wʌn/", "People", "everyone"),
+  juniorUnit4("sign", "/saɪn/", "Action", "sign"),
+];
+if(JUNIOR_UNIT4_WORDS.length!==35 || new Set(JUNIOR_UNIT4_WORDS.map(item=>item.word)).size!==35)
+  throw new Error('Unit 4 must contain exactly 35 unique words.');
+const JUNIOR_UNIT4_1_WORDS = JUNIOR_UNIT4_WORDS.slice(0,20);
+const JUNIOR_UNIT4_2_WORDS = JUNIOR_UNIT4_WORDS.slice(20);
+
 function uniqueByWord(words){
   const seen=new Set();
   return words.filter(item=>{
-    const key=item.word.toLowerCase();
+    // Preserve distinct meanings, e.g. Unit 3 Sign (notice) and Unit 4 sign (autograph).
+    const key=item.word.toLowerCase()+'|'+(item.sense||'');
     if(seen.has(key))return false;
     seen.add(key);
     return true;
@@ -2480,7 +2580,9 @@ const COURSES = {
       {key:"juniorUnit2_2", label:"Unit 2-2", words:JUNIOR_UNIT2_2_WORDS},
       {key:"juniorUnit3_1", label:"Unit 3-1", words:JUNIOR_UNIT3_1_WORDS},
       {key:"juniorUnit3_2", label:"Unit 3-2", words:JUNIOR_UNIT3_2_WORDS},
-      {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS, ...JUNIOR_UNIT2_WORDS, ...JUNIOR_UNIT3_WORDS])},
+      {key:"juniorUnit4_1", label:"Unit 4-1", title:"What Time Is The Concert?", words:JUNIOR_UNIT4_1_WORDS},
+      {key:"juniorUnit4_2", label:"Unit 4-2", title:"What Time Is The Concert?", words:JUNIOR_UNIT4_2_WORDS},
+      {key:"juniorMixed", label:"國中綜合", words:uniqueByWord([...JUNIOR_UNIT1_WORDS, ...JUNIOR_UNIT2_WORDS, ...JUNIOR_UNIT3_WORDS, ...JUNIOR_UNIT4_WORDS])},
     ],
   },
   elementary:{
@@ -2573,6 +2675,7 @@ function renderSessionSelector(){
     btn.className='session-btn'+(session.key===sessionKey?' active':'');
     btn.dataset.session=session.key;
     btn.textContent=session.label;
+    if(session.title)btn.title=session.title;
     btn.onclick=()=>setSession(session.key);
     wrap.appendChild(btn);
   });
