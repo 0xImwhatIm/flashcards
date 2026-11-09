@@ -1,4 +1,5 @@
-# Unit 4 optimized images
+# Unit 4 WebP images
 
-Reserved for the 35 approved WebP derivatives listed in ../../unit4/manifest.json.
-Artwork is pending. Add the PNG and WebP together before enabling a mapping.
+35 optimized derivatives of the supplied sheets; quality 88, method 6.
+Mappings, source provenance and crop coordinates: ../../unit4/manifest.json.
+Rebuild using assets/unit4/extract_cards.py from the repository root.

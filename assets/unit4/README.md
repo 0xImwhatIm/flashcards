@@ -1,25 +1,26 @@
 # Unit 4 — What Time Is The Concert?
 
-35 words, in the supplied order; Unit 4-1 contains 20 and Unit 4-2 contains 15.
+35 supplied dinosaur illustrations are integrated: Unit 4-1 (20), Unit 4-2 (15).
+Each item.image maps to its PNG and the existing renderer selects the matching
+WebP under assets/optimized/unit4. No SVG redraw or unrelated artwork is used.
 
-Artwork status: **pending**. No approved Unit 4 sheet or individual illustrations
-were found in the inspected project, Downloads, Desktop, or Pictures locations.
-The app shows an explicit pending illustration message without requesting missing
-files or falling back to SVG. The manifest paths are reserved, not existing assets.
+## Source and extraction
 
-## Add the approved dinosaur raster cards
+Four original 1280×960 JPEG sheets are preserved byte-for-byte in source/.
+Their sheet order is the reverse of attachment order (photo 4 = sheet 1).
+manifest.json records every word, source hash, integer crop box, dimensions,
+and PNG/WebP hashes. Crops exclude headings and labels below the illustrations;
+embedded lettering is retained, including weekdays, English, today and p.m.
+Those images can reveal spelling hints in Spell mode; the supplied art is unchanged.
 
-1. If supplied as a sheet, inspect the grid and crop each complete card without
-   borders from adjacent cells; confirm word-to-image meaning before integration.
-2. Save each approved PNG using `manifest.json`; add the corresponding WebP under
-   `assets/optimized/unit4/`. Preserve the hand-drawn dinosaur style.
-3. In `index.html`, replace the matching `UNIT4_IMAGE_PATHS` null with the PNG path.
-   The item constructor clears its pending state automatically. Update manifest status.
-4. Test actual PNG and WebP HTTP/decode, Learn, Spell, Review, and mobile layouts.
+PNG preserves the decoded source pixels; WebP uses quality 88, method 6.
+No enlargement or redrawing. Rebuild with Pillow installed:
 
-Special filenames: `pm.png`, `am.png`, `oclock.png`. Keep p.m., a.m., and o'clock
-unchanged in vocabulary/spelling. Unit 4 sign means autograph; do not reuse Unit 3's
-notice-sign image. Fan means a music fan. Free is provisionally available/not busy
-in this concert/weekend context; confirm against the supplied artwork/textbook.
+    python3 assets/unit4/extract_cards.py
 
-No new illustration was generated, and no old unit image was substituted.
+The script verifies source checksums and writes only the 70 mapped derivatives.
+If changing source artwork or crop boxes, update manifest hashes after review.
+
+Free means available/not busy, fan means a music fan, and sign means autograph.
+Unit 3's notice-sign art remains independent. Filenames use pm, am and oclock;
+the vocabulary retains p.m., a.m., and o'clock.
